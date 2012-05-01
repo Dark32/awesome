@@ -34,13 +34,13 @@ end
 
 
 -- theme
-beautiful.init("/usr/share/awesome/themes/lightblue/theme.lua")
+beautiful.init("/home/intrntbrn/.config/awesome/theme.lua")
 barheight 	= 16
 borderwidth = 0
 
 -- path
 config		= awful.util.getdir("config")
-icons		= "/home/intrntbrn/icons/blue/"
+icons		= "/home/intrntbrn/icons/newblue/"
 iconsmenu   = "/home/intrntbrn/icons/menu/"
 
 -- std programs
