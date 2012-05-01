@@ -430,7 +430,7 @@ for s = 1, screen.count() do
 	myvol = widget({ type = "textbox" })
 		vicious.register(myvol, vicious.widgets.volume,
 		function (widget, args)
-			if args[1] < 1 then
+			if ((args[1] < 1) or (args[2] == "off")) then
 				myvolicon.image = image(icons .. "spkr_02.png")		
 				return "mute"
 			else 
@@ -993,13 +993,7 @@ awful.rules.rules = {
       
       -- 3: doc
 
-              { rule = { class = "epdfview" },
-      properties = { tag = tags[mouse.screen][3], switchtotag = true }
-    },
               { rule = { class = "Epdfview" },
-      properties = { tag = tags[mouse.screen][3], switchtotag = true }
-    },
-                  { rule = { class = "zathura" },
       properties = { tag = tags[mouse.screen][3], switchtotag = true }
     },
               { rule = { class = "Zathura" },
@@ -1008,18 +1002,11 @@ awful.rules.rules = {
          { rule = { class = "Geany" },
       properties = { tag = tags[mouse.screen][3], switchtotag = true }
     },
-             { rule = { class = "geany" },
-      properties = { tag = tags[mouse.screen][3], switchtotag = true }
-    },
-    
-     
+        
       
       -- 4: dev
           
               { rule = { class = "NetBeans" },
-      properties = { tag = tags[mouse.screen][4], switchtotag = true }
-    },
-                  { rule = { class = "netbeans" },
       properties = { tag = tags[mouse.screen][4], switchtotag = true }
     },
     
