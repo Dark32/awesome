@@ -3,33 +3,38 @@ require("awful.util")
 
 theme = {}
 menu 										= 	"/usr/share/awesome/icons/menu/"
-icons 										= 	"/usr/share/awesome/icons/blue/"
-layoutstyle								= "old-layout-huge-fill/" -- fill/outline
+icons 										= 	"/usr/share/awesome/icons/newblue/"
+layoutstyle								= "layout-huge-fill/" -- fill/outline
 
-wallpaper    								= menu .. "nintendo_arch.png"
+wallpaper    								= menu .. "bluewallpaper.png"
 theme.wallpaper_cmd 				= { "awsetbg " .. wallpaper }
 
 theme.font 								= "MonteCarlo 8"
-theme.fg_normal 						= "#ecedee"
-theme.fg_focus 						= "#262729"
-theme.fg_urgent 						= "#262729"
+theme.fg_normal 						= "#ffffff"
+theme.fg_focus 						= "#0a0a0b"
+theme.fg_urgent 						= "#0a0a0b"
 theme.fg_title 							= "#66d9ef"
-theme.fg_disabled 					= "#262729"
+theme.fg_disabled 					= "#0a0a0b"
 
-theme.bg_normal 						= "#262729"
-theme.bg_focus 						= "#1692d0"
+theme.bg_normal 						= "#0a0a0b"
+theme.bg_focus 						= "#426797"
 theme.bg_urgent 						= "#f92671"
 theme.bg_disabled 					= "#5e7175"
 theme.bg_hover 						= "#5e7175"
 
-theme.border_width 					= 1
+theme.border_width 					= 0
 theme.border_normal 				= "#a3babf"
-theme.border_focus 					= "#1692d0"
-theme.border_marked 				= "#1692d0"
+theme.border_focus 					= "#426797"
+theme.border_marked 				= "#426797"
 
 theme.menu_submenu_icon 		=  menu .. "menuexpand.png"
-theme.menu_width 					= 130
-theme.menu_border_color 			= "#262729"
+theme.menu_width 					= 180
+theme.menu_border_color 			= "#0a0a0b"
+theme.menu_fg_normal 				= "#ffffff"
+theme.menu_fg_focus 				= "#0a0a0b"
+theme.menu_bg_normal 			= "#0a0a0b"
+theme.menu_bg_focus				= "#426797"
+theme.menu_border_widht 			= 0
 
 theme.taglist_squares      		    = true
 theme.taglist_squares_sel  	 	= menu .. "squarefw.png"
@@ -44,7 +49,7 @@ theme.layout_fairh      				= menu .. layoutstyle .. "fairh.png"
 theme.layout_spiral     				= menu .. layoutstyle .. "spiral.png"
 theme.layout_dwindle    				= menu .. layoutstyle .. "dwindle.png"
 theme.layout_max        				= menu .. layoutstyle .. "max.png"
-theme.layout_fullscreen 			= menu .. layoutstyle .. "fullscreen.png"
+theme.layout_fullscreen 				= menu .. layoutstyle .. "fullscreen.png"
 theme.layout_magnifier  			= menu .. layoutstyle .. "magnifier.png"
 theme.layout_floating   				= menu .. layoutstyle .. "floating.png"
 
