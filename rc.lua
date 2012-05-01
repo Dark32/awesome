@@ -40,8 +40,8 @@ borderwidth = 0
 
 -- path
 config		= awful.util.getdir("config")
-icons		= "/usr/share/awesome/icons/blue/"
-iconsmenu   = "/usr/share/awesome/icons/menu/"
+icons		= "/home/intrntbrn/icons/blue/"
+iconsmenu   = "/home/intrntbrn/icons/menu/"
 
 -- std programs
 terminal	= "urxvt"
