@@ -7,6 +7,7 @@ require("beautiful")
 require("naughty")
 require("vicious")
 require("blingbling")
+require("revelation")
 
 -- startup error
 do
@@ -84,8 +85,8 @@ layouts =
 
 -- tags
  tags = {
-   names  = { "sys", "web", "doc", "dev", "irc", "fooaa"},
-   layout = { layouts[1], layouts[10], layouts[8], layouts[8], layouts[2], layouts[1]},
+   names  = { "sys", "web", "doc", "dev", "msg", "foo"},
+   layout = { layouts[8], layouts[10], layouts[8], layouts[8], layouts[2], layouts[1]},
    icons  = {nil, icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png"}
    }
  
@@ -102,8 +103,8 @@ layouts =
 
 -- menu
 myawesomemenu = {
-   { "Edit rc.lua", function () sexec(guieditor .. "rc.lua") end},
-   { "Edit theme.lua", function () sexec(guieditor ..  "theme.lua") end },
+   { "Edit rc.lua", function () sexec(guieditor .. "/home/intrntbrn/.config/awesome/rc.lua") end},
+   { "Edit theme.lua", function () sexec(guieditor ..  "/home/intrntbrn/.config/awesome/theme.lua") end },
    { "Testmode", function () sexec("bash ~/bin/awsm.sh") end},
    { "Restart", awesome.restart },
    { "Quit", awesome.quit }
@@ -860,7 +861,7 @@ globalkeys = awful.util.table.join(
         end),
 
     -- Standard program
-    awful.key({ "Control"         }, "y", function () awful.util.spawn(terminal) end),
+    awful.key({ "Control"         }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
 --    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
     awful.key({ }, "F1", function () exec("dwb") end),
@@ -971,86 +972,44 @@ awful.rules.rules = {
                      keys = clientkeys,
                      buttons = clientbuttons } },
 
-
-{ rule = { class = "gimp" },
-      properties = { floating = true } },
-    -- Set Firefox to always map on tags number 2 of screen 1.
-    { rule = { class = "Firefox" },
-      properties = { tag = tags[1][2] } },
-      
       
       -- 1: sys
       
       
       
       -- 2: web
+          { rule = { class = "Firefox" },
+      properties = { tag = tags[mouse.screen][2] } },
       
           { rule = { class = "Firefox" },
       except = { instance = "Navigator" },
-      properties = { tag = tags[1][2], floating = true, switchtotag = true },
- --     callback = awful.placement.centered
-      
-      
+      properties = { tag = tags[mouse.screen][2], floating = true, switchtotag = true },  
     },
-        { rule = { class = "Firefox", instance = "Navigator" },
-      properties = { tag = tags[1][2], switchtotag = true }
+
+              { rule = { class = "Dwb" },
+      properties = { tag = tags[mouse.screen][2], switchtotag = true }
     },
-    
-        { rule = { class = "Firefox", instance = "Dialog" },
-      properties = { tag = tags[1][2], switchtotag = true }
-    },
-              { rule = { class = "Midori" },
-      properties = { tag = tags[1][2], switchtotag = true }
-    },
-     { rule = { class = "Dwb" },
-      properties = { tag = tags[1][2], switchtotag = true }
-    },
-      
       
       
       -- 3: doc
-     { rule = { class = ".*[Mm]edit.*", name = ".*[Mm]edit.*", instance = ".*[Mm]edit.*" },
-      except = { name = "Find" },
-      properties = { tag = tags[1][3], switchtotag = true }
-    },
-   { rule = { class = "medit" },
-      except = { name = "Find" },
-      properties = { tag = tags[1][3], switchtotag = true }
-    },
-    { rule = { instance = "medit" },
-      except = { name = "Find" },
-      properties = { tag = tags[1][3], switchtotag = true }
-    },
-    { rule = { instance = "medit.*" },
-      except = { name = "Find" },
-      properties = { tag = tags[1][3], switchtotag = true }
-    },
-    { rule = { name = "^medit\ %-.*" },
-      except = { name = "Find" },
-      properties = { tag = tags[1][3], switchtotag = true }
-    },
-    { rule = { name = "medit.*" },
-      except = { name = "Find" },
-      properties = { tag = tags[1][3], switchtotag = true }
-    },
 
               { rule = { class = "epdfview" },
-      properties = { tag = tags[1][3], switchtotag = true }
+      properties = { tag = tags[mouse.screen][3], switchtotag = true }
     },
               { rule = { class = "Epdfview" },
-      properties = { tag = tags[1][3], switchtotag = true }
+      properties = { tag = tags[mouse.screen][3], switchtotag = true }
     },
                   { rule = { class = "zathura" },
-      properties = { tag = tags[1][3], switchtotag = true }
+      properties = { tag = tags[mouse.screen][3], switchtotag = true }
     },
               { rule = { class = "Zathura" },
-      properties = { tag = tags[1][3], switchtotag = true }
+      properties = { tag = tags[mouse.screen][3], switchtotag = true }
     },
          { rule = { class = "Geany" },
-      properties = { tag = tags[1][3], switchtotag = true }
+      properties = { tag = tags[mouse.screen][3], switchtotag = true }
     },
              { rule = { class = "geany" },
-      properties = { tag = tags[1][3], switchtotag = true }
+      properties = { tag = tags[mouse.screen][3], switchtotag = true }
     },
     
      
@@ -1058,34 +1017,55 @@ awful.rules.rules = {
       -- 4: dev
           
               { rule = { class = "NetBeans" },
-      properties = { tag = tags[1][4], switchtotag = true }
+      properties = { tag = tags[mouse.screen][4], switchtotag = true }
     },
                   { rule = { class = "netbeans" },
-      properties = { tag = tags[1][4], switchtotag = true }
+      properties = { tag = tags[mouse.screen][4], switchtotag = true }
     },
     
                        { rule = { class = "sun-awt-X11-XFramePeer" },
-      properties = { tag = tags[1][4], switchtotag = true }
+      properties = { tag = tags[mouse.screen][4], switchtotag = true }
     },
                            { rule = { class = "java-lang-Thread" },
-      properties = { tag = tags[1][4], switchtotag = true }
+      properties = { tag = tags[mouse.screen][4], switchtotag = true }
     },
 		    { rule = { class = "Eclipse" },
-      properties = { tag = tags[1][4], switchtotag = true }
+      properties = { tag = tags[mouse.screen][4], switchtotag = true }
     },
 
       
       
       -- 5: irc
+
+                { rule = { class = "URxvt", name = "mcabber"},
+      properties = { tag = tags[mouse.screen][5], switchtotag = true }
+   },
+
+                   { rule = { class = "URxvt", name = "weechat-curses"},
+      properties = { tag = tags[mouse.screen][5], switchtotag = true }
+   },
+
+                   { rule = { class = "URxvt", name = "mcabber"},
+      properties = { tag = tags[mouse.screen][5], switchtotag = true }
+   },
       
       -- 6: foo
       
           { rule = { class = "Mplayer" },
-      properties = { tag = tags[1][6], switchtotag = true }
+      properties = { tag = tags[mouse.screen][6], switchtotag = true }
     },
-          { rule = { class = "mplayer" },
-      properties = { tag = tags[1][6], switchtotag = true }
+
+              { rule = { class = "Vlc" },
+      properties = { tag = tags[mouse.screen][6], switchtotag = true }
     },
+
+    { rule = { class = "gimp" },
+      properties = { tag = tags[mouse.screen][6], switchtotag = true, floating = true }
+      },
+
+        { rule = { class = "URxvt", name = "ncmpcpp"},
+      properties = { tag = tags[mouse.screen][6], switchtotag = true }
+   },
     
     
     
@@ -1123,6 +1103,50 @@ client.add_signal("focus", function(c) c.border_color = beautiful.border_focus e
 client.add_signal("unfocus", function(c) c.border_color = beautiful.border_normal end)
 -- }}}
 
+-- naughty notifications
+function closeLastNoti()
+    screen = mouse.screen
+    for p,pos in pairs(naughty.notifications[screen]) do
+        for i,n in pairs(naughty.notifications[screen][p]) do
+			if (n.width == 258) then -- to close only previous bright/vol notifications
+            naughty.destroy(n)
+            break
+            end
+        end
+    end
+end
+
+-- volume notifaction
+
+volnotiicon = nil
+
+function volnoti()
+			        closeLastNoti()
+                    naughty.notify{
+					icon = volnotiicon,
+                    position = "top_right",
+					fg="#0a0a0b",
+					bg="#426797",
+					timeout=1,
+					width = 256,
+					gap = 0,
+			}
+end
+
+brightnotiicon = nil
+
+function brightnoti()
+			        closeLastNoti()
+			        naughty.notify{
+					icon = brightnotiicon,
+                     position = "top_right",
+					fg="#0a0a0b",
+					bg="#426797",
+					timeout=1,
+					width = 256,
+					gap = 0,
+			}
+end
 
 -- mcabber notifcation wrapper (gettin jabber msgs & statusupdates via naughty)
 
@@ -1169,11 +1193,18 @@ function mcabber_event_hook(kind, direction, jid, msg)
             if direction == "MUC" and txt:match("^<" .. muc_nick .. ">") then
                 return
             end
+            if (awful.tag.selected(mouse.screen).name ~= "msg") then
             naughty.notify{
---                icon = "chat_msg_recv",
+            	fg="#0a0a0b",
+				bg="#426797",
+				timeout=5,
+				width = 255,
+				position = "bottom_right",
+                icon = "/home/intrntbrn/icons/client/mailnoti.png",
                 text = awful.util.escape(txt),
                 title = jid
             }
+            end
         end
     elseif kind == "STATUS" then
         local mapping = {
@@ -1203,60 +1234,6 @@ function mcabber_event_hook(kind, direction, jid, msg)
     end
 end
 
--- RUN OR RAISE
-
---- Spawns cmd if no client can be found matching properties
--- If such a client can be found, pop to first tag where it is visible, and give it focus
--- @param cmd the command to execute
--- @param properties a table of properties to match against clients.  Possible entries: any properties of the client object
-function run_or_raise(cmd, properties)
-   local clients = client.get()
-   local focused = awful.client.next(0)
-   local findex = 0
-   local matched_clients = {}
-   local n = 0
-   for i, c in pairs(clients) do
-      --make an array of matched clients
-      if match(properties, c) then
-         n = n + 1
-         matched_clients[n] = c
-         if c == focused then
-            findex = n
-         end
-      end
-   end
-   if n > 0 then
-      local c = matched_clients[1]
-      -- if the focused window matched switch focus to next in list
-      if 0 < findex and findex < n then
-         c = matched_clients[findex+1]
-      end
-      local ctags = c:tags()
-      if table.getn(ctags) == 0 then
-         -- ctags is empty, show client on current tag
-         local curtag = awful.tag.selected()
-         awful.client.movetotag(curtag, c)
-      else
-         -- Otherwise, pop to first tag client is visible on
-         awful.tag.viewonly(ctags[1])
-      end
-      -- And then focus the client
-      client.focus = c
-      c:raise()
-      return
-   end
-   awful.util.spawn(cmd)
-end
-
--- Returns true if all pairs in table1 are present in table2
-function match (table1, table2)
-   for k, v in pairs(table1) do
-      if table2[k] ~= v and not table2[k]:find(v) then
-         return false
-      end
-   end
-   return true
-end
 
 
 -- disable startup-notification globally
