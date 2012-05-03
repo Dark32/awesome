@@ -863,10 +863,8 @@ globalkeys = awful.util.table.join(
     -- Standard program
     awful.key({ "Control"         }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
---    awful.key({ modkey, "Shift"   }, "q", awesome.quit),
     awful.key({ }, "F1", function () exec("dwb") end),
---    awful.key({ }, "F1", function () run_or_raise("dwb", { class = "Dwb" }) end),
-    awful.key({ }, "F8", function () run_or_raise("firefox", { class = "Firefox" }) end),    
+    awful.key({ }, "F8", function () exec("firefox") end),    
     awful.key({}, "#160", function () exec("slimlock") end),
     awful.key({}, "#150", function () sexec("sudo pm-suspend") end),
     
@@ -979,7 +977,7 @@ awful.rules.rules = {
       
       -- 2: web
           { rule = { class = "Firefox" },
-      properties = { tag = tags[mouse.screen][2] } },
+      properties = { tag = tags[mouse.screen][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true } },
       
           { rule = { class = "Firefox" },
       except = { instance = "Navigator" },
@@ -987,7 +985,7 @@ awful.rules.rules = {
     },
 
               { rule = { class = "Dwb" },
-      properties = { tag = tags[mouse.screen][2], switchtotag = true }
+      properties = { tag = tags[mouse.screen][2], switchtotag = true , maximized_vertical = true, maximized_horizontal = true }
     },
       
       
@@ -1022,7 +1020,7 @@ awful.rules.rules = {
 
       
       
-      -- 5: irc
+      -- 5: msg
 
                 { rule = { class = "URxvt", name = "mcabber"},
       properties = { tag = tags[mouse.screen][5], switchtotag = true }
@@ -1032,9 +1030,6 @@ awful.rules.rules = {
       properties = { tag = tags[mouse.screen][5], switchtotag = true }
    },
 
-                   { rule = { class = "URxvt", name = "mcabber"},
-      properties = { tag = tags[mouse.screen][5], switchtotag = true }
-   },
       
       -- 6: foo
       
@@ -1046,8 +1041,12 @@ awful.rules.rules = {
       properties = { tag = tags[mouse.screen][6], switchtotag = true }
     },
 
-    { rule = { class = "gimp" },
+    { rule = { class = "Gimp" },
       properties = { tag = tags[mouse.screen][6], switchtotag = true, floating = true }
+      },
+
+          { rule = { class = "Gimp", role = "toolbox" },
+      properties = { tag = tags[mouse.screen][6], switchtotag = true, floating = true, maximized_vertical = true, ontop = true }
       },
 
         { rule = { class = "URxvt", name = "ncmpcpp"},
@@ -1189,6 +1188,7 @@ function mcabber_event_hook(kind, direction, jid, msg)
 				position = "bottom_right",
                 icon = "/home/intrntbrn/icons/client/mailnoti.png",
                 text = awful.util.escape(txt),
+                run = function () awful.tag.viewonly(tags[mouse.screen][5]) end,
                 title = jid
             }
             end

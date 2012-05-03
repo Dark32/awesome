@@ -5,7 +5,7 @@ local M = {}
 function M.new(args)
 	local gmail = {}
 	gmail.widget = widget({type = "imagebox" })
-	gmail.widget.image = image("/home/intrntbrn/icons/newblue/mail_new.png")
+	gmail.widget.image = image("/home/intrntbrn/icons/newblue/mail.png")
 
 	gmail.enabled = true
 	gmail.args = { ["{count}"] = 0 }
@@ -13,15 +13,15 @@ function M.new(args)
 		awful.button({ }, 1, function ()
 			local browser = browser or "dwb"
 			awful.util.spawn(browser .. " https://mail.google.com")
-			gmail.widget.image = image("/home/intrntbrn/icons/newblue/mail_new.png")
+			gmail.widget.image = image("/home/intrntbrn/icons/newblue/mail.png")
 			gmail.args["{count}"] = 0
 		end),
 		awful.button({}, 3, function ()
 			if gmail.enabled then
-				gmail.widget.image = image("/home/intrntbrn/icons/newblue/mail_new.png")
+				gmail.widget.image = image("/home/intrntbrn/icons/newblue/mail.png")
 				vicious.unregister(gmail.widget, true)
 			else
-				gmail.widget.image = image("/home/intrntbrn/icons/newblue/mail_new.png")
+				gmail.widget.image = image("/home/intrntbrn/icons/newblue/mail.png")
 				vicious.activate(gmail.widget)
 			end
 			gmail.enabled = not gmail.enabled
@@ -57,9 +57,9 @@ function M.new(args)
 	vicious.register(gmail.widget, vicious.widgets.gmail,
 	function(widget, args)
 		if args["{count}"] > 0 then
-			widget.image = image("/home/intrntbrn/icons/newblue/mail_new.png")
+			widget.image = image("/home/intrntbrn/icons/blue/mail_new.png")
 		else
-			widget.image = image("/home/intrntbrn/icons/newblue/mail_new.png")
+			widget.image = image("/home/intrntbrn/icons/newblue/mail.png")
 		end
 		if args["{count}"] > gmail.args["{count}"] then
 			naughty.notify({
