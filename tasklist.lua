@@ -98,7 +98,6 @@ ncmpcpp = capi.image(icons .. "music.png")
 weechat = capi.image(icons .. "irc.png")
 term = capi.image(icons .. "term.png")
 
-
 local function widget_tasklist_label_common(c, args)
     if not args then args = {} end
     local theme = beautiful.get()
@@ -146,22 +145,18 @@ local function widget_tasklist_label_common(c, args)
     end
     
     if (name == "mcabber") then
-    icon= capi.image(icons .. "chat.png")
     return text, bg, nil, mcabber
     end
     
     if (name == "ncmpcpp") then
-    icon = capi.image(icons .. "music.png")
     return text, bg, nil, ncmpcpp
     end
     
     if (name == "weechat 0.3.7") then
-    icon = capi.image(icons .. "irc.png")
     return text, bg, nil, weechat
     end
-    
+       
     if (c.class == "URxvt") then
-    icon = capi.image(icons .. "term.png")
     return text, bg, nil, term
     end
     
