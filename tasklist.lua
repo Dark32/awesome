@@ -36,12 +36,12 @@ local function tasklist_update(w, buttons, label, data, widgets)
             table.insert(shownclients, c)
         end
     end
-    -- mod
-    -- function cmp(c1,c2)
-      -- return c1.pid < c2.pid
-    --end
+    -- sortmpd 
+ --   function cmp(c1,c2)
+ --      return c1.pid < c2.pid
+ --   end
 
-    --table.sort(clients,cmp)
+  --  table.sort(clients,cmp)
     -- /mod
     clients = shownclients
 
@@ -92,6 +92,7 @@ function new(label, buttons)
     return w
 end
 
+test = capi.image("/usr/share/awesome/icons/newblue/separator-arrow.png")
 mcabber = capi.image(icons .. "chat.png")
 geany = capi.image(icons .. "editor.png")
 ncmpcpp = capi.image(icons .. "music.png")
@@ -112,7 +113,6 @@ local function widget_tasklist_label_common(c, args)
     local bg =  nil
     local text = "<span font_desc='"..font.."'>"
     local name
-    local test = capi.image("/usr/share/awesome/icons/newblue/separator-arrow.png")
     local status_image
     if client.floating.get(c) and floating_icon then
         status_image = capi.image(floating_icon)

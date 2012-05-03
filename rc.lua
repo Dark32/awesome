@@ -230,31 +230,25 @@ mytaglist.buttons = awful.util.table.join(
 mytasklist = {}
 mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 1, function (c)
-						-- swap to master mod
                                               if c == client.focus then
-                                                 --  c.minimized = true
-						  client.focus = c
-						 -- c:swap(awful.client.getmaster())
+													c.minimized = true
+													client.focus = c
                                               else
                                                   if not c:isvisible() then
                                                       awful.tag.viewonly(c:tags()[1])
-							client.focus = c
-						 --	c:swap(awful.client.getmaster())
+													  client.focus = c
                                                   end
                                                   -- This will also un-minimize
                                                   -- the client, if needed
                                                   client.focus = c
                                                   c:raise()
-						 -- c:swap(awful.client.getmaster())
                                               end
                                           end),
-                     awful.button({ }, 3, function ()
-                                              if instance then
-                                                  instance:hide()
-                                                  instance = nil
-                                              else
-                                                  instance = awful.menu.clients({ width=250 })
-                                              end
+                     -- right mouse: my nav menu
+                     awful.button({ }, 3, function (c)
+											  client.focus = c
+                                              instance = awful.menu.clients({ width=100 })
+                                               
                                           end),
                      awful.button({ }, 4, function ()
                                               awful.client.focus.byidx(1)
@@ -263,16 +257,28 @@ mytasklist.buttons = awful.util.table.join(
                      awful.button({ }, 5, function ()
                                               awful.client.focus.byidx(-1)
                                               if client.focus then client.focus:raise() end
-                                          end),
-		     -- middle mouse
-		     awful.button({ }, 0, function (c)
-						if c == client.focus then
-							c.minimized = true
-						else
-							client.focus = c
-							c:raise()
-						end
-                                          end))	  
+                                          end)
+                                      
+                     -- middle mouse: swap client to master
+                     --awful.button({ }, 0, function (c)
+                                              --if c == client.focus then
+                                                 ----  c.minimized = true
+						  --client.focus = c
+						  --c:swap(awful.client.getmaster())
+                                              --else
+                                                  --if not c:isvisible() then
+                                                      --awful.tag.viewonly(c:tags()[1])
+							--client.focus = c
+						 	--c:swap(awful.client.getmaster())
+                                                  --end
+                                                  ---- This will also un-minimize
+                                                  ---- the client, if needed
+                                                  --client.focus = c
+                                                  --c:raise()
+						  --c:swap(awful.client.getmaster())
+                                              --end
+                                          --end)
+                     )	  
 
 for s = 1, screen.count() do
     -- Create a promptbox for each screen
