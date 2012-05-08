@@ -2,47 +2,51 @@
 require("awful.util")
 
 theme = {}
-menu 									= "/home/intrntbrn/icons/menu/"
-icons 									= "/home/intrntbrn/icons/newblue/"
-layoutstyle								= "layout-huge-fill/" -- fill/outline
+menu 							= "/home/intrntbrn/icons/menu/"
+icons 							= "/home/intrntbrn/icons/newblue/"
+layoutstyle						= "layout-huge-fill/" -- fill/outline
 
-bluewallpaper  							= menu .. "bluewallpaper.png"
-bluewallpaperarch 						= menu .. "bluewallpaper_arch.png"
-wallpapernintendo 						= menu .. "nintendo_arch.png"
+bluewallpaper  						= menu .. "bluewallpaper.png"
+bluewallpaperarch 					= menu .. "bluewallpaper_arch.png"
+wallpapernintendo 					= menu .. "nintendo_arch.png"
+bluebreeze						= menu .. "bluebreeze.png"
 
-wallpaper								= bluewallpaper
+wallpaper						= bluebreeze
+
 theme.wallpaper_cmd 					= { "awsetbg " .. wallpaper }
 
-theme.font 								= "MonteCarlo 8"
-theme.fg_normal 						= "#ffffff"
-theme.fg_focus 							= "#0a0a0b"
-theme.fg_urgent 						= "#0a0a0b"
-theme.fg_title 							= "#66d9ef"
-theme.fg_disabled 						= "#0a0a0b"
+theme.font 						= "montecarlo 8"
+theme.fg_normal 					= "#ffffff"
+theme.fg_focus 						= "#0a0a0b"
+theme.fg_urgent 					= "#0a0a0b"
+theme.fg_title 						= "#66d9ef"
+theme.fg_disabled 					= "#0a0a0b"
 
-theme.bg_normal 						= "#0a0a0b"
-theme.bg_focus 							= "#426797"
-theme.bg_urgent 						= "#f92671"
-theme.bg_disabled 						= "#5e7175"
-theme.bg_hover 							= "#5e7175"
+theme.bg_normal 					= "#0a0a0b"
+theme.bg_focus 						= "#426797"
+theme.bg_urgent 					= "#f92671"
+theme.bg_disabled 					= "#5e7175"
+theme.bg_hover 						= "#5e7175"
 
-theme.border_width 						= 0
+theme.border_width 					= 0
 theme.border_normal 					= "#a3babf"
-theme.border_focus 						= "#426797"
+theme.border_focus 					= "#426797"
 theme.border_marked 					= "#426797"
 
 theme.menu_submenu_icon 				=  menu .. "menuexpand.png"
-theme.menu_width 						= 180
+theme.menu_width 					= 180
 theme.menu_border_color 				= "#0a0a0b"
 theme.menu_fg_normal 					= "#ffffff"
 theme.menu_fg_focus 					= "#0a0a0b"
 theme.menu_bg_normal 					= "#0a0a0b"
-theme.menu_bg_focus						= "#426797"
+theme.menu_bg_focus					= "#426797"
 theme.menu_border_widht 				= 0
 
-theme.taglist_squares      		    	= true
+theme.taglist_squares      		    		= true
 theme.taglist_squares_sel  	 			= menu .. "squarefw.png"
-theme.taglist_squares_unsel 			= menu .. "squarefw.png"
+theme.taglist_squares_unsel 				= menu .. "squarefw.png"
+
+theme.tasklist_floating_icon  				= menu .. "floating.png"
 
 theme.layout_tile       				= menu .. layoutstyle .. "tile.png"
 theme.layout_tileleft   				= menu .. layoutstyle .. "tileleft.png"
@@ -57,6 +61,6 @@ theme.layout_fullscreen 				= menu .. layoutstyle .. "fullscreen.png"
 theme.layout_magnifier  				= menu .. layoutstyle .. "magnifier.png"
 theme.layout_floating   				= menu .. layoutstyle .. "floating.png"
 
-theme.awesome_icon 						= icons .. "arch-blue.png"
+theme.awesome_icon 					= icons .. "arch-blue.png"
 
 return theme

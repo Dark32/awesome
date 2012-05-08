@@ -92,16 +92,12 @@ function new(label, buttons)
     return w
 end
 
--- custom icons
+test = capi.image("/usr/share/awesome/icons/newblue/separator-arrow.png")
 mcabber = capi.image(icons .. "chat.png")
 geany = capi.image(icons .. "editor.png")
 ncmpcpp = capi.image(icons .. "music.png")
 weechat = capi.image(icons .. "irc.png")
 term = capi.image(icons .. "term.png")
-
--- color of client states
-state_focus = "#ffffff"
-state_normal = "#426797"
 
 local function widget_tasklist_label_common(c, args)
     if not args then args = {} end
@@ -117,7 +113,6 @@ local function widget_tasklist_label_common(c, args)
     local bg =  nil
     local text = "<span font_desc='"..font.."'>"
     local name
-
 
     if c.minimized then
         name = util.escape(c.icon_name) or util.escape(c.name) or util.escape("<untitled>")
@@ -141,44 +136,7 @@ local function widget_tasklist_label_common(c, args)
         text = text .. name
     end
 
-    ---- state mod
-
-    -- focus
-    if capi.client.focus == c then
-
-        if client.floating.get(c) then
-            text = text .. "<span color='" .. state_focus .. "'>" .. " [f]" .. "</span>"
-        end
-
-        if c.ontop then
-            text = text .. "<span color='" .. state_focus .. "'>" .. " [t]" .. "</span>"
-        end
-
-        if c.sticky then
-            text = text .. "<span color='" .. state_focus .. "'>" .. " [s]" .. "</span>"
-        end
-
-    -- normal
-    else
-        if client.floating.get(c) then
-            text = text .. "<span color='" .. state_normal .. "'>" .. " [f]" .. "</span>"
-        end
-
-        if c.minimized then
-            text = text .. "<span color='" .. state_normal .. "'>" .. " [m]" .. "</span>"
-        end
-
-        if c.ontop then
-            text = text .. "<span color='" .. state_normal .. "'>" .. " [t]" .. "</span>"
-        end
-
-        if c.sticky then
-            text = text .. "<span color='" .. state_normal .. "'>" .. " [s]" .. "</span>"
-        end
-    end
-
-
-    text = text .. "</span>" -- close fontspan
+    text = text .. "</span>"
 
     if (c.class == "Geany") then
     return text, bg, nil, geany
@@ -200,7 +158,7 @@ local function widget_tasklist_label_common(c, args)
     return text, bg, nil, term
     end
 
-    return text, bg, nil, c.icon
+    return text, bg,  nil, c.icon
 end
 
 --- Return labels for a tasklist widget with clients from all tags and screen.
