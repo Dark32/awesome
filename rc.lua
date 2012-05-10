@@ -141,10 +141,10 @@ myinternetmenu = {
 	{ "Dwb", "dwb"},
 	{ "Firefox", "firefox"},
 	{ " ", nil, nil},
-	{ "jDownloader", function () exec("jdownloader") end},
+	{ "Steam friends", terminal .. " -e mono ~/bin/Vapor/Vapor.exe" },
 	{ "Mcabber", terminal .. " -e mcabber" },
+	{ "jDownloader", function () exec("jdownloader") end},
 	{ "IRC", terminal .. " -e weechat-curses" },
-	{ "Youtube", terminal .. " -e youtube-viewer" },
 	{ " ", nil, nil},
 	{ "Wicd", "wicd-gtk"},
 }
@@ -153,14 +153,13 @@ mymultimediamenu = {
 	{ "ncmpcpp", terminal .. " -e ncmpcpp"},
 	{ "Dreambox WebTV", "vlc stream.m3u" },
 	{ "Vlc", function () exec("vlc") end},
-	{ "Gnome-Mplayer", function () exec("gnome-mplayer") end},
 }
 
 mydevelmenu = {
 	{ "Eclipse", "eclipse" },
 	{ "Netbeans", function () sexec("wmname LG3D; netbeans --laf com.sun.java.swing.plaf.gtk.GTKLookAndFeel") end},
 	{ "Insight ARM", function () sexec("~/toolchain/insight/bin/arm-none-eabi-insight") end},
- 	{ "MagicDraw", function () sexec("wmname LG3D; sh ~/Downloads/MagicDraw/bin/mduml") end},
+ 	{ "MagicDraw", function () sexec("wmname LG3D; sh ~/bin/MagicDraw/bin/mduml") end},
 }
 
 mygraphicsmenu = {
@@ -1072,6 +1071,7 @@ awful.rules.rules = {
 
 -- {{{ Signals
 -- Signal function to execute when a new client appears.
+
 client.add_signal("manage", function (c, startup)
     -- Add a titlebar
     -- awful.titlebar.add(c, { modkey = modkey })

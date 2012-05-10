@@ -11,11 +11,11 @@ bluewallpaperarch 					= menu .. "bluewallpaper_arch.png"
 wallpapernintendo 					= menu .. "nintendo_arch.png"
 bluebreeze						= menu .. "bluebreeze.png"
 
-wallpaper						= bluebreeze
+wallpaper						= bluewallpaper
 
 theme.wallpaper_cmd 					= { "awsetbg " .. wallpaper }
 
-theme.font 						= "montecarlo 8"
+theme.font 						= "MonteCarlo 8"
 theme.fg_normal 					= "#ffffff"
 theme.fg_focus 						= "#0a0a0b"
 theme.fg_urgent 					= "#0a0a0b"

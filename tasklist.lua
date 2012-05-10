@@ -150,7 +150,9 @@ local function widget_tasklist_label_common(c, args)
             text = text .. "<span color='" .. state_focus .. "'>" .. " [f]" .. "</span>"
         end
 
-        if c.ontop then
+        if c.minimized then
+            text = text .. "<span color='" .. state_focus .. "'>" .. " [m]" .. "</span>"
+        elseif c.ontop then
             text = text .. "<span color='" .. state_focus .. "'>" .. " [t]" .. "</span>"
         end
 
@@ -166,9 +168,7 @@ local function widget_tasklist_label_common(c, args)
 
         if c.minimized then
             text = text .. "<span color='" .. state_normal .. "'>" .. " [m]" .. "</span>"
-        end
-
-        if c.ontop then
+        elseif c.ontop then
             text = text .. "<span color='" .. state_normal .. "'>" .. " [t]" .. "</span>"
         end
 
