@@ -44,6 +44,7 @@ config		= awful.util.getdir("config")
 icons		= "/home/intrntbrn/icons/newblue/"
 iconsmenu   	= "/home/intrntbrn/icons/menu/"
 iconsclient 	= "/home/intrntbrn/icons/client/"
+panel 		= "/home/intrntbrn/icons/panel/white/"
 
 -- std programs
 terminal	= "urxvt"
@@ -61,9 +62,10 @@ winkey		= "Mod4"
 altkey		= "Mod1"
 
 -- mixed
-space 		= 48
-widthMpd 	= 350
+space 		= 40
+widthMpd 	= 200
 useMpd 		= true
+usePanel	= true
 
 
 -- layouts
@@ -79,15 +81,13 @@ layouts =
     awful.layout.suit.spiral,
     awful.layout.suit.spiral.dwindle,
     awful.layout.suit.max,
- --   awful.layout.suit.max.fullscreen,
- --   awful.layout.suit.magnifier
 }
 
 
 -- tags
  tags = {
    names  = { "sys", "web", "doc", "dev", "msg", "foo"},
-   layout = { layouts[8], layouts[10], layouts[8], layouts[8], layouts[2], layouts[1]},
+   layout = { layouts[8], layouts[10], layouts[8], layouts[8], layouts[2], layouts[8]},
    icons  = {nil, icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png"}
    }
 
@@ -307,13 +307,12 @@ for s = 1, screen.count() do
 	spacer = widget({ type = "textbox" })
 	spacer.text = " "
 
----------- klammern
-	kl = widget({ type = "textbox" })
-	kl.text = '<span color="#ffffff">' .. " [" .. '</span>'
+	center = widget({ type = "textbox" })
+	center.text = " "
+	center.width = 316
 
-	kr = widget({ type = "textbox" })
-	kr.text = '<span color="#ffffff">' .. "]" .. '</span>'
-
+	mybg = widget({ type = "textbox" })
+	mybg.text = "<span background='#FFFF00'> bla </span>"
 
 
 ---------- textclock
@@ -626,58 +625,110 @@ vicious.register(mygmail, vicious.widgets.gmail,
 		 end, 120)
 
 
------------ pacman
-pacicon = widget({type = "imagebox" })
-pacicon.image = image(icons .."pacman.png")
+------------- pacman
+--pacicon = widget({type = "imagebox" })
+--pacicon.image = image(icons .."pacman.png")
 
-pacwidget = widget({type = "textbox"})
---pacwidget_t = awful.tooltip({ objects = { pacwidget},})
-vicious.register(pacwidget, vicious.widgets.pkg,
-		function(widget,args)
-		    return args[1]
-		end, 900, "Arch")
+--pacwidget = widget({type = "textbox"})
+----pacwidget_t = awful.tooltip({ objects = { pacwidget},})
+--vicious.register(pacwidget, vicious.widgets.pkg,
+		--function(widget,args)
+		    --return args[1]
+		--end, 900, "Arch")
 
- pacicon:buttons(awful.util.table.join(
-    awful.button({ }, 1, function () awful.util.spawn(terminal .. " -e yaourt -Syyua", false) end)
-))
-pacwidget.width = space
+ --pacicon:buttons(awful.util.table.join(
+    --awful.button({ }, 1, function () awful.util.spawn(terminal .. " -e yaourt -Syyua", false) end)
+--))
+--pacwidget.width = space
+
+
+---- MY SHORTCUTS
+
+if usePanel then
+
+panelin = widget({ type = "imagebox" })
+panelin.image = image(panel .. "panelin.png")
+
+panelout = widget({ type = "imagebox" })
+panelout.image = image(panel .. "panelout.png")
+
+sc_music = widget({ type = "imagebox" })
+sc_music.image = image(panel .. "note.png")
+sc_music:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec("ncmpcpp play") run_or_raise(terminal .. " -e ncmpcpp", { class = "URxvt", name = "ncmpcpp" }) end)))
+
+
+sc_talk = widget({ type = "imagebox" })
+sc_talk.image = image(panel .. "contacts.png")
+sc_talk:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise(terminal .. " -e mcabber", { class = "URxvt", name = "mcabber" }) end)))
+
+sc_jdownloader = widget({ type = "imagebox" })
+sc_jdownloader.image = image(panel .. "jdownloader.png")
+sc_jdownloader:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("jdownloader", { class = "jd-Main", name = "JDownloader" }) end)))
+
+sc_geany = widget({ type = "imagebox" })
+sc_geany.image = image(panel .. "geany.png")
+sc_geany:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("geany", { class = "Geany" }) end)))
+
+sc_gimp = widget({ type = "imagebox" })
+sc_gimp.image = image(panel .. "colors.png")
+sc_gimp:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("gimp", { class = "Gimp" }) end)))
+
+sc_pcmanfm = widget({ type = "imagebox" })
+sc_pcmanfm.image = image(panel .. "pcmanfm.png")
+sc_pcmanfm:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("pcmanfm", { class = "Pcmanfm" }) end)))
+
+sc_pacman = widget({ type = "imagebox" })
+sc_pacman.image = image(panel .. "pacman.png")
+sc_pacman:buttons(awful.util.table.join(awful.button({ }, 1, function () exec(terminal .. " -e yaourt -Syyua") end)))
+
+sc_calc = widget({ type = "imagebox" })
+sc_calc.image = image(panel .. "calc.png")
+sc_calc:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("gnome-calculator", { class = "Gnome-calculator" }) end)))
+
+sc_irc = widget({ type = "imagebox" })
+sc_irc.image = image(panel .. "irc.png")
+sc_irc:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise(terminal .. " -e weechat-curses", { class = "URxvt", name = "weechat-curses" }) end)))
+
+end
 
 ------ MPD
-	if useMpd == true then
+	if useMpd then
 
-	 mpdstop = widget({ type = "textbox" })
-	 mpdstop.text = "stop"
-	 mpdstop.width = space
+	panelinmusic = widget({ type = "imagebox" })
+	panelinmusic.image = image(panel .. "panelinmusic.png")
+
+	paneloutmusic = widget({ type = "imagebox" })
+	paneloutmusic.image = image(panel .. "paneloutmusic.png")
 
 	  music_play = awful.widget.launcher({
-	    image = image(icons .. "play.png"),
+	    image = image(panel .. "play.png"),
 	    command = "ncmpcpp toggle && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 	  })
 
 	  music_pause = awful.widget.launcher({
-	    image = image(icons .. "pause.png"),
+	    image = image(panel .. "pause.png"),
 	    command = "ncmpcpp toggle && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 	  })
 	  music_pause.visible = false
 
 	  music_stop = awful.widget.launcher({
-	    image = image(icons .. "stop.png"),
+	    image = image(panel .. "stop.png"),
 	    command = "ncmpcpp stop && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 	  })
 
 	  music_prev = awful.widget.launcher({
-	    image = image(icons .. "prev.png"),
+	    image = image(panel .. "prev.png"),
 	    command = "ncmpcpp prev && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 	  })
 
 	  music_next = awful.widget.launcher({
-	    image = image(icons .. "next.png"),
+	    image = image(panel .. "next.png"),
 	    command = "ncmpcpp next && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 	  })
 	  maxlength = 15
 
 	  mpdicon = awful.widget.launcher({
-	    image = image(icons .. "note.png"),
+	    image = image(panel .. "note.png"),
 	    command = "ncmpcpp toggle && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 	  })
 
@@ -686,7 +737,7 @@ pacwidget.width = space
 	  vicious.register(mpdwidget, vicious.widgets.mpd,
 	    function(widget, args)
 
-	      local string = args["{Artist}"] .. " - " .. args["{Title}"]
+	      local string =  args["{Artist}"] .. " - " .. args["{Title}"] .. "     "
 
 	      -- play
 	      if (args["{state}"] == "Play") then
@@ -696,10 +747,9 @@ pacwidget.width = space
 		music_prev.visible = true
 		music_stop.visible = true
 		mpdwidget.visible = true
-		mpdicon.visible = false
-		mpdstop.visible = false
-		kr.visible = true
-		kl.visible = true
+		center.visible = false
+		panelinmusic.visible = true
+		paneloutmusic.visible = true
 		return string
 
 	      -- pause
@@ -711,24 +761,22 @@ pacwidget.width = space
 		music_prev.visible = true
 		music_stop.visible = true
 		mpdwidget.visible = true
-		mpdicon.visible = false
-		mpdstop.visible = false
-		kr.visible = true
-		kl.visible = true
+		center.visible = false
+		panelinmusic.visible = true
+		paneloutmusic.visible = true
 		return string
 
 	      -- stop
 	      else
-		mpdicon.visible = true
 		music_play.visible = false
 		music_pause.visible = false
 		music_next.visible = false
 		music_prev.visible = false
 		music_stop.visible = false
 		mpdwidget.visible = false
-		mpdstop.visible = true
-		kr.visible = false
-		kl.visible = false
+		center.visible = true
+		panelinmusic.visible = false
+		paneloutmusic.visible = false
 		return string
 
 	      end
@@ -749,20 +797,23 @@ pacwidget.width = space
 	mytaglist[s],
 	spacer,
 	mylayoutbox[s],
-	spacer,
-	spacer,
-	spacer,
-	kl,
-	music_play,
-	music_pause,
-    	music_stop,
-    	music_prev,
-	music_next,
-	kr,
-	spacer,
-	mpdwidget,
-	spacer,
 	mypromptbox[s],
+	spacer,
+
+	center,
+
+	panelin,
+	sc_pcmanfm,
+	sc_geany,
+	sc_pacman,
+	sc_music,
+	sc_talk,
+	sc_jdownloader,
+	sc_irc,
+	sc_gimp,
+	sc_calc,
+	panelout,
+
 	layout = awful.widget.layout.horizontal.leftright,
 	},
 
@@ -788,18 +839,25 @@ pacwidget.width = space
 	wlanwidget,
 	wlanicon,
 
-	pacwidget,
-	pacicon,
+--	pacwidget,
+--	pacicon,
 
 	mygmail,
 	gmailwidget,
 
-	mpdstop,
-	mpdicon,
+	spacer,
+
+	mpdwidget,
+	paneloutmusic,
+	music_next,
+    	music_prev,
+    	music_stop,
+	music_pause,
+	music_play,
+	panelinmusic,
 
 
-
-	s == 1 or nil,
+--	s == 1 or nil,
 	layout = awful.widget.layout.horizontal.rightleft
     }
 
@@ -810,10 +868,10 @@ pacwidget.width = space
 
     mywib[s].widgets = {
 	-- s == 1 and mysystray or nil,
-		mysystray,
-	mytasklist[s],
+	mysystray,
+        mytasklist[s],
 
-	layout = awful.widget.layout.horizontal.rightleft
+        layout = awful.widget.layout.horizontal.rightleft
 
     }
 end
@@ -1231,6 +1289,55 @@ function mcabber_event_hook(kind, direction, jid, msg)
  --	   icon = iconstatus
 	}
     end
+end
+
+function run_or_raise(cmd, properties)
+   local clients = client.get()
+   local focused = awful.client.next(0)
+   local findex = 0
+   local matched_clients = {}
+   local n = 0
+   for i, c in pairs(clients) do
+      --make an array of matched clients
+      if match(properties, c) then
+         n = n + 1
+         matched_clients[n] = c
+         if c == focused then
+            findex = n
+         end
+      end
+   end
+   if n > 0 then
+      local c = matched_clients[1]
+      -- if the focused window matched switch focus to next in list
+      if 0 < findex and findex < n then
+         c = matched_clients[findex+1]
+      end
+      local ctags = c:tags()
+      if table.getn(ctags) == 0 then
+         -- ctags is empty, show client on current tag
+         local curtag = awful.tag.selected()
+         awful.client.movetotag(curtag, c)
+      else
+         -- Otherwise, pop to first tag client is visible on
+         awful.tag.viewonly(ctags[1])
+      end
+      -- And then focus the client
+      client.focus = c
+      c:raise()
+      return
+   end
+   awful.util.spawn(cmd)
+end
+
+-- Returns true if all pairs in table1 are present in table2
+function match (table1, table2)
+   for k, v in pairs(table1) do
+      if table2[k] ~= v and not table2[k]:find(v) then
+         return false
+      end
+   end
+   return true
 end
 
 

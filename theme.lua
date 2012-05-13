@@ -17,7 +17,7 @@ theme.wallpaper_cmd 					= { "awsetbg " .. wallpaper }
 
 theme.font 						= "MonteCarlo 8"
 theme.fg_normal 					= "#ffffff"
-theme.fg_focus 						= "#0a0a0b"
+theme.fg_focus 						= "#ffffff"
 theme.fg_urgent 					= "#0a0a0b"
 theme.fg_title 						= "#66d9ef"
 theme.fg_disabled 					= "#0a0a0b"

@@ -100,7 +100,7 @@ weechat = capi.image(icons .. "irc.png")
 term = capi.image(icons .. "term.png")
 
 -- color of client states
-state_focus = "#ffffff"
+state_focus = "#0a0a0b"
 state_normal = "#426797"
 
 local function widget_tasklist_label_common(c, args)
