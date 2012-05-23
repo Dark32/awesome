@@ -120,68 +120,75 @@ mysystemmenu = {
 }
 
 myfoldermenu = {
-   { "Home", function () exec(fm ) end},
-   { "Downloads", function () exec(fm .. " ~/Downloads") end},
-   { "Movies", function () exec(fm .. " ~/HDD/Film") end},
-   { "Music", function () exec(fm .. " ~/HDD/Musik") end},
-   { "Stick", function () exec(fm .. " ~/STICK") end},
-   { "Downloads JD", function () exec(fm .. " ~/HDD/Downloads_JD") end},
-   { " ", nil, nil},
-   { "Workspace", function () exec(fm .. " ~/Workspace") end},
-   { "Dropbox WS", function () exec(fm .. " ~/Dropbox/WORKSPACE") end},
-   { "Netbeans", function () exec(fm .. " ~/Workspace/NetBeansProjects") end},
-   { " ", nil, nil},
-   { "SE", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/SE") end},
-   { "DB", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/Datenbanken") end},
-   { "MPS", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/MPS-ARM") end},
-   { "OS", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/Betriebssysteme") end},
+    { "Home", function ()  exec(fm .. " /home/intrntbrn/") end, nil },
+    { "Downloads", function ()  exec(fm .. " /home/intrntbrn/Downloads/") end, nil },
+    { "Downloads jD", function ()  exec(fm .. " /home/intrntbrn/HDD/Downloads_JD/") end, nil },
+    { "Musik", function ()  exec(fm .. " /home/intrntbrn/HDD/Musik/") end, nil },
+    { "Filme", function ()  exec(fm .. " /home/intrntbrn/HDD/Film/") end, nil },
+    { "Serien", function ()  exec(fm .. " /home/intrntbrn/HDD/Serien/") end, nil },
+    { "Stick", function () exec(fm .. " /home/intrntbrn/STICK/") end, nil },
+    { " ", function () awful.menu.hide(instance) end, nil},
+    { "Dropbox", function () exec(fm .. " /home/intrntbrn/Dropbox/") end, nil },
+    { "Workspace", function () exec(fm .. " /home/intrntbrn/workspace/") end, nil },
+    { "Workspace dbx", function () exec(fm .. " /home/intrntbrn/Dropbox/Workspace/") end, nil },
+    { " ", function () awful.menu.hide(instance) end, nil},
+    { "awesome", function () exec(fm .. " /home/intrntbrn/.config/awesome/") end, nil },
+    { "icons", function () exec(fm .. " /home/intrntbrn/icons/") end, nil },
+    { "themes", function () exec(fm .. " /usr/share/themes/") end, nil },
+    { " ", function () awful.menu.hide(instance) end, nil},
+    { "SS2012", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/") end, nil },
+    { "SE", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/SE") end},
+    { "DB", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/Datenbanken") end},
+    { "MPS", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/MPS-ARM") end},
+    { "OS", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/Betriebssysteme") end},
 }
 
 myinternetmenu = {
-	{ "Dwb", "dwb"},
-	{ "Firefox", "firefox"},
-	{ " ", nil, nil},
-	{ "Steam friends", terminal .. " -e mono ~/bin/Vapor/Vapor.exe" },
-	{ "Mcabber", terminal .. " -e mcabber" },
-	{ "jDownloader", function () exec("jdownloader") end},
-	{ "IRC", terminal .. " -e weechat-curses" },
-	{ " ", nil, nil},
-	{ "Wicd", "wicd-gtk"},
+    { "Dwb", "dwb"},
+    { "Firefox", "firefox"},
+    { " ", function () awful.menu.hide(mymainmenu) end, nil},
+    { "Steam friends", terminal .. " -e mono ~/bin/Vapor/Vapor.exe" },
+    { "Mcabber", terminal .. " -e mcabber" },
+    { "jDownloader", function () exec("jdownloader") end},
+    { "IRC", terminal .. " -e weechat-curses" },
+    { " ", function () awful.menu.hide(mymainmenu) end, nil},
+    { "Wicd", "wicd-gtk"},
 }
 
 mymultimediamenu = {
-	{ "ncmpcpp", terminal .. " -e ncmpcpp"},
-	{ "Dreambox WebTV", "gnome-mplayer stream.m3u" },
-	{ "Vlc", function () exec("vlc") end},
+    { "ncmpcpp", terminal .. " -e ncmpcpp"},
+    { "Dreambox WebTV", "gnome-mplayer stream.m3u" },
+    { "Vlc", function () exec("vlc") end},
 }
 
 mydevelmenu = {
-	{ "Eclipse", "eclipse" },
-	{ "Netbeans", function () sexec("wmname LG3D; netbeans --laf com.sun.java.swing.plaf.gtk.GTKLookAndFeel") end},
-	{ "Insight ARM", function () sexec("~/toolchain/insight/bin/arm-none-eabi-insight") end},
- 	{ "MagicDraw", function () sexec("wmname LG3D; sh ~/bin/MagicDraw/bin/mduml") end},
+    { "Eclipse", "eclipse" },
+    { "Netbeans", function () sexec("wmname LG3D; netbeans --laf com.sun.java.swing.plaf.gtk.GTKLookAndFeel") end},
+    { "Insight ARM", function () sexec("~/toolchain/insight/bin/arm-none-eabi-insight") end},
+    { "MagicDraw", function () sexec("wmname LG3D; sh ~/bin/MagicDraw/bin/mduml") end},
 }
 
 mygraphicsmenu = {
-	{ "Gimp", function () exec("gimp") end},
-	{ "Mirage", function () exec("mirage") end},
-	{ "Feh", function () sexec("feh") end},
+    { "Gimp", function () exec("gimp") end},
+    { "Mirage", function () exec("mirage") end},
+    { "Feh", function () sexec("feh") end},
 }
 
+-- @TODO
 myappmenu = {
-	{ "Powertop", terminal .. " -e powertop2"},
+    { "Powertop", terminal .. " -e powertop2"},
 }
 
 myofficemenu = {
-	{ "Geany", "geany" },
-	{ "Medit", "medit" },
-	{ "Gvim", "gvim" },
-	{ "Gedit", "gedit" },
-	{ " ", nil, nil},
-	{ "Zathura", "zathura" },
-	{ "Epdfview", "epdfview" },
-	{ " ", nil, nil},
-	{ "Calculator", function () exec("gnome-calculator") end},
+    { "Geany", "geany" },
+    { "Medit", "medit" },
+    { "Gvim", "gvim" },
+    { "Gedit", "gedit" },
+    { " ", function () awful.menu.hide(mymainmenu) end, nil},
+    { "Zathura", "zathura" },
+    { "Epdfview", "epdfview" },
+    { " ", function () awful.menu.hide(mymainmenu) end, nil},
+    { "Calculator", function () exec("gnome-calculator") end},
 }
 
 
@@ -194,15 +201,15 @@ mymainmenu = awful.menu({ items = {
 					{ "Other Apps", myappmenu, iconsmenu .. "otherapp.png" },
 					{ "Awesome", myawesomemenu, iconsmenu .."awesome-greenmod.png" },
 					{ "Folder", myfoldermenu, iconsmenu .."folder.png" },
-					{ " ", nil, nil},
+					{ " ", function () awful.menu.hide(mymainmenu) end, nil},
 					{ "Terminal", terminal },
    					{ "Browser", function () exec(browser) end},
    					{ "Filemanager", function () exec(fm .. "/home/intrntbrn/") end},
    					{ "Editor", function () sexec(guieditor) end},
- 					{ " ", nil, nil},
+					{ " ", function () awful.menu.hide(mymainmenu) end, nil},
 					{ "Exit", mysystemmenu, iconsmenu .. "arch-red.png" },
 
-			}
+			    }
 			})
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
@@ -228,6 +235,8 @@ mytaglist.buttons = awful.util.table.join(
 		    awful.button({ }, 5, awful.tag.viewprev)
 		    )
 mytasklist = {}
+
+
 mytasklist.buttons = awful.util.table.join(
 		     awful.button({ }, 1, function (c)
 					      if c == client.focus then
@@ -247,7 +256,7 @@ mytasklist.buttons = awful.util.table.join(
 		     -- right mouse: my nav menu
 		     awful.button({ }, 3, function (c)
 						client.focus = c
-						instance = awful.menu.clients({ width=100 })
+						instance = awful.menu.showNavMenu({ width=100 })
 
 					  end),
 		     awful.button({ }, 4, function ()
@@ -674,6 +683,17 @@ sc_gimp:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_ra
 sc_pcmanfm = widget({ type = "imagebox" })
 sc_pcmanfm.image = image(panel .. "pcmanfm.png")
 sc_pcmanfm:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("pcmanfm", { class = "Pcmanfm" }) end)))
+function showPlacesMenu(menu, args)
+    if not menu then
+        menu = {}
+    end
+    menu.items = myfoldermenu
+
+    local m = awful.menu.new(menu)
+    m:show(args)
+    return m
+end
+sc_pcmanfm:buttons(awful.util.table.join(awful.button({ }, 3, function () instance = showPlacesMenu({ width=110 }) end)))
 
 sc_pacman = widget({ type = "imagebox" })
 sc_pacman.image = image(panel .. "pacman.png")
@@ -893,8 +913,7 @@ globalkeys = awful.util.table.join(
     awful.key({}, "#121", function () sexec("sh ~/bin/vol.sh mute") end),
     awful.key({}, "#233", function () sexec("sh ~/bin/bright.sh") end),
     awful.key({}, "#232", function () sexec("sh ~/bin/bright.sh") end),
-    awful.key({}, "#107", function () sexec("cd /home/intrntbrn/snapshot/ ; scrot; sleep 2")
-    naughty.notify{fg="#0a0a0b",bg="#426797",timeout=2,width = 75,position = "bottom_right",text = "done.",run = function () sexec(fh .. "/home/intrntbrn/snapshot/") end,title = "screenshot"} end),
+    awful.key({}, "#107", function () sexec("cd /home/intrntbrn/snapshot/ ; scrot; notify-send 'screenshot taken'") end),
 
     awful.key({"Control"}, "space", revelation),
 
@@ -1175,8 +1194,8 @@ end
 volnotiicon = nil
 
 function volnoti()
-				closeLastNoti()
-		    naughty.notify{
+					closeLastNoti()
+					naughty.notify{
 					icon = volnotiicon,
 					position = "top_right",
 					fg="#0a0a0b",
@@ -1190,8 +1209,8 @@ end
 brightnotiicon = nil
 
 function brightnoti()
-				closeLastNoti()
-				naughty.notify{
+					closeLastNoti()
+					naughty.notify{
 					icon = brightnotiicon,
 					position = "top_right",
 					fg="#0a0a0b",

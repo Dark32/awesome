@@ -189,7 +189,7 @@ local function grabber(mod, key, event)
     else
         check_access_key(cur_menu, key)
     end
-   
+
     return true
 end
 
@@ -274,47 +274,50 @@ end
 -- @param menu Menu table, see new() function for more informations
 -- @param args.keygrabber A boolean enabling or not the keyboard navigation.
 -- @return The menu.
---function clients(menu, args)
-    --local cls = capi.client.get()
-    --local cls_t = {}
-    --for k, c in pairs(cls) do
-        --cls_t[#cls_t + 1] = { util.escape(c.name) or "",
-                              --function ()
-                                  --if not c:isvisible() then
-                                      --tags.viewmore(c:tags(), c.screen)
-                                  --end
-                                  --capi.client.focus = c
-                                  --c:raise()
-                              --end,
-                              --c.icon }
-    --end
+function clients(menu, args)
+    local cls = capi.client.get()
+    local cls_t = {}
+    for k, c in pairs(cls) do
+        cls_t[#cls_t + 1] = { util.escape(c.name) or "",
+                              function ()
+                                  if not c:isvisible() then
+                                      tags.viewmore(c:tags(), c.screen)
+                                  end
+                                  capi.client.focus = c
+                                  c:raise()
+                              end,
+                              c.icon }
+    end
 
-    --if not menu then
-        --menu = {}
-    --end
+    if not menu then
+        menu = {}
+    end
 
-    --menu.items = cls_t
+    menu.items = cls_t
 
-    --local m = new(menu)
-    --m:show(args)
-    --return m
---end
+    local m = new(menu)
+    m:show(args)
+    return m
+end
 
 -- my navigationmenu
-
-function clients(menu, args)
+function showNavMenu(menu, args)
 
     if not menu then
         menu = {}
     end
     c = capi.client.focus
-    
-    local mynav = { }
-    
-    mynav[3] = { " close", function ()  c:kill() end, "/home/intrntbrn/icons/client/close.png" }
-	mynav[2] = { " maximize", function () c.maximized_horizontal = not c.maximized_horizontal c.maximized_vertical = not c.maximized_vertical end, "/home/intrntbrn/icons/client/maximize.png" }
-	mynav[1] = { " to master", function () c:swap(awfulclient.getmaster(1)) end, "/home/intrntbrn/icons/client/tomaster.png" }
-	menu.items = mynav
+
+    local mynav = {
+	{ "close", function ()  c:kill() end, "/home/intrntbrn/icons/client/close.png" },
+	{ "maximize", function () c.maximized_horizontal = not c.maximized_horizontal c.maximized_vertical = not c.maximized_vertical end, "/home/intrntbrn/icons/client/maximize.png" },
+	{ "to master", function () c:swap(awfulclient.getmaster(1)) end, "/home/intrntbrn/icons/client/tomaster.png" },
+    }
+    menu.items = mynav
+    --mynav[3] = { " close", function ()  c:kill() end, "/home/intrntbrn/icons/client/close.png" }
+	--mynav[2] = { " maximize", function () c.maximized_horizontal = not c.maximized_horizontal c.maximized_vertical = not c.maximized_vertical end, "/home/intrntbrn/icons/client/maximize.png" }
+	--mynav[1] = { " to master", function () c:swap(awfulclient.getmaster(1)) end, "/home/intrntbrn/icons/client/tomaster.png" }
+
 
     local m = new(menu)
     m:show(args)
@@ -382,7 +385,7 @@ function show(menu, args)
     end
 
     if not cur_menu and menu.keygrabber then
-        capi.keygrabber.run(grabber) 
+        capi.keygrabber.run(grabber)
     end
     cur_menu = menu
 end
