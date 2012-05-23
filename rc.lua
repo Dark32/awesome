@@ -20,7 +20,7 @@ do
 	naughty.notify({ preset = naughty.config.presets.critical,
 			 title = "time to debug",
 			 text = err,
-			 timeout = 1 }) -- CHANGED TIMEOUT TIME
+			 timeout = 0 }) -- CHANGED TIMEOUT TIME
 	in_error = false
     end)
 end
@@ -151,7 +151,7 @@ myinternetmenu = {
 
 mymultimediamenu = {
 	{ "ncmpcpp", terminal .. " -e ncmpcpp"},
-	{ "Dreambox WebTV", "vlc stream.m3u" },
+	{ "Dreambox WebTV", "gnome-mplayer stream.m3u" },
 	{ "Vlc", function () exec("vlc") end},
 }
 
@@ -331,13 +331,37 @@ for s = 1, screen.count() do
 	my_cal:set_columns_lines_titles_text_color("#1692d0ff")
 	my_cal:set_link_to_external_calendar(true)
 
+----------- round()
+	function round(num, idp)
+		if ((num ~= nil) and (num ~= 0)) then
+			local mult = 10^(idp or 0)
+			return math.floor(num * mult + 0.5) / mult
+		else
+			return 0
+		end
+	end
 
+---------- wlan downstream
+	netwidget = widget({ type = "textbox" })
+	vicious.register(netwidget, vicious.widgets.net,
+	function (widget, args)
+		if (assert(args["{wlan0 down_kb}"])) then
+			return round(args["{wlan0 down_kb}"], 0) .. "kb"
+
+		else
+			return ""
+		end
+	end)
+	netwidget.width = space
+
+	neticon = widget({ type = "imagebox" })
+	neticon.image = image(icons .. "net_down_01.png")
 
 ---------- wlan widget
 	wlanwidget = widget({ type = "textbox" })
 	vicious.register(wlanwidget, vicious.widgets.wifi,
 	function (widget, args)
-		if ((args["{link}"] == 0) or (args["{link}"] == nil)) then
+		if (not assert(args["{link}"]) or (args["{link}"] == 0)) then
 			netwidget.width = 0
 			netwidget.visible = false
 			neticon.visible = false
@@ -355,22 +379,6 @@ for s = 1, screen.count() do
 
 	wlanicon = widget({ type = "imagebox" })
 	wlanicon.image = image(icons .. "wifi_01.png")
-
----------- wlan downstream
-	netwidget = widget({ type = "textbox" })
-	vicious.register(netwidget, vicious.widgets.net,
-	function (widget, args)
-		if (args["{wlan0 down_kb}"] ~= nil) then
-			return round(args["{wlan0 down_kb}"], 0) .. "kb"
-
-		else
-			return ""
-		end
-	end)
-	netwidget.width = space
-
-	neticon = widget({ type = "imagebox" })
-	neticon.image = image(icons .. "net_down_01.png")
 
 
 ---------- mem load
@@ -464,16 +472,6 @@ for s = 1, screen.count() do
 		end
 	end
 
-
-	-- round()
-	function round(num, idp)
-		if ((num ~= nil) and (num ~= 0)) then
-			local mult = 10^(idp or 0)
-			return math.floor(num * mult + 0.5) / mult
-		else
-			return 0
-		end
-	end
 
 	-- shutdown()
 	function shdown()
