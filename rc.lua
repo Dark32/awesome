@@ -20,7 +20,7 @@ do
 	naughty.notify({ preset = naughty.config.presets.critical,
 			 title = "time to debug",
 			 text = err,
-			 timeout = 0 }) -- CHANGED TIMEOUT TIME
+			 timeout = 0 })
 	in_error = false
     end)
 end
@@ -104,19 +104,21 @@ layouts =
 
 -- menu
 myawesomemenu = {
-   { "Edit rc.lua", function () sexec(guieditor .. "/home/intrntbrn/.config/awesome/rc.lua") end},
-   { "Edit theme.lua", function () sexec(guieditor ..  "/home/intrntbrn/.config/awesome/theme.lua") end },
-   { "Testmode", function () sexec("bash ~/bin/awsm.sh") end},
-   { "Restart", awesome.restart },
-   { "Quit", awesome.quit }
+    { "Edit rc.lua", function () sexec(guieditor .. "/home/intrntbrn/.config/awesome/rc.lua") end},
+    { "Edit theme.lua", function () sexec(guieditor ..  "/home/intrntbrn/.config/awesome/theme.lua") end },
+    { "Testmode", function () sexec("bash ~/bin/awsm.sh") end},
+    { "Restart", awesome.restart },
+    { "Quit", awesome.quit },
 }
 
 mysystemmenu = {
-   { "Shutdown", function () sexec("sudo shutdown -h 0") end},
-   { "Reboot", function () sexec("sudo reboot") end},
-   { "Lock", function () sexec("slimlock") end},
-   { "Suspend", function () sexec("sudo pm-suspend") end},
-   { "Hibernate", function () sexec("sudo pm-hibernate") end}
+    { "Shutdown", function () sexec("sudo shutdown -h 0") end},
+    { " ", function () awful.menu.hide(instance) end, nil},
+    { "Reboot", function () sexec("sudo reboot") end},
+    { "Suspend", function () sexec("sudo pm-suspend") end},
+    { "Hibernate", function () sexec("sudo pm-hibernate") end},
+    { " ", function () awful.menu.hide(instance) end, nil},
+    { "Lock", function () sexec("slimlock") end},
 }
 
 myfoldermenu = {
@@ -134,7 +136,8 @@ myfoldermenu = {
     { " ", function () awful.menu.hide(instance) end, nil},
     { "awesome", function () exec(fm .. " /home/intrntbrn/.config/awesome/") end, nil },
     { "icons", function () exec(fm .. " /home/intrntbrn/icons/") end, nil },
-    { "themes", function () exec(fm .. " /usr/share/themes/") end, nil },
+    { "shared icons", function () exec(fm .. " /usr/share/icons/") end, nil },
+    { "shared themes", function () exec(fm .. " /usr/share/themes/") end, nil },
     { " ", function () awful.menu.hide(instance) end, nil},
     { "SS2012", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/") end, nil },
     { "SE", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/SE") end},
@@ -342,7 +345,7 @@ for s = 1, screen.count() do
 
 ----------- round()
 	function round(num, idp)
-		if ((num ~= nil) and (num ~= 0)) then
+		if (num ~= nil) then
 			local mult = 10^(idp or 0)
 			return math.floor(num * mult + 0.5) / mult
 		else
@@ -707,6 +710,20 @@ sc_irc = widget({ type = "imagebox" })
 sc_irc.image = image(panel .. "irc.png")
 sc_irc:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise(terminal .. " -e weechat-curses", { class = "URxvt", name = "weechat-curses" }) end)))
 
+sc_shutdown = widget({ type = "imagebox" })
+sc_shutdown.image = image(panel .. "shutdown.png")
+function showShutdownMenu(menu, args)
+    if not menu then
+        menu = {}
+    end
+    menu.items = mysystemmenu
+
+    local m = awful.menu.new(menu)
+    m:show(args)
+    return m
+end
+sc_shutdown:buttons(awful.util.table.join(awful.button({ }, 1, function () instance = showShutdownMenu({ width=110 }) end)))
+
 end
 
 ------ MPD
@@ -830,6 +847,7 @@ end
 	sc_irc,
 	sc_gimp,
 	sc_calc,
+	sc_shutdown,
 	panelout,
 
 	layout = awful.widget.layout.horizontal.leftright,
