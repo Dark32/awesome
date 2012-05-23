@@ -314,10 +314,6 @@ function showNavMenu(menu, args)
 	{ "to master", function () c:swap(awfulclient.getmaster(1)) end, "/home/intrntbrn/icons/client/tomaster.png" },
     }
     menu.items = mynav
-    --mynav[3] = { " close", function ()  c:kill() end, "/home/intrntbrn/icons/client/close.png" }
-	--mynav[2] = { " maximize", function () c.maximized_horizontal = not c.maximized_horizontal c.maximized_vertical = not c.maximized_vertical end, "/home/intrntbrn/icons/client/maximize.png" }
-	--mynav[1] = { " to master", function () c:swap(awfulclient.getmaster(1)) end, "/home/intrntbrn/icons/client/tomaster.png" }
-
 
     local m = new(menu)
     m:show(args)

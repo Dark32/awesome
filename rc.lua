@@ -685,7 +685,10 @@ sc_gimp:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_ra
 
 sc_pcmanfm = widget({ type = "imagebox" })
 sc_pcmanfm.image = image(panel .. "pcmanfm.png")
-sc_pcmanfm:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("pcmanfm", { class = "Pcmanfm" }) end)))
+sc_pcmanfm:buttons(awful.util.table.join(
+	    awful.button({ }, 1, function () run_or_raise("pcmanfm", { class = "Pcmanfm" }) end),
+	    awful.button({ }, 3, function () instance = showPlacesMenu({ width=110 }) end )
+))
 function showPlacesMenu(menu, args)
     if not menu then
         menu = {}
@@ -696,7 +699,7 @@ function showPlacesMenu(menu, args)
     m:show(args)
     return m
 end
-sc_pcmanfm:buttons(awful.util.table.join(awful.button({ }, 3, function () instance = showPlacesMenu({ width=110 }) end)))
+
 
 sc_pacman = widget({ type = "imagebox" })
 sc_pacman.image = image(panel .. "pacman.png")
