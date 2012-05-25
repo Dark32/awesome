@@ -49,7 +49,7 @@ panel 		= "/home/intrntbrn/icons/panel/white/"
 
 -- std programs
 terminal	= "urxvt"
-browser		= "dwb"
+browser		= "dwb "
 editor		= os.getenv("EDITOR") or "vim"
 editor_cmd	= terminal .. " -e " .. editor
 guieditor	= "geany "
@@ -649,7 +649,7 @@ vicious.register(mygmail, vicious.widgets.gmail,
 			    bg="#426797",
 			    position = "top_right",
 			    ontop = true,
-			    run = function () awful.util.spawn(dwb .. " https://mail.google.com") end,
+			    run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
 			})
 			end
 		    else
@@ -662,7 +662,7 @@ vicious.register(mygmail, vicious.widgets.gmail,
 			    bg="#426797",
 			    position = "top_right",
 			    ontop = true,
-			    run = function () awful.util.spawn(dwb .. " https://mail.google.com") end,
+			    run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
 			})
 
 			end
@@ -676,6 +676,7 @@ vicious.register(mygmail, vicious.widgets.gmail,
 		return args["{count}"]
 		end, 10)
 
+mygmailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec(browser .. "https://mail.google.com", false) end)))
 
 ---------- htop popup on mymemicon
 blingbling.popups.htop(mymemicon, { title_color = "#426797", user_color= "#ffffff", root_color= "#426797", terminal = "urxvt"})
