@@ -1,4 +1,5 @@
 -- rc.lua by intrntbrn
+-- www.github.com/intrntbrn
 
 require("awful")
 require("awful.autofocus")
@@ -106,7 +107,7 @@ layouts =
 myawesomemenu = {
     { "Edit rc.lua", function () sexec(guieditor .. "/home/intrntbrn/.config/awesome/rc.lua") end},
     { "Edit theme.lua", function () sexec(guieditor ..  "/home/intrntbrn/.config/awesome/theme.lua") end },
-    { "Testmode", function () sexec("bash ~/bin/awsm.sh") end},
+    { "Testmode", function () sexec("bash /home/intrntbrn/bin/awsm.sh") end},
     { "Restart", awesome.restart },
     { "Quit", awesome.quit },
 }
@@ -132,7 +133,7 @@ myfoldermenu = {
     { " ", function () awful.menu.hide(instance) end, nil},
     { "Dropbox", function () exec(fm .. " /home/intrntbrn/Dropbox/") end, nil },
     { "Workspace", function () exec(fm .. " /home/intrntbrn/workspace/") end, nil },
-    { "Workspace dbx", function () exec(fm .. " /home/intrntbrn/Dropbox/Workspace/") end, nil },
+    { "Workspace dbx", function () exec(fm .. " /home/intrntbrn/Dropbox/WORKSPACE/") end, nil },
     { " ", function () awful.menu.hide(instance) end, nil},
     { "awesome", function () exec(fm .. " /home/intrntbrn/.config/awesome/") end, nil },
     { "icons", function () exec(fm .. " /home/intrntbrn/icons/") end, nil },
@@ -140,17 +141,17 @@ myfoldermenu = {
     { "shared themes", function () exec(fm .. " /usr/share/themes/") end, nil },
     { " ", function () awful.menu.hide(instance) end, nil},
     { "SS2012", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/") end, nil },
-    { "SE", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/SE") end},
-    { "DB", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/Datenbanken") end},
-    { "MPS", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/MPS-ARM") end},
-    { "OS", function () exec(fm .. " ~/Dropbox/SS2011/SS2012/Betriebssysteme") end},
+    { "SE", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/SE") end},
+    { "DB", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Datenbanken") end},
+    { "MPS", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/MPS-ARM") end},
+    { "OS", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Betriebssysteme") end},
 }
 
 myinternetmenu = {
     { "Dwb", "dwb"},
     { "Firefox", "firefox"},
     { " ", function () awful.menu.hide(mymainmenu) end, nil},
-    { "Steam friends", terminal .. " -e mono ~/bin/Vapor/Vapor.exe" },
+    { "Steam friends", terminal .. " -e mono /home/intrntbrn/bin/Vapor/Vapor.exe" },
     { "Mcabber", terminal .. " -e mcabber" },
     { "jDownloader", function () exec("jdownloader") end},
     { "IRC", terminal .. " -e weechat-curses" },
@@ -167,8 +168,8 @@ mymultimediamenu = {
 mydevelmenu = {
     { "Eclipse", "eclipse" },
     { "Netbeans", function () sexec("wmname LG3D; netbeans --laf com.sun.java.swing.plaf.gtk.GTKLookAndFeel") end},
-    { "Insight ARM", function () sexec("~/toolchain/insight/bin/arm-none-eabi-insight") end},
-    { "MagicDraw", function () sexec("wmname LG3D; sh ~/bin/MagicDraw/bin/mduml") end},
+    { "Insight ARM", function () sexec("/home/intrntbrn/toolchain/insight/bin/arm-none-eabi-insight") end},
+    { "MagicDraw", function () sexec("wmname LG3D; sh /home/intrntbrn/bin/MagicDraw/bin/mduml") end},
 }
 
 mygraphicsmenu = {
@@ -321,10 +322,14 @@ for s = 1, screen.count() do
 
 	center = widget({ type = "textbox" })
 	center.text = " "
-	center.width = 316
+	center.width = 306
 
 	mybg = widget({ type = "textbox" })
 	mybg.text = "<span background='#FFFF00'> bla </span>"
+
+
+---------- debugger
+	debugger = widget({ type = "textbox" })
 
 
 ---------- textclock
@@ -340,7 +345,7 @@ for s = 1, screen.count() do
 	my_cal:set_font_size(8)
 	my_cal:set_inter_margin(1)
 	my_cal:set_columns_lines_titles_font_size(8)
-	my_cal:set_columns_lines_titles_text_color("#1692d0ff")
+	my_cal:set_columns_lines_titles_text_color("#1692d0")
 	my_cal:set_link_to_external_calendar(true)
 
 ----------- round()
@@ -431,9 +436,9 @@ for s = 1, screen.count() do
 
 ---------- cpu popup
 	mycpuloadicon:add_signal("mouse::enter", function() batnotify = naughty.notify({
-	text = "Fan: " .. fan() .. " RPM\n" .. "Temp: " .. cputemp() .. " °C",
-	title = "CPU Info",
-	timeout = 0
+	text = "<span color='#426797'>Fan:</span> \t\t" .. fan() .. " RPM" .. "\n<span color='#426797'>Temp:</span> \t\t" .. cputemp() .. " °C",
+	timeout = 0,
+	position = "top_right",
 	})
 	end)
 
@@ -504,9 +509,9 @@ for s = 1, screen.count() do
 
 				wattavg = ((avg * -1) / 1000)
 
-				return "\nUsage: ".. round(wattavg, 2) .. " W"
+				return "\n<span color='#426797'>Usage:</span> \t\t".. round(wattavg, 2) .. " W"
 			else
-				return "\nUsage: Error"
+				return "\n<span color='#426797'>Usage:</span> \t\t"..  "Error"
 			end
 		else
 			return ""
@@ -528,9 +533,9 @@ for s = 1, screen.count() do
 					local remain = file:read("*n")
 					file:close()
 
-					return "\nRemaining: " .. remain .. " min"
+					return "\n<span color='#426797'>Remaining:</span> \t" .. remain .. " min"
 
-				else return "\nRemaining: Error"
+				else return "\n<span color='#426797'>Remaining:</span> \t".. "Error"
 				end
 		else
 
@@ -538,18 +543,18 @@ for s = 1, screen.count() do
 				local filee = io.open("/sys/devices/platform/smapi/BAT0/remaining_charging_time", "r")
 				local charge = filee:read("*n")
 				filee:close()
-				return "\nRemaining: " .. charge .. " min"
+				return "\n<span color='#426797'>Remaining:</span> \t" .. charge .. " min"
 			else
-				return "\nRemaining: Error"
+				return "\n<span color='#426797'>Remaining:</span> \t".. "Error"
 			end
 		end
 	 end
 
 	 -- batterypopup
 	mybaticon:add_signal("mouse::enter", function() batnotify = naughty.notify({
-	text = "Status: " .. batstate() .. watt() .. remaining(),
-	title = "Battery Info",
-	timeout = 0
+	text = "<span color='#426797'>Status: </span> \t" .. batstate() .. watt() .. remaining(),
+--	title = "<span color='#426797'>Battery:</span>",
+	timeout = 0,
 	})
 	end)
 
@@ -615,41 +620,69 @@ for s = 1, screen.count() do
 	mybat.width = space
 
 
-
 ---------- gmail old (inactive only for popup)
-	awful.widget.gmail = require('awful.widget.gmail')
-	gmailwidget = awful.widget.gmail.new()
+--awful.widget.gmail = require('awful.widget.gmail')
+--gmailwidget = awful.widget.gmail.new()
 
 
----------- gmailcount
+---------- gmailwidget + notifactions
 mygmail = widget({ type = "textbox" })
--- gmail_t = awful.tooltip({ objects = { mygmail },})
 mygmail.width = space
 
+mygmailicon = widget({ type = "imagebox" })
+mygmailicon.image = image(icons .. "mail.png")
 
+
+gmailnotify = 0
 vicious.register(mygmail, vicious.widgets.gmail,
 		function (widget, args)
-	       --     gmail_t:set_text(args["{subject}"])
-	       --     gmail_t:add_to_object(mygmailimg)
-		    return args["{count}"]
-		 end, 120)
+		if (args["{count}"] > 0) then
+		    mygmailicon.image = image(icons .. "mail_new.png")
+
+		    if (args["{count}"] == 1) then
+			if (gmailnotify < args["{count}"]) then
+			    naughty.notify({
+			    text = args["{subject}"],
+			    title = "<span color='#426797'>New Mail</span>",
+			    timeout = 5,
+			    icon = "/home/intrntbrn/icons/client/mailnoti.png",
+			    bg="#426797",
+			    position = "top_right",
+			    ontop = true,
+			    run = function () awful.util.spawn(dwb .. " https://mail.google.com") end,
+			})
+			end
+		    else
+			if (gmailnotify < args["{count}"]) then
+			    naughty.notify({
+			    text = args["{count}"] .. " unread mails",
+			    title = "<span color='#426797'>New Mails</span>",
+			    timeout = 5,
+			    icon = "/home/intrntbrn/icons/client/mailnoti.png",
+			    bg="#426797",
+			    position = "top_right",
+			    ontop = true,
+			    run = function () awful.util.spawn(dwb .. " https://mail.google.com") end,
+			})
+
+			end
+		    end
+
+		else
+		    mygmailicon.image = image(icons .. "mail.png")
+		end
+		gmailnotify = args["{count}"]
+
+		return args["{count}"]
+		end, 10)
 
 
-------------- pacman
---pacicon = widget({type = "imagebox" })
---pacicon.image = image(icons .."pacman.png")
+---------- htop popup on mymemicon
+blingbling.popups.htop(mymemicon, { title_color = "#426797", user_color= "#ffffff", root_color= "#426797", terminal = "urxvt"})
 
---pacwidget = widget({type = "textbox"})
-----pacwidget_t = awful.tooltip({ objects = { pacwidget},})
---vicious.register(pacwidget, vicious.widgets.pkg,
-		--function(widget,args)
-		    --return args[1]
-		--end, 900, "Arch")
+---------- netstat popup on wlanicon
+blingbling.popups.netstat(wlanicon,{ title_color = "#426797", established_color= "#16a712", listen_color = "#ffffff"})
 
- --pacicon:buttons(awful.util.table.join(
-    --awful.button({ }, 1, function () awful.util.spawn(terminal .. " -e yaourt -Syyua", false) end)
---))
---pacwidget.width = space
 
 
 ---- MY SHORTCUTS
@@ -662,26 +695,42 @@ panelin.image = image(panel .. "panelin.png")
 panelout = widget({ type = "imagebox" })
 panelout.image = image(panel .. "panelout.png")
 
+
 sc_music = widget({ type = "imagebox" })
 sc_music.image = image(panel .. "note.png")
 sc_music:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec("ncmpcpp play") run_or_raise(terminal .. " -e ncmpcpp", { class = "URxvt", name = "ncmpcpp" }) end)))
+sc_music_t = awful.tooltip({ objects = { sc_music },})
+sc_music_t:set_text(" ncmpcpp ")
 
-
-sc_talk = widget({ type = "imagebox" })
-sc_talk.image = image(panel .. "contacts.png")
-sc_talk:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise(terminal .. " -e mcabber", { class = "URxvt", name = "mcabber" }) end)))
+sc_jabber = widget({ type = "imagebox" })
+sc_jabber.image = image(panel .. "contacts.png")
+sc_jabber:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise(terminal .. " -e mcabber", { class = "URxvt", name = "mcabber" }) end)))
+sc_jabber_t = awful.tooltip({ objects = { sc_jabber },})
+sc_jabber_t:set_text(" mcabber ")
 
 sc_jdownloader = widget({ type = "imagebox" })
 sc_jdownloader.image = image(panel .. "jdownloader.png")
 sc_jdownloader:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("jdownloader", { class = "jd-Main", name = "JDownloader" }) end)))
+sc_jdownloader_t = awful.tooltip({ objects = { sc_jdownloader },})
+sc_jdownloader_t:set_text(" jDownloader ")
 
 sc_geany = widget({ type = "imagebox" })
 sc_geany.image = image(panel .. "geany.png")
 sc_geany:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("geany", { class = "Geany" }) end)))
+sc_geany_t = awful.tooltip({ objects = { sc_geany },})
+sc_geany_t:set_text(" geany ")
 
 sc_gimp = widget({ type = "imagebox" })
 sc_gimp.image = image(panel .. "colors.png")
 sc_gimp:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("gimp", { class = "Gimp" }) end)))
+sc_gimp_t = awful.tooltip({ objects = { sc_gimp },})
+sc_gimp_t:set_text(" gimp ")
+
+sc_eclipse = widget({ type = "imagebox" })
+sc_eclipse.image = image(panel .. "eclipse.png")
+sc_eclipse:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("eclipse", { class = "Eclipse" }) end)))
+sc_eclipse_t = awful.tooltip({ objects = { sc_eclipse },})
+sc_eclipse_t:set_text(" eclipse ")
 
 sc_pcmanfm = widget({ type = "imagebox" })
 sc_pcmanfm.image = image(panel .. "pcmanfm.png")
@@ -689,6 +738,9 @@ sc_pcmanfm:buttons(awful.util.table.join(
 	    awful.button({ }, 1, function () run_or_raise("pcmanfm", { class = "Pcmanfm" }) end),
 	    awful.button({ }, 3, function () instance = showPlacesMenu({ width=110 }) end )
 ))
+sc_pcmanfm_t = awful.tooltip({ objects = { sc_pcmanfm },})
+sc_pcmanfm_t:set_text(" pcmanfm ")
+
 function showPlacesMenu(menu, args)
     if not menu then
         menu = {}
@@ -704,14 +756,20 @@ end
 sc_pacman = widget({ type = "imagebox" })
 sc_pacman.image = image(panel .. "pacman.png")
 sc_pacman:buttons(awful.util.table.join(awful.button({ }, 1, function () exec(terminal .. " -e yaourt -Syyua") end)))
+sc_pacman_t = awful.tooltip({ objects = { sc_pacman },})
+sc_pacman_t:set_text(" pacman ")
 
 sc_calc = widget({ type = "imagebox" })
 sc_calc.image = image(panel .. "calc.png")
 sc_calc:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("gnome-calculator", { class = "Gnome-calculator" }) end)))
+sc_calc_t = awful.tooltip({ objects = { sc_calc },})
+sc_calc_t:set_text(" calculator ")
 
 sc_irc = widget({ type = "imagebox" })
 sc_irc.image = image(panel .. "irc.png")
 sc_irc:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise(terminal .. " -e weechat-curses", { class = "URxvt", name = "weechat-curses" }) end)))
+sc_irc_t = awful.tooltip({ objects = { sc_irc },})
+sc_irc_t:set_text(" weechat ")
 
 sc_shutdown = widget({ type = "imagebox" })
 sc_shutdown.image = image(panel .. "shutdown.png")
@@ -726,6 +784,8 @@ function showShutdownMenu(menu, args)
     return m
 end
 sc_shutdown:buttons(awful.util.table.join(awful.button({ }, 1, function () instance = showShutdownMenu({ width=110 }) end)))
+sc_shutdown_t = awful.tooltip({ objects = { sc_shutdown },})
+sc_shutdown_t:set_text(" quit ")
 
 end
 
@@ -826,78 +886,82 @@ end
 -- wibox
 
     -- top
-    mywibox[s] = awful.wibox({ position = "top", screen = s })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, border_color ="#ff0000" })
 
 	mywibox[s].widgets = {
 	    {
-	mylauncher,
-	spacer,
-	mytaglist[s],
-	spacer,
-	mylayoutbox[s],
-	mypromptbox[s],
-	spacer,
+		mylauncher,
+		spacer,
+		mytaglist[s],
+		spacer,
+		mylayoutbox[s],
+		mypromptbox[s],
+		spacer,
+		debugger,
 
-	center,
+		center,
 
-	panelin,
-	sc_pcmanfm,
-	sc_geany,
-	sc_pacman,
-	sc_music,
-	sc_talk,
-	sc_jdownloader,
-	sc_irc,
-	sc_gimp,
-	sc_calc,
-	sc_shutdown,
-	panelout,
+		panelin,
+		sc_pcmanfm,
+		sc_geany,
+		sc_pacman,
+		sc_music,
+		sc_jabber,
+		sc_jdownloader,
+		sc_irc,
+		sc_eclipse,
+		sc_gimp,
+		sc_calc,
+		sc_shutdown,
+		panelout,
 
-	layout = awful.widget.layout.horizontal.leftright,
-	},
-
-	mytextclock,
-	my_cal.widget,
-
-
-	mybat,
-	mybaticon,
-
-	myvol,
-	myvolicon,
-
-	mymem,
-	mymemicon,
-
-	mycpuload,
-	mycpuloadicon,
-
-	netwidget,
-	neticon,
-
-	wlanwidget,
-	wlanicon,
-
---	pacwidget,
---	pacicon,
-
-	mygmail,
-	gmailwidget,
-
-	spacer,
-
-	mpdwidget,
-	paneloutmusic,
-	music_next,
-    	music_prev,
-    	music_stop,
-	music_pause,
-	music_play,
-	panelinmusic,
+		layout = awful.widget.layout.horizontal.leftright,
+	    },
 
 
---	s == 1 or nil,
-	layout = awful.widget.layout.horizontal.rightleft
+		mytextclock,
+		my_cal.widget,
+
+		mycairograph,
+
+		mybat,
+		mybaticon,
+
+		myvol,
+		myvolicon,
+
+		mymem,
+		mymemicon,
+
+		mycpuload,
+		mycpuloadicon,
+
+		netwidget,
+		neticon,
+
+		wlanwidget,
+		wlanicon,
+
+--		pacwidget,
+--		pacicon,
+
+		mygmail,
+		mygmailicon,
+
+		spacer,
+
+		mpdwidget,
+		paneloutmusic,
+		music_next,
+		music_prev,
+		music_stop,
+		music_pause,
+		music_play,
+		panelinmusic,
+
+
+--		s == 1 or nil,
+		layout = awful.widget.layout.horizontal.rightleft
     }
 
 
@@ -906,12 +970,10 @@ end
 
 
     mywib[s].widgets = {
-	-- s == 1 and mysystray or nil,
-	mysystray,
-        mytasklist[s],
+		mysystray,
+		mytasklist[s],
 
-        layout = awful.widget.layout.horizontal.rightleft
-
+		layout = awful.widget.layout.horizontal.rightleft
     }
 end
 
@@ -1072,7 +1134,8 @@ awful.rules.rules = {
 		     border_color = beautiful.border_normal,
 		     focus = true,
 		     keys = clientkeys,
-		     buttons = clientbuttons } },
+		     buttons = clientbuttons,
+		     size_hints_honor = false } },
 
 
       -- 1: sys
@@ -1081,7 +1144,7 @@ awful.rules.rules = {
 
       -- 2: web
 	{ rule = { class = "Firefox" },
-	properties = { tag = tags[mouse.screen][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false } },
+	properties = { tag = tags[mouse.screen][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
 
 	{ rule = { class = "Firefox" },
 	except = { instance = "Navigator" },
@@ -1224,7 +1287,7 @@ function volnoti()
 					timeout=1,
 					width = 256,
 					gap = 0,
-			}
+					}
 end
 
 brightnotiicon = nil
@@ -1239,7 +1302,7 @@ function brightnoti()
 					timeout=1,
 					width = 256,
 					gap = 0,
-			}
+					}
 end
 
 -- mcabber notifcation wrapper (gettin jabber msgs & statusupdates via naughty)

@@ -29,9 +29,15 @@ theme.bg_disabled 					= "#5e7175"
 theme.bg_hover 						= "#5e7175"
 
 theme.border_width 					= 0
-theme.border_normal 					= "#a3babf"
-theme.border_focus 					= "#426797"
+theme.border_focus 					= "#0a0a0b"
+theme.border_normal 					= "#426797"
 theme.border_marked 					= "#426797"
+
+theme.tooltip_bg_color					= "#426797"
+theme.tooltip_fg_color					= "#ffffff"
+theme.tooltip_opacity					= 0
+theme.tooltip_border_width				= 1
+theme.tooltip_border_color				= "#000000"
 
 theme.menu_submenu_icon 				=  menu .. "menuexpand.png"
 theme.menu_width 					= 180
