@@ -97,7 +97,6 @@ mcabber = capi.image(icons .. "chat.png")
 geany = capi.image(icons .. "editor.png")
 ncmpcpp = capi.image(icons .. "music.png")
 weechat = capi.image(icons .. "irc.png")
-term = capi.image(icons .. "term.png")
 
 -- color of client states
 state_focus = "#0a0a0b"
@@ -194,10 +193,6 @@ local function widget_tasklist_label_common(c, args)
 
     if (name == "weechat 0.3.7") then
     return text, bg, nil, weechat
-    end
-
-    if (c.class == "URxvt") then
-    return text, bg, nil, term
     end
 
     return text, bg, nil, c.icon

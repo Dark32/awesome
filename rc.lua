@@ -21,6 +21,7 @@ do
 	naughty.notify({ preset = naughty.config.presets.critical,
 			 title = "time to debug",
 			 text = err,
+			 screen = mouse.screen,
 			 timeout = 0 })
 	in_error = false
     end)
@@ -31,6 +32,7 @@ end
 if awesome.startup_errors then
     naughty.notify({ preset = naughty.config.presets.critical,
 		     title = "Oops, there were errors during startup!",
+		     screen = mouse.screen,
 		     text = awesome.startup_errors })
 end
 
@@ -64,7 +66,7 @@ altkey		= "Mod1"
 
 -- mixed
 space 		= 40
-widthMpd 	= 200
+widthMpd 	= 300
 useMpd 		= true
 usePanel	= true
 
@@ -336,6 +338,23 @@ for s = 1, screen.count() do
 	mytextclock = awful.widget.textclock({ align = "right",}, "%H:%M", 60)
 	mytextclock.width = 32
 
+	mytextclock:add_signal("mouse::enter", function()
+	clocknotify = naughty.notify({
+	text = os.date("%A, %d. %B %Y"),
+	timeout = 0,
+	position = "top_right",
+	screen = mouse.screen,
+	})
+	end)
+
+	mytextclock:add_signal("mouse::leave",
+	function ()
+		if clocknotify then
+			naughty.destroy(clocknotify)
+			clocknotify = nil
+		end
+	end)
+
 
 
 ---------- calendar
@@ -435,18 +454,19 @@ for s = 1, screen.count() do
 	end
 
 ---------- cpu popup
-	mycpuloadicon:add_signal("mouse::enter", function() batnotify = naughty.notify({
-	text = "<span color='#426797'>Fan:</span> \t\t" .. fan() .. " RPM" .. "\n<span color='#426797'>Temp:</span> \t\t" .. cputemp() .. " °C",
+	mycpuloadicon:add_signal("mouse::enter", function() cpunotify = naughty.notify({
+	text = "<span color='#426797'>Fan:</span> \t" .. fan() .. " RPM" .. "\n<span color='#426797'>Temp:</span> \t" .. cputemp() .. " °C",
 	timeout = 0,
 	position = "top_right",
+	screen = mouse.screen,
 	})
 	end)
 
 	mycpuloadicon:add_signal("mouse::leave",
 	function ()
-		if batnotify then
-			naughty.destroy(batnotify)
-			batnotify = nil
+		if cpunotify then
+			naughty.destroy(cpunotify)
+			cpunotify = nil
 		end
 	end)
 
@@ -554,6 +574,7 @@ for s = 1, screen.count() do
 	mybaticon:add_signal("mouse::enter", function() batnotify = naughty.notify({
 	text = "<span color='#426797'>Status: </span> \t" .. batstate() .. watt() .. remaining(),
 --	title = "<span color='#426797'>Battery:</span>",
+	screen = mouse.screen,
 	timeout = 0,
 	})
 	end)
@@ -585,6 +606,7 @@ for s = 1, screen.count() do
 						bg="#f92671",
 						screen = 1,
 						ontop = true,
+						screen = mouse.screen,
 						run = function () sexec("sudo pm-suspend") end
 				})
 				shdown()
@@ -600,7 +622,7 @@ for s = 1, screen.count() do
 						timeout = 1,
 						fg="#262729",
 						bg="#f92671",
-						screen = 1,
+						screen = mouse.screen,
 						ontop = true,
 				})
 
@@ -619,12 +641,6 @@ for s = 1, screen.count() do
 	end, 61, 'BAT0')
 	mybat.width = space
 
-
----------- gmail old (inactive only for popup)
---awful.widget.gmail = require('awful.widget.gmail')
---gmailwidget = awful.widget.gmail.new()
-
-
 ---------- gmailwidget + notifactions
 mygmail = widget({ type = "textbox" })
 mygmail.width = space
@@ -642,12 +658,13 @@ vicious.register(mygmail, vicious.widgets.gmail,
 		    if (args["{count}"] == 1) then
 			if (gmailnotify < args["{count}"]) then
 			    naughty.notify({
-			    text = args["{subject}"],
-			    title = "<span color='#426797'>New Mail</span>",
+			    text = "\n" .. args["{subject}"],
+			    title = "<span color='#ffffff'>New Mail</span>",
 			    timeout = 5,
 			    icon = "/home/intrntbrn/icons/client/mailnoti.png",
 			    bg="#426797",
 			    position = "top_right",
+			    screen = mouse.screen,
 			    ontop = true,
 			    run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
 			})
@@ -655,16 +672,16 @@ vicious.register(mygmail, vicious.widgets.gmail,
 		    else
 			if (gmailnotify < args["{count}"]) then
 			    naughty.notify({
-			    text = args["{count}"] .. " unread mails",
-			    title = "<span color='#426797'>New Mails</span>",
+			    text = "\n" .. args["{count}"] .. " unread mails",
+			    title = "<span color='#ffffff'>New Mails</span>",
 			    timeout = 5,
 			    icon = "/home/intrntbrn/icons/client/mailnoti.png",
 			    bg="#426797",
 			    position = "top_right",
+			    screen = mouse.screen,
 			    ontop = true,
 			    run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
 			})
-
 			end
 		    end
 
@@ -674,7 +691,7 @@ vicious.register(mygmail, vicious.widgets.gmail,
 		gmailnotify = args["{count}"]
 
 		return args["{count}"]
-		end, 10)
+		end, 300)
 
 mygmailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec(browser .. "https://mail.google.com", false) end)))
 
@@ -682,7 +699,7 @@ mygmailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec
 blingbling.popups.htop(mymemicon, { title_color = "#426797", user_color= "#ffffff", root_color= "#426797", terminal = "urxvt"})
 
 ---------- netstat popup on wlanicon
-blingbling.popups.netstat(wlanicon,{ title_color = "#426797", established_color= "#16a712", listen_color = "#ffffff"})
+--blingbling.popups.netstat(wlanicon,{ title_color = "#426797", established_color= "#16a712", listen_color = "#ffffff"})
 
 
 
@@ -916,6 +933,16 @@ end
 		sc_shutdown,
 		panelout,
 
+		panelinmusic,
+		music_play,
+		music_pause,
+		music_stop,
+		music_prev,
+		music_next,
+		paneloutmusic,
+
+		mpdwidget,
+
 		layout = awful.widget.layout.horizontal.leftright,
 	    },
 
@@ -943,25 +970,12 @@ end
 		wlanwidget,
 		wlanicon,
 
---		pacwidget,
---		pacicon,
-
 		mygmail,
 		mygmailicon,
 
 		spacer,
 
-		mpdwidget,
-		paneloutmusic,
-		music_next,
-		music_prev,
-		music_stop,
-		music_pause,
-		music_play,
-		panelinmusic,
 
-
---		s == 1 or nil,
 		layout = awful.widget.layout.horizontal.rightleft
     }
 
@@ -1031,7 +1045,7 @@ globalkeys = awful.util.table.join(
     awful.key({ "Control"	 }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
     awful.key({ modkey, "Control" }, "r", awesome.restart),
     awful.key({ }, "F1", function () exec("dwb") end),
-    awful.key({ }, "F8", function () exec("firefox") end),
+    awful.key({ }, "F8", function () exec("chromium --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
     awful.key({}, "#160", function () exec("slimlock") end),
     awful.key({}, "#150", function () sexec("sudo pm-suspend") end),
 
@@ -1145,6 +1159,9 @@ awful.rules.rules = {
 
       -- 2: web
 	{ rule = { class = "Firefox" },
+	properties = { tag = tags[mouse.screen][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
+
+	{ rule = { class = "Chromium" },
 	properties = { tag = tags[mouse.screen][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
 
 	{ rule = { class = "Firefox" },
@@ -1287,7 +1304,7 @@ function volnoti()
 					bg="#426797",
 					timeout=1,
 					width = 256,
-					gap = 0,
+					screen = mouse.screen,
 					}
 end
 
@@ -1302,7 +1319,7 @@ function brightnoti()
 					bg="#426797",
 					timeout=1,
 					width = 256,
-					gap = 0,
+					screen = mouse.screen,
 					}
 end
 
@@ -1358,6 +1375,7 @@ function mcabber_event_hook(kind, direction, jid, msg)
 		timeout=5,
 		width = 255,
 		position = "bottom_right",
+		screen = mouse.screen,
 		icon = iconsclient .. "mailnoti.png",
 		text = awful.util.escape(txt),
 		run = function () awful.tag.viewonly(tags[mouse.screen][5]) end,
@@ -1388,6 +1406,7 @@ function mcabber_event_hook(kind, direction, jid, msg)
 	naughty.notify{
 	    preset = naughty.config.presets[status],
 	    text = jid,
+	    screen = mouse.screen,
  --	   icon = iconstatus
 	}
     end
@@ -1441,8 +1460,6 @@ function match (table1, table2)
    end
    return true
 end
-
-
 
 -- disable startup-notification globally
 local oldspawn = awful.util.spawn
