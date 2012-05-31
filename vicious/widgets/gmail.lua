@@ -48,6 +48,7 @@ local mail = {
 -- {{{ Gmail widget type
 local function worker(format, warg)
     -- Get info from the Gmail atom feed
+    local run_once = nil
     local f = io.popen("curl --connect-timeout 1 -m 3 -fsn " .. feed[1])
 
     -- Could be huge don't read it all at once, info we are after is at the top
@@ -60,17 +61,23 @@ local function worker(format, warg)
         -- If the subject changed then break out of the loop
         if title ~= nil and not string.find(title, feed[2]) then
             -- Check if we should scroll, or maybe truncate
-            if warg then
-                if type(warg) == "table" then
-                    title = helpers.scroll(title, warg[1], warg[2])
-                else
-                    title = helpers.truncate(title, warg)
-                end
-            end
+--            if warg then
+--               if type(warg) == "table" then
+--                    title = helpers.scroll(title, warg[1], warg[2])
+--               else
+--                    title = helpers.truncate(title, warg)
+--                end
+--            end
 
             -- Spam sanitize the subject and store
+            if (run_once) then
+            mail["{subject}"] = mail["{subject}"] .. "\n" .. helpers.escape(title)
+
+            else
             mail["{subject}"] = helpers.escape(title)
-            break
+            run_once = true
+            end
+ --           break
         end
     end
     f:close()

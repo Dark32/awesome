@@ -1,8 +1,3 @@
--------------------------------------------------
--- @author Gregor Best <farhaven@googlemail.com>
--- @copyright 2009 Gregor Best
--- @release v3.4.11
--------------------------------------------------
 
 -- Grab environment
 local ipairs = ipairs
@@ -20,89 +15,134 @@ local assert = assert
 module("horizontal")
 
 function center(bounds, widgets, screen)
-
     local keys = util.table.keys_filter(widgets, "table", "widget")
 
+    local total_width = bounds.width
+    local element_l, element_c, element_r
+    local offset_l, offset_r
+
     local geometries = { }
-    local x = 0
+    local geometry_c
 
-    assert(#keys == 3)
+    offset_l = total_width/2
+    offset_r = offset_l
 
-    -------------------
+    -- Don't accept more than three top-level widgets
+    assert(#keys <= 3)
 
-    center_widget = widgets[keys[2]]
+    if #keys == 1 then
+        element_c = widgets[ keys[1] ]
+    elseif #keys == 2 then
+        element_l = widgets[ keys[1] ]
+        element_c = widgets[ keys[2] ]
+    elseif #keys == 3 then
+        element_l = widgets[ keys[1] ]
+        element_c = widgets[ keys[2] ]
+        element_r = widgets[ keys[3] ]
+    end
 
-    print(type(center_widget))
+    if type(element_c) == "widget" then
+        if element_c.visible then
+            geometry_c = element_c:extents(screen)
 
-    assert(type(center_widget) == "widget")
+            offset_l = offset_l-geometry_c.width/2
+            offset_r = offset_r+geometry_c.width/2
 
-    center_geometry = center_widget:extents(screen)
-
-    center_geometry.height = bounds.height
-    center_geometry.x = bounds.width/2-center_geometry.width/2
-    center_geometry.y = 0
-
-    -------------------
-
-    left_widget = widgets[keys[1]]
-
-    left_bounds = {
-        x = 0,
-        y = 0,
-        width = center_geometry.x,
-        height = bounds.height
-    }
-
-    if type(left_widget) == "table" then
-        left_geometries = left_widget.layout(left_bounds, left_widget, screen)
-
-        for _, v in ipairs(left_geometries) do
-          table.insert(geometries, v)
+            geometry_c.height = bounds.height
+            geometry_c.x = offset_l
+            geometry_c.y = 0
+        else
+            geometry_c = {
+                width = 0,
+                height = 0
+            }
         end
-    elseif type(left_widget) == "widget" then
-        left_geometry = {
+
+    elseif type(element_c) == "table" then
+        geometry_c = element_c.layout(bounds, element_c, screen)
+
+        offset_l = geometry_c.free.width/2
+        offset_r = total_width-offset_l
+
+        for _, v in ipairs(geometry_c) do
+          v.x = offset_l + v.x
+        end
+    end
+
+    if type(element_l) == "widget" then
+        geometry_l = { }
+
+        if element_l.visible then
+            geometry_l = {
+                x = 0,
+                y = 0,
+                width = offset_l,
+                height = bounds.height
+            }
+        else
+            geometry_l = {
+                width = 0,
+                height = 0,
+            }
+        end
+
+        table.insert(geometries, geometry_l)
+    elseif type(element_l) == "table" then
+        bounds_l = {
             x = 0,
             y = 0,
-            width = left_bounds.width,
+            width = offset_l,
             height = bounds.height
         }
 
+        geometries_l = element_l.layout(bounds_l, element_l, screen)
 
-        table.insert(geometries, left_geometry)
-    end
-
-    -------------------
-
-    table.insert(geometries, center_geometry)
-
-    -------------------
-
-    right_widget = widgets[keys[3]]
-
-    right_offset=center_geometry.x+center_geometry.width
-
-    right_bounds = {
-        x = right_offset,
-        y = 0,
-        width = bounds.width-right_offset,
-        height = bounds.height
-    }
-
-    if type(right_widget) == "table" then
-
-        right_geometries = right_widget.layout(right_bounds, right_widget, screen)
-
-        for _, v in ipairs(right_geometries) do
-          v.x = v.x + right_offset + right_geometries.free.width
+        for _, v in ipairs(geometries_l) do
           table.insert(geometries, v)
         end
-    elseif type(right_widget) == "widget" then
-        right_geometry = right_widget:extents(screen)
+    end
 
-        right_geometry.x = bounds.width-right_geometry.width
-        right_geometry.height = bounds.height
+    if type(element_c) == "widget" then
+        table.insert(geometries, geometry_c)
+    elseif type(element_c) == "table" then
+        for _, v in ipairs(geometry_c) do
+          table.insert(geometries, v)
+        end
+    end
 
-        table.insert(geometries, right_geometry)
+   if type(element_r) == "widget" then
+        geometry_r = { }
+
+        if element_r.visible then
+            geometry_r = {
+                x = offset_r,
+                y = 0,
+                width = total_width-offset_r,
+                height = bounds.height
+            }
+        else
+            geometry_r = {
+                width = 0,
+                height = 0
+            }
+        end
+
+        table.insert(geometries, geometry_r)
+
+    elseif type(element_r) == "table" then
+        bounds_r = {
+            x = offset_r,
+            y = 0,
+            width = total_width-offset_r,
+            height = bounds.height
+        }
+
+        geometries_r = element_r.layout(bounds_r, element_r, screen)
+
+        for _, v in ipairs(geometries_r) do
+          v.x = v.x + offset_r
+          table.insert(geometries, v)
+        end
     end
 
     return geometries

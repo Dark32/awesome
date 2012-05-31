@@ -44,6 +44,8 @@ local function show_process_info(inc_proc_offset, title_color,user_color, root_c
 	processstats = colorize(processstats, os.getenv("USER"), user_color)
   processpopup = naughty.notify({
 	text = processstats,
+	fg = "#0a0a0b",
+	bg = "#426797",
 	timeout = 0, hover_timeout = 0.5,
 	})
 end

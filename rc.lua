@@ -39,20 +39,25 @@ end
 
 -- theme
 beautiful.init("/home/intrntbrn/.config/awesome/theme.lua")
-barheight 	= 16
-borderwidth 	= 0
+
+-- colors
+blue 		= "#426797"
+white 		= "#ffffff"
+black 		= "#0a0a0b"
+red 		= "#ea3da3"
+green 		= "#16a712"
+grey 		= "#6d7c80"
 
 -- path
-config		= awful.util.getdir("config")
 icons		= "/home/intrntbrn/icons/newblue/"
 iconsmenu   	= "/home/intrntbrn/icons/menu/"
 iconsclient 	= "/home/intrntbrn/icons/client/"
-panel 		= "/home/intrntbrn/icons/panel/white/"
+panel 		= "/home/intrntbrn/icons/panel/whiteblue/"
 
 -- std programs
 terminal	= "urxvt"
 browser		= "dwb "
-editor		= os.getenv("EDITOR") or "vim"
+editor		= "vim"
 editor_cmd	= terminal .. " -e " .. editor
 guieditor	= "geany "
 fm		= "pcmanfm "
@@ -66,10 +71,10 @@ altkey		= "Mod1"
 
 -- mixed
 space 		= 40
-widthMpd 	= 300
+widthMpd 	= 340
 useMpd 		= true
 usePanel	= true
-
+gmailiconchange = nil
 
 -- layouts
 layouts =
@@ -125,28 +130,28 @@ mysystemmenu = {
 }
 
 myfoldermenu = {
-    { "Home", function ()  exec(fm .. " /home/intrntbrn/") end, nil },
-    { "Downloads", function ()  exec(fm .. " /home/intrntbrn/Downloads/") end, nil },
-    { "Downloads jD", function ()  exec(fm .. " /home/intrntbrn/HDD/Downloads_JD/") end, nil },
-    { "Musik", function ()  exec(fm .. " /home/intrntbrn/HDD/Musik/") end, nil },
-    { "Filme", function ()  exec(fm .. " /home/intrntbrn/HDD/Film/") end, nil },
-    { "Serien", function ()  exec(fm .. " /home/intrntbrn/HDD/Serien/") end, nil },
-    { "Stick", function () exec(fm .. " /home/intrntbrn/STICK/") end, nil },
+    { "Home", function ()  exec(fm .. " /home/intrntbrn/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Downloads", function ()  exec(fm .. " /home/intrntbrn/Downloads/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Downloads jD", function ()  exec(fm .. " /home/intrntbrn/HDD/Downloads_JD/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Musik", function ()  exec(fm .. " /home/intrntbrn/HDD/Musik/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Filme", function ()  exec(fm .. " /home/intrntbrn/HDD/Film/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Serien", function ()  exec(fm .. " /home/intrntbrn/HDD/Serien/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Stick", function () exec(fm .. " /home/intrntbrn/STICK/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { " ", function () awful.menu.hide(instance)  end, nil},
+    { "Dropbox", function () exec(fm .. " /home/intrntbrn/Dropbox/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Workspace", function () exec(fm .. " /home/intrntbrn/workspace/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Workspace dbx", function () exec(fm .. " /home/intrntbrn/Dropbox/WORKSPACE/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
     { " ", function () awful.menu.hide(instance) end, nil},
-    { "Dropbox", function () exec(fm .. " /home/intrntbrn/Dropbox/") end, nil },
-    { "Workspace", function () exec(fm .. " /home/intrntbrn/workspace/") end, nil },
-    { "Workspace dbx", function () exec(fm .. " /home/intrntbrn/Dropbox/WORKSPACE/") end, nil },
+    { "awesome", function () exec(fm .. " /home/intrntbrn/.config/awesome/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "icons", function () exec(fm .. " /home/intrntbrn/icons/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "shared icons", function () exec(fm .. " /usr/share/icons/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "shared themes", function () exec(fm .. " /usr/share/themes/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
     { " ", function () awful.menu.hide(instance) end, nil},
-    { "awesome", function () exec(fm .. " /home/intrntbrn/.config/awesome/") end, nil },
-    { "icons", function () exec(fm .. " /home/intrntbrn/icons/") end, nil },
-    { "shared icons", function () exec(fm .. " /usr/share/icons/") end, nil },
-    { "shared themes", function () exec(fm .. " /usr/share/themes/") end, nil },
-    { " ", function () awful.menu.hide(instance) end, nil},
-    { "SS2012", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/") end, nil },
-    { "SE", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/SE") end},
-    { "DB", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Datenbanken") end},
-    { "MPS", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/MPS-ARM") end},
-    { "OS", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Betriebssysteme") end},
+    { "SS2012", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "SE", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/SE") run_or_raise(fm, { class="Pcmanfm" }) end},
+    { "DB", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Datenbanken") run_or_raise(fm, { class="Pcmanfm" }) end},
+    { "MPS", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/MPS-ARM") run_or_raise(fm, { class="Pcmanfm" }) end},
+    { "OS", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Betriebssysteme") run_or_raise(fm, { class="Pcmanfm" }) end},
 }
 
 myinternetmenu = {
@@ -323,11 +328,8 @@ for s = 1, screen.count() do
 	spacer.text = " "
 
 	center = widget({ type = "textbox" })
-	center.text = " "
-	center.width = 306
-
-	mybg = widget({ type = "textbox" })
-	mybg.text = "<span background='#FFFF00'> bla </span>"
+	center.text = ""
+	center.width = 305
 
 
 ---------- debugger
@@ -338,34 +340,24 @@ for s = 1, screen.count() do
 	mytextclock = awful.widget.textclock({ align = "right",}, "%H:%M", 60)
 	mytextclock.width = 32
 
-	mytextclock:add_signal("mouse::enter", function()
-	clocknotify = naughty.notify({
-	text = os.date("%A, %d. %B %Y"),
-	timeout = 0,
-	position = "top_right",
-	screen = mouse.screen,
-	})
-	end)
-
-	mytextclock:add_signal("mouse::leave",
-	function ()
-		if clocknotify then
-			naughty.destroy(clocknotify)
-			clocknotify = nil
-		end
-	end)
-
+	mytextclock_t = awful.tooltip({ objects = { mytextclock },})
+	mytextclock_t:set_text(os.date(" %A, %d. %B "))
 
 
 ---------- calendar
 	my_cal =blingbling.calendar.new({type = "imagebox", image = icons .. "clock.png"})
-	my_cal:set_cell_padding(2)
+	my_cal:set_cell_padding(3)
 	my_cal:set_title_font_size(8)
 	my_cal:set_font_size(8)
 	my_cal:set_inter_margin(1)
 	my_cal:set_columns_lines_titles_font_size(8)
-	my_cal:set_columns_lines_titles_text_color("#1692d0")
-	my_cal:set_link_to_external_calendar(true)
+	my_cal:set_columns_lines_titles_text_color(white)
+	my_cal:set_link_to_external_calendar(false)
+	my_cal:set_cell_background_color(blue)
+	my_cal:set_title_background_color(blue)
+	my_cal:set_title_text_color(white)
+	my_cal:set_text_color(black)
+	my_cal:set_cell_padding(4)
 
 ----------- round()
 	function round(num, idp)
@@ -381,20 +373,35 @@ for s = 1, screen.count() do
 	netwidget = widget({ type = "textbox" })
 	vicious.register(netwidget, vicious.widgets.net,
 	function (widget, args)
-		if (assert(args["{wlan0 down_kb}"])) then
-			return round(args["{wlan0 down_kb}"], 0) .. "kb"
-
-		else
-			return ""
-		end
-	end)
+	    return round(args["{wlan0 down_kb}"], 0) .. "kb"
+	end, 5)
 	netwidget.width = space
 
 	neticon = widget({ type = "imagebox" })
 	neticon.image = image(icons .. "net_down_01.png")
 
+---------- weather
+	--weathericon = widget({ type = "imagebox" })
+	--weathericon.image = image(icons .. "temp.png")
+
+	--weatherwidget = widget({ type = "textbox" })
+	--weatherwidget.width = space
+	--weather_t = awful.tooltip({ objects = { weatherwidget },})
+
+	--vicious.register(weatherwidget, vicious.widgets.weather,
+	--function (widget, args)
+	    --weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windkmh}"] .. "km/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
+	    --return args["{tempc}"] .. "°"
+	--end, 1800, "EDDF")
+
 ---------- wlan widget
+	wlanicon = widget({ type = "imagebox" })
+	wlanicon.image = image(icons .. "wifi_01.png")
+
 	wlanwidget = widget({ type = "textbox" })
+
+	wlanwidget_t = awful.tooltip({ objects = { wlanicon },})
+
 	vicious.register(wlanwidget, vicious.widgets.wifi,
 	function (widget, args)
 		if (not assert(args["{link}"]) or (args["{link}"] == 0)) then
@@ -406,15 +413,17 @@ for s = 1, screen.count() do
 			netwidget.width = space
 			netwidget.visible = true
 			neticon.visible = true
-			return  round(((args["{link}"] *100) / 70), 0) .. "%"
+
+			wlanwidget_t:set_text(
+			"<span color='" .. white .. "'> SSID: </span>" .. "<span color='" .. black .. "'>" .. args["{ssid}"] .. " </span>\n" ..
+			"<span color='" .. white .. "'> Chan: </span>" .. "<span color='" .. black .. "'>" .. args["{chan}"] .. " </span>"
+			)
+			return round(((args["{link}"] *100) / 70), 0) .. "%"
 
 		end
 	end, 10, "wlan0")
 
 	wlanwidget.width = space
-
-	wlanicon = widget({ type = "imagebox" })
-	wlanicon.image = image(icons .. "wifi_01.png")
 
 
 ---------- mem load
@@ -424,6 +433,15 @@ for s = 1, screen.count() do
 
 	mymemicon = widget({ type = "imagebox" })
 	mymemicon.image = image(icons .. "mem.png")
+
+---------- cpu freq
+	function cpufreq(whichcpu)
+	    local file = io.open("/sys/devices/system/cpu/" .. whichcpu .. "/cpufreq/scaling_cur_freq", "r")
+	    local cpufreq = file:read("*n")
+	    file:close()
+	    return cpufreq / 1000
+	end
+
 
 
 ---------- cpu load
@@ -446,28 +464,22 @@ for s = 1, screen.count() do
 ---------- cputmp()
 	function cputemp()
 	    local file = io.open("/sys/class/thermal/thermal_zone0/temp", "r")
-	    local tmp = file:read("*n")
+	    local output = file:read("*n")
 	    file:close()
-	    output = tmp / 1000
-
-    	    return output
+    	    return output / 1000
 	end
 
 ---------- cpu popup
-	mycpuloadicon:add_signal("mouse::enter", function() cpunotify = naughty.notify({
-	text = "<span color='#426797'>Fan:</span> \t" .. fan() .. " RPM" .. "\n<span color='#426797'>Temp:</span> \t" .. cputemp() .. " °C",
-	timeout = 0,
-	position = "top_right",
-	screen = mouse.screen,
-	})
-	end)
 
-	mycpuloadicon:add_signal("mouse::leave",
-	function ()
-		if cpunotify then
-			naughty.destroy(cpunotify)
-			cpunotify = nil
-		end
+	mycpu_t = awful.tooltip({ objects = { mycpuloadicon },})
+	mycpuloadicon:add_signal("mouse::enter", function()
+	mycpu_t:set_text(
+	"<span color='" .. white .. "'> CPU 0:</span> <span color='" .. black .. "'>" .. cpufreq("cpu0") .. " Mhz</span> \n" ..
+	"<span color='" .. white .. "'> CPU 1:</span> <span color='" .. black .. "'>" .. cpufreq("cpu1") .. " Mhz</span> \n" ..
+	"<span color='" .. white .. "'> CPU 2:</span> <span color='" .. black .. "'>" .. cpufreq("cpu2") .. " Mhz</span> \n" ..
+	"<span color='" .. white .. "'> CPU 3:</span> <span color='" .. black .. "'>" .. cpufreq("cpu3") .. " Mhz</span> \n" ..
+	"<span color='" .. white .. "'> Fan:</span> <span color='" .. black .. "'>\t" .. fan() .. " RPM</span> \n" ..
+	"<span color='" .. white .. "'> Temp:</span> <span color='" .. black .. "'>\t" .. cputemp() .. " °C</span> ")
 	end)
 
 
@@ -505,7 +517,7 @@ for s = 1, screen.count() do
 		if ((batstate == 'Discharging') or (batstate == 'Charging')) then
 			return batstate
 		else
-			return "Fully charged"
+			return "Fully Charged"
 		end
 	end
 
@@ -529,12 +541,12 @@ for s = 1, screen.count() do
 
 				wattavg = ((avg * -1) / 1000)
 
-				return "\n<span color='#426797'>Usage:</span> \t\t".. round(wattavg, 2) .. " W"
+				return round(wattavg, 2) .. " W"
 			else
-				return "\n<span color='#426797'>Usage:</span> \t\t"..  "Error"
+				return "Error"
 			end
 		else
-			return ""
+			return "n/a"
 		end
 	end
 
@@ -542,8 +554,8 @@ for s = 1, screen.count() do
 	-- remaining()
 	function remaining()
 
-		if (batstate() == 'Fully charged') then
-			return ""
+		if (batstate() == 'Fully Charged') then
+			return "n/a"
 		end
 
 		if (batstate() == 'Discharging') then
@@ -553,9 +565,9 @@ for s = 1, screen.count() do
 					local remain = file:read("*n")
 					file:close()
 
-					return "\n<span color='#426797'>Remaining:</span> \t" .. remain .. " min"
+					return remain .. " min"
 
-				else return "\n<span color='#426797'>Remaining:</span> \t".. "Error"
+				else return "Error"
 				end
 		else
 
@@ -563,31 +575,21 @@ for s = 1, screen.count() do
 				local filee = io.open("/sys/devices/platform/smapi/BAT0/remaining_charging_time", "r")
 				local charge = filee:read("*n")
 				filee:close()
-				return "\n<span color='#426797'>Remaining:</span> \t" .. charge .. " min"
+				return charge .. " min"
 			else
-				return "\n<span color='#426797'>Remaining:</span> \t".. "Error"
+				return "Error"
 			end
 		end
 	 end
 
 	 -- batterypopup
-	mybaticon:add_signal("mouse::enter", function() batnotify = naughty.notify({
-	text = "<span color='#426797'>Status: </span> \t" .. batstate() .. watt() .. remaining(),
---	title = "<span color='#426797'>Battery:</span>",
-	screen = mouse.screen,
-	timeout = 0,
-	})
-	end)
-
-
-	mybaticon:add_signal("mouse::leave",
-	function ()
-		if batnotify then
-			naughty.destroy(batnotify)
-			batnotify = nil
-		end
-	end)
-
+	mybat_t = awful.tooltip({ objects = { mybaticon },})
+	mybaticon:add_signal("mouse::enter", function()
+	mybat_t:set_text(
+	"<span color='" .. white .. "'> Status:  </span>" .. "<span color='" .. black .. "'>" .. batstate() .. "</span> \n" ..
+	"<span color='" .. white .. "'> Usage:   </span>" .. "<span color='" .. black .. "'>" .. watt() .. "</span> \n" ..
+	"<span color='" .. white .. "'> Remain:  </span>" .. "<span color='" .. black .. "'>" .. remaining() .. "</span> "
+	) end)
 
 	mybat = widget({ type = "textbox" })
 	vicious.register(mybat, vicious.widgets.bat,
@@ -602,8 +604,8 @@ for s = 1, screen.count() do
 						title = "Critical Battery",
 						position = "top_right",
 						timeout = 30,
-						fg="#262729",
-						bg="#f92671",
+						fg=black,
+						bg=red,
 						screen = 1,
 						ontop = true,
 						screen = mouse.screen,
@@ -620,8 +622,8 @@ for s = 1, screen.count() do
 						title = "Low Battery",
 						position = "top_right",
 						timeout = 1,
-						fg="#262729",
-						bg="#f92671",
+						fg=white,
+						bg=blue,
 						screen = mouse.screen,
 						ontop = true,
 				})
@@ -648,47 +650,40 @@ mygmail.width = space
 mygmailicon = widget({ type = "imagebox" })
 mygmailicon.image = image(icons .. "mail.png")
 
+mygmail_t = awful.tooltip({ objects = { mygmailicon },})
 
-gmailnotify = 0
+gmailcount = 0
+
 vicious.register(mygmail, vicious.widgets.gmail,
 		function (widget, args)
 		if (args["{count}"] > 0) then
-		    mygmailicon.image = image(icons .. "mail_new.png")
-
-		    if (args["{count}"] == 1) then
-			if (gmailnotify < args["{count}"]) then
-			    naughty.notify({
-			    text = "\n" .. args["{subject}"],
-			    title = "<span color='#ffffff'>New Mail</span>",
-			    timeout = 5,
-			    icon = "/home/intrntbrn/icons/client/mailnoti.png",
-			    bg="#426797",
-			    position = "top_right",
-			    screen = mouse.screen,
-			    ontop = true,
-			    run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
-			})
-			end
-		    else
-			if (gmailnotify < args["{count}"]) then
-			    naughty.notify({
-			    text = "\n" .. args["{count}"] .. " unread mails",
-			    title = "<span color='#ffffff'>New Mails</span>",
-			    timeout = 5,
-			    icon = "/home/intrntbrn/icons/client/mailnoti.png",
-			    bg="#426797",
-			    position = "top_right",
-			    screen = mouse.screen,
-			    ontop = true,
-			    run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
-			})
-			end
+		    if gmailiconchange then
+			mygmailicon.image = image(icons .. "mail_new.png")
 		    end
 
+		    if (gmailcount < args["{count}"]) then
+			naughty.notify({
+			text = "\n" .. args["{subject}"],
+			title = "<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails:</span>",
+			timeout = 5,
+			icon = iconsclient .. "mailnoti.png",
+			bg=blue,
+			position = "bottom_right",
+			screen = mouse.screen,
+			ontop = true,
+			run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
+			})
+		    end
+		    mygmail_t:set_text("<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails:\n</span>" .. "<span color='" .. black .. "'>" .. args["{subject}"] .. "</span>")
+
+
 		else
-		    mygmailicon.image = image(icons .. "mail.png")
+		    if gmailiconchange then
+			mygmailicon.image = image(icons .. "mail.png")
+		    end
 		end
-		gmailnotify = args["{count}"]
+
+		gmailcount = args["{count}"]
 
 		return args["{count}"]
 		end, 300)
@@ -696,10 +691,10 @@ vicious.register(mygmail, vicious.widgets.gmail,
 mygmailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec(browser .. "https://mail.google.com", false) end)))
 
 ---------- htop popup on mymemicon
-blingbling.popups.htop(mymemicon, { title_color = "#426797", user_color= "#ffffff", root_color= "#426797", terminal = "urxvt"})
+blingbling.popups.htop(mymemicon, { title_color = white, user_color = black, root_color = black, terminal = "urxvt"})
 
 ---------- netstat popup on wlanicon
---blingbling.popups.netstat(wlanicon,{ title_color = "#426797", established_color= "#16a712", listen_color = "#ffffff"})
+--blingbling.popups.netstat(wlanicon,{ title_color = blue, established_color= green, listen_color = white})
 
 
 
@@ -904,7 +899,7 @@ end
 -- wibox
 
     -- top
-    mywibox[s] = awful.wibox({ position = "top", screen = s, border_color ="#ff0000" })
+    mywibox[s] = awful.wibox({ position = "top", screen = s, height = 16})
 
 	mywibox[s].widgets = {
 	    {
@@ -950,8 +945,6 @@ end
 		mytextclock,
 		my_cal.widget,
 
-		mycairograph,
-
 		mybat,
 		mybaticon,
 
@@ -969,6 +962,10 @@ end
 
 		wlanwidget,
 		wlanicon,
+
+	--	weatherwidget,
+	--	weathericon,
+
 
 		mygmail,
 		mygmailicon,
@@ -1013,7 +1010,7 @@ globalkeys = awful.util.table.join(
     awful.key({}, "#232", function () sexec("sh ~/bin/bright.sh") end),
     awful.key({}, "#107", function () sexec("cd /home/intrntbrn/snapshot/ ; scrot; notify-send 'screenshot taken'") end),
 
-    awful.key({"Control"}, "space", revelation),
+ --   awful.key({"Control"}, "space", revelation),
 
     awful.key({ altkey,	   }, "Tab",
 	function ()
@@ -1300,8 +1297,8 @@ function volnoti()
 					naughty.notify{
 					icon = volnotiicon,
 					position = "top_right",
-					fg="#0a0a0b",
-					bg="#426797",
+					fg=black,
+					bg=blue,
 					timeout=1,
 					width = 256,
 					screen = mouse.screen,
@@ -1315,8 +1312,8 @@ function brightnoti()
 					naughty.notify{
 					icon = brightnotiicon,
 					position = "top_right",
-					fg="#0a0a0b",
-					bg="#426797",
+					fg=black,
+					bg=blue,
 					timeout=1,
 					width = 256,
 					screen = mouse.screen,
@@ -1326,34 +1323,34 @@ end
 -- mcabber notifcation wrapper (gettin jabber msgs & statusupdates via naughty)
 
 naughty.config.presets.online = {
-    bg = "#1f880e80",
-    fg = "#ffffff",
+    bg = green,
+    fg = white,
 }
 naughty.config.presets.chat = naughty.config.presets.online
 naughty.config.presets.away = {
-    bg = "#eb4b1380",
-    fg = "#ffffff",
+    bg = grey,
+    fg = white,
 }
 naughty.config.presets.xa = {
-    bg = "#65000080",
-    fg = "#ffffff",
+    bg = grey,
+    fg = white,
 }
 naughty.config.presets.dnd = {
-    bg = "#65340080",
-    fg = "#ffffff",
+    bg = red,
+    fg = white,
 }
 naughty.config.presets.invisible = {
-    bg = "#ffffff80",
-    fg = "#000000",
+    bg = grey,
+    fg = blue,
 }
 naughty.config.presets.offline = {
-    bg = "#64636380",
-    fg = "#ffffff",
+    bg = black,
+    fg = white,
 }
 naughty.config.presets.requested = naughty.config.presets.offline
 naughty.config.presets.error = {
-    bg = "#ff000080",
-    fg = "#ffffff",
+    bg = black,
+    fg = white,
 }
 
 muc_nick = "intrntbrn"
@@ -1370,8 +1367,8 @@ function mcabber_event_hook(kind, direction, jid, msg)
 	    end
 	    if (awful.tag.selected(mouse.screen).name ~= "msg") then
 	    naughty.notify{
-	    	fg="#0a0a0b",
-		bg="#426797",
+	    	fg=black,
+		bg=blue,
 		timeout=5,
 		width = 255,
 		position = "bottom_right",
@@ -1466,4 +1463,3 @@ local oldspawn = awful.util.spawn
 awful.util.spawn = function (s)
   oldspawn(s, false)
 end
-

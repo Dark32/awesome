@@ -33,11 +33,19 @@ theme.border_focus 					= "#0a0a0b"
 theme.border_normal 					= "#426797"
 theme.border_marked 					= "#426797"
 
+-- white icons with blue bg
 theme.tooltip_bg_color					= "#426797"
 theme.tooltip_fg_color					= "#ffffff"
 theme.tooltip_opacity					= 0
 theme.tooltip_border_width				= 1
 theme.tooltip_border_color				= "#000000"
+
+-- blue icons trans/black bg
+--theme.tooltip_bg_color				= "#0a0a0b"
+--theme.tooltip_fg_color				= "#426797"
+--theme.tooltip_opacity					= 0
+--theme.tooltip_border_width				= 1
+--theme.tooltip_border_color				= "#426797"
 
 theme.menu_submenu_icon 				=  menu .. "menuexpand.png"
 theme.menu_width 					= 180
