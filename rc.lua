@@ -130,28 +130,28 @@ mysystemmenu = {
 }
 
 myfoldermenu = {
-    { "Home", function ()  exec(fm .. " /home/intrntbrn/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "Downloads", function ()  exec(fm .. " /home/intrntbrn/Downloads/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "Downloads jD", function ()  exec(fm .. " /home/intrntbrn/HDD/Downloads_JD/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "Musik", function ()  exec(fm .. " /home/intrntbrn/HDD/Musik/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "Filme", function ()  exec(fm .. " /home/intrntbrn/HDD/Film/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "Serien", function ()  exec(fm .. " /home/intrntbrn/HDD/Serien/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "Stick", function () exec(fm .. " /home/intrntbrn/STICK/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Home", function () run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Downloads", function ()  run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/Downloads/") end, nil },
+    { "Downloads jD", function ()  run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/HDD/Downloads_JD/") end, nil },
+    { "Musik", function ()  run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/HDD/Musik/") end, nil },
+    { "Filme", function ()  run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/HDD/Film/") end, nil },
+    { "Serien", function ()  run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/HDD/Serien/") end, nil },
+    { "Stick", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/STICK/") end, nil },
     { " ", function () awful.menu.hide(instance)  end, nil},
-    { "Dropbox", function () exec(fm .. " /home/intrntbrn/Dropbox/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "Workspace", function () exec(fm .. " /home/intrntbrn/workspace/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "Workspace dbx", function () exec(fm .. " /home/intrntbrn/Dropbox/WORKSPACE/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "Dropbox", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/Dropbox/") end, nil },
+    { "Workspace", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/workspace/") end, nil },
+    { "Workspace dbx", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/Dropbox/WORKSPACE/") end, nil },
     { " ", function () awful.menu.hide(instance) end, nil},
-    { "awesome", function () exec(fm .. " /home/intrntbrn/.config/awesome/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "icons", function () exec(fm .. " /home/intrntbrn/icons/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "shared icons", function () exec(fm .. " /usr/share/icons/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "shared themes", function () exec(fm .. " /usr/share/themes/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
+    { "awesome", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/.config/awesome/") end, nil },
+    { "icons", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/icons/") end, nil },
+    { "shared icons", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /usr/share/icons/") end, nil },
+    { "shared themes", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /usr/share/themes/") end, nil },
     { " ", function () awful.menu.hide(instance) end, nil},
-    { "SS2012", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/") run_or_raise(fm, { class="Pcmanfm" }) end, nil },
-    { "SE", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/SE") run_or_raise(fm, { class="Pcmanfm" }) end},
-    { "DB", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Datenbanken") run_or_raise(fm, { class="Pcmanfm" }) end},
-    { "MPS", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/MPS-ARM") run_or_raise(fm, { class="Pcmanfm" }) end},
-    { "OS", function () exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Betriebssysteme") run_or_raise(fm, { class="Pcmanfm" }) end},
+    { "SS2012", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/")  end, nil },
+    { "SE", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/SE") end},
+    { "DB", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Datenbanken") end},
+    { "MPS", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/MPS-ARM") end},
+    { "OS", function () run_or_raise(fm, { class="Pcmanfm" }) exec(fm .. " /home/intrntbrn/Dropbox/SS2011/SS2012/Betriebssysteme") end},
 }
 
 myinternetmenu = {
@@ -340,8 +340,72 @@ for s = 1, screen.count() do
 	mytextclock = awful.widget.textclock({ align = "right",}, "%H:%M", 60)
 	mytextclock.width = 32
 
-	mytextclock_t = awful.tooltip({ objects = { mytextclock },})
-	mytextclock_t:set_text(os.date(" %A, %d. %B "))
+
+---------- google calendar
+	function string:split(sep)
+        local sep, fields = sep or " ", {}
+        local pattern = string.format("([^%s]+)", sep)
+        self:gsub(pattern, function(c) fields[#fields+1] = c
+	end)
+        return fields
+	end
+
+
+	function getgmail()
+	local netrc = io.open("/home/intrntbrn/.netrc", "r")
+	local gmailstr = netrc:read("*all")
+	netrc:close()
+	gmailstr = string.gsub(string.gsub(gmailstr, "machine mail.google.com login ", ""), "password ", "")
+	gmaildata = { }
+	gmaildata = gmailstr:split(" ")
+	return gmaildata
+	end
+
+	local gcal = nil
+
+	function remove_gcal()
+	    if gcal~= nil then
+		naughty.destroy(gcal)
+		gcal = nil
+	    end
+	end
+
+	gm = nil
+	gpw = nil
+
+	function setgmail()
+	    local gm = {}
+	    gm = getgmail()
+	    guser = string.gsub(gm[1], "\0", "")
+	    gpw = string.gsub(gm[2], "", "")
+	    gpw = string.gsub(gpw, "\n", "")
+	end
+
+	setgmail()
+
+	function add_gcal()
+	    if (guser and gpw) then
+	    remove_gcal()
+	    local gcalcinfo = awful.util.pread("gcalcli --user " .. guser .. " --pw " .. gpw .. " --24hr --nc agenda")
+	    gcalcinfo = string.gsub(gcalcinfo, "%$(%w+)", "%1")
+	    today = os.date("%A, %d. %B") .. "\n"
+	    gcal = naughty.notify({
+		title = today,
+		text = gcalcinfo,
+		timeout = 0,
+		fg = white,
+		bg = blue,
+		screen = mouse.screen,
+		ontop = true,
+		border_color = black,
+	    })
+	    end
+	end
+	mytextclock:add_signal("mouse::enter", function()
+	    add_gcal()
+	end)
+
+	mytextclock:add_signal("mouse::leave", remove_gcal)
 
 
 ---------- calendar
@@ -664,18 +728,22 @@ vicious.register(mygmail, vicious.widgets.gmail,
 		    if (gmailcount < args["{count}"]) then
 			naughty.notify({
 			text = "\n" .. args["{subject}"],
-			title = "<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails:</span>",
+			title = "<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails: </span><span color='" .. black .. "'>" .. "(".. guser .. ")" .. "</span>",
 			timeout = 5,
 			icon = iconsclient .. "mailnoti.png",
+			fg=white,
 			bg=blue,
+			border_color = black,
 			position = "bottom_right",
 			screen = mouse.screen,
 			ontop = true,
 			run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
 			})
 		    end
-		    mygmail_t:set_text("<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails:\n</span>" .. "<span color='" .. black .. "'>" .. args["{subject}"] .. "</span>")
-
+		    mygmail_t:set_text(
+		    "<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails: </span><span color='" .. black .. "'>" .. "(".. guser .. ")" .. "</span>\n" ..
+		    "<span color='" .. black .. "'>" .. args["{subject}"] .. "</span>"
+		    )
 
 		else
 		    if gmailiconchange then
@@ -1288,7 +1356,7 @@ function closeLastNoti()
     end
 end
 
--- volume notifaction
+-- volume notification
 
 volnotiicon = nil
 
@@ -1299,6 +1367,7 @@ function volnoti()
 					position = "top_right",
 					fg=black,
 					bg=blue,
+					border_color = black,
 					timeout=1,
 					width = 256,
 					screen = mouse.screen,
@@ -1306,6 +1375,8 @@ function volnoti()
 end
 
 brightnotiicon = nil
+
+-- brightness notification
 
 function brightnoti()
 					closeLastNoti()

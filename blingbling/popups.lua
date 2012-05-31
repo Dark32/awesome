@@ -46,6 +46,7 @@ local function show_process_info(inc_proc_offset, title_color,user_color, root_c
 	text = processstats,
 	fg = "#0a0a0b",
 	bg = "#426797",
+	border_color = "#0a0a0b",
 	timeout = 0, hover_timeout = 0.5,
 	})
 end

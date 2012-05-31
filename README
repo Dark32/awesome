@@ -25,5 +25,6 @@ widgets:
 - volume widgets displays current volume or mute. click on icon toggles mute.
 - battery widget displays current battery status, image changes on different load/status(disc/charging). also notifies on low battery (<10%) and auto suspends on <=3%
   tooltip shows current status (disc/charging), current usage in watt, remaining disc/charging time
-- textclock widgets display H:M, tooltip shows todays date. click on the icons opens a calendar (using blingbling lib)
+- textclock widgets display H:M, click on the icons opens a calendar (using blingbling lib)
+  textclock tooltip shows todays date and google calendar data by using gcalcli (reading gmail logins from ~/.netrc like gmail widget
 
