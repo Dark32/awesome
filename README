@@ -1,0 +1,25 @@
+www.github.com/intrntbrn
+
+done things:
+
+- added menu with icons
+- close/maximize/tomaster popup menu on rightclick of taskbar (like other floating wms)
+- displaying in the clients state (instead of showing only floating icon) on tasklist with [f] (floating) [m] (minimized) [t] (ontop) [s] (sticky)
+- added useless gaps to the tiling layouts fair, spiral, tile
+- added a shortcut-subpanel on topwibox, using run_or_raise for programs, also added some menues
+- added notifications for brightness and volume using just naughty (github.com/intrntbrn/noti/)
+- added notification for jabber msgs when iam not viewing jabber (other tag) using mcabbers hook function.
+- added icons for common terminal apps (ncmpcpp, mcabber, weechat) at tasklist.lua
+
+widgets:
+- mpd widget displaying current song (only visible wenn mpd is playing)
+- gmail widget displays unread inbox count, using naughty to notify new mails. tooltip popup shows mailcount and subjects from all unread mails (edited vicious/gmail.lua)
+- wifi widget displays link quality, tooltip popup shows SSID and channel.
+- net downstream widgets shows the current downstream in kb/s. (only visible when online)
+- cpu widgets shows current cpu load, tooltip popup shows the freq of all cpu cores, temp and fan speed
+- ram widget shows memory load, tooltip shows a htop popup (using blingbling lib)
+- volume widgets displays current volume or mute. click on icon toggles mute.
+- battery widget displays current battery status, image changes on different load/status(disc/charging). also notifies on low battery (<10%) and auto suspends on <=3%
+  tooltip shows current status (disc/charging), current usage in watt, remaining disc/charging time
+- textclock widgets display H:M, tooltip shows todays date. click on the icons opens a calendar (using blingbling lib)
+
