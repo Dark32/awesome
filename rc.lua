@@ -9,6 +9,8 @@ require("naughty")
 require("vicious")
 require("blingbling")
 require("revelation")
+require("horizontal")
+
 
 	-- startup error
 	do
@@ -172,7 +174,7 @@ myinternetmenu = {
 
 mymultimediamenu = {
 	{ "ncmpcpp", terminal .. " -e ncmpcpp"},
-	{ "Dreambox WebTV", "gnome-mplayer stream.m3u" },
+	{ "Dreambox WebTV", "vlc stream.m3u" },
 	{ "Vlc", function () exec("vlc") end},
 }
 
@@ -272,7 +274,7 @@ end),
 -- right mouse: my nav menu
 awful.button({ }, 3, function (c)
 	client.focus = c
-	instance = awful.menu.showNavMenu({ width=100 })
+	instance = showNavMenu({ width=100 })
 
 end),
 awful.button({ }, 4, function ()
@@ -305,6 +307,125 @@ end)
 --end)
 )
 
+-- MENUES
+
+-- needed enviroment
+local capi =
+{
+	screen = screen,
+	mouse = mouse,
+	client = client,
+	keygrabber = keygrabber
+}
+
+-- shutdownmenu
+function showShutdownMenu(menu, args)
+	if not menu then
+		menu = {}
+	end
+	menu.items = mysystemmenu
+
+	local m = awful.menu.new(menu)
+	m:show(args)
+	return m
+end
+
+
+-- navigationmenu for rightclick on client on tasklist
+function showNavMenu(menu, args)
+
+	if not menu then
+		menu = {}
+	end
+	c = capi.client.focus
+
+	local mynav = {
+		{ "close", function ()  c:kill() end, "/home/intrntbrn/icons/client/close.png" },
+		{ "maximize", function () c.maximized_horizontal = not c.maximized_horizontal c.maximized_vertical = not c.maximized_vertical end, "/home/intrntbrn/icons/client/maximize.png" },
+		{ "to master", function () c:swap(awfulclient.getmaster(1)) end, "/home/intrntbrn/icons/client/tomaster.png" },
+	}
+	menu.items = mynav
+
+	local m = awful.menu.new(menu)
+	m:show(args)
+	return m
+end
+
+-- placesmenu
+function showPlacesMenu(menu, args)
+	if not menu then
+		menu = {}
+	end
+	menu.items = myfoldermenu
+
+	local m = awful.menu.new(menu)
+	m:show(args)
+	return m
+end
+
+-- gtk bookmarks menu
+function showGtkBookmarkMenu(menu, args)
+	if not menu then
+		menu = {}
+	end
+	menu.items = getGtkBookmarks()
+	local m = awful.menu.new(menu)
+	m:show(args)
+	return m
+end
+
+function getGtkBookmarks()
+	local gtkbookmarks = io.open("/home/intrntbrn/.gtk-bookmarks")
+	local bm = gtkbookmarks:read("*all")
+	gtkbookmarks:close()
+	local bmfield = { }
+	bmfield = bm:split("\n")
+	local mytable = { }
+	mygtkmenu = { }
+
+	for i,v in ipairs(bmfield) do
+		table.insert(mytable, bmfield[i]:split(" "))
+		mytable[i][2], mytable[i][1] = bmfield[i]:match("(.-)%s+(.*)")
+		string.gsub(mytable[i][2], "file://", "")
+		table.insert(mygtkmenu, { mytable[i][1], function () sexec(fm .. mytable[i][2]) end })
+	end
+
+	return mygtkmenu
+end
+
+-- dwb bookmarks menu
+
+function showBrowserBookmarkMenu(menu, args)
+	if not menu then
+		menu = {}
+	end
+	menu.items = getBrowserBookmarks()
+	local m = awful.menu.new(menu)
+	m:show(args)
+	return m
+end
+
+function getBrowserBookmarks()
+	local dwbbookmarks = io.open("/home/intrntbrn/.config/dwb/default/bookmarks")
+	local bm = dwbbookmarks:read("*all")
+	dwbbookmarks:close()
+	local bmfield = { }
+	bmfield = bm:split("\n")
+	local mytable = { }
+	mymenu = { }
+
+	for i,v in ipairs(bmfield) do
+		table.insert(mytable, bmfield[i]:split(" "))
+		mytable[i][2], mytable[i][1] = bmfield[i]:match("(.-)%s+(.*)")
+		table.insert(mymenu, { mytable[i][1], function () run_or_raise(browser, { class = "Dwb" }) sexec(browser .. " -n " .. "'" .. mytable[i][2] .. "'") end })
+	end
+
+	return mymenu
+end
+
+
+
+
 for s = 1, screen.count() do
 	-- Create a promptbox for each screen
 	mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright, prompt = "<span color='" .. blue .. "'>></span><span color='" .. grey .. "'>></span><span color='" .. white .. "'>></span> " })
@@ -332,12 +453,8 @@ for s = 1, screen.count() do
 	spacer = widget({ type = "textbox" })
 	spacer.text = " "
 
-	center = widget({ type = "textbox" })
-	center.text = ""
-	--	center.width = 305
 
-
-	---------- debugger
+	---------- debugger (for experimantal stuff)
 	debugger = widget({ type = "textbox" })
 
 
@@ -439,20 +556,6 @@ for s = 1, screen.count() do
 
 	neticon = widget({ type = "imagebox" })
 	neticon.image = image(icons .. "net_down_01.png")
-
-	---------- weather
-	--weathericon = widget({ type = "imagebox" })
-	--weathericon.image = image(icons .. "temp.png")
-
-	--weatherwidget = widget({ type = "textbox" })
-	--weatherwidget.width = space
-	--weather_t = awful.tooltip({ objects = { weatherwidget },})
-
-	--vicious.register(weatherwidget, vicious.widgets.weather,
-	--function (widget, args)
-	--weather_t:set_text("City: " .. args["{city}"] .."\nWind: " .. args["{windkmh}"] .. "km/h " .. args["{wind}"] .. "\nSky: " .. args["{sky}"] .. "\nHumidity: " .. args["{humid}"] .. "%")
-	--return args["{tempc}"] .. "°"
-	--end, 1800, "EDDF")
 
 	---------- wlan widget
 	wlanicon = widget({ type = "imagebox" })
@@ -819,7 +922,7 @@ for s = 1, screen.count() do
 		sc_pcmanfm_t:set_text(" pcmanfm ")
 
 		sc_browser = widget({ type = "imagebox" })
-		sc_browser.image = image(panel .. "firefox.png")
+		sc_browser.image = image(panel .. "dwb.png")
 		sc_browser:buttons(awful.util.table.join(
 		awful.button({ }, 1, function () run_or_raise("dwb", { class = "Dwb" }) end),
 		awful.button({ }, 3, function () instance = showBrowserBookmarkMenu({ width=400 }) end )
@@ -827,73 +930,18 @@ for s = 1, screen.count() do
 		sc_browser_t = awful.tooltip({ objects = { sc_browser },})
 		sc_browser_t:set_text(" dwb ")
 
-		function showPlacesMenu(menu, args)
-			if not menu then
-				menu = {}
-			end
-			menu.items = myfoldermenu
 
-			local m = awful.menu.new(menu)
-			m:show(args)
-			return m
-		end
 
-		function getBrowserBookmarks()
-			local dwbbookmarks = io.open("/home/intrntbrn/.config/dwb/default/bookmarks")
-			local bm = dwbbookmarks:read("*all")
-			dwbbookmarks:close()
-			local bmfield = { }
-			bmfield = bm:split("\n")
-			local mytable = { }
-			mymenu = { }
 
-			for i,v in ipairs(bmfield) do
-				table.insert(mytable, bmfield[i]:split(" "))
-				mytable[i][2], mytable[i][1] = bmfield[i]:match("(.-)%s+(.*)")
-				table.insert(mymenu, { mytable[i][1], function () run_or_raise(browser, { class = "Dwb" }) sexec(browser .. " -n " .. mytable[i][2]) end })
-			end
+		sc_firefox = widget({ type = "imagebox" })
+		sc_firefox.image = image(panel .. "firefox.png")
+		sc_firefox:buttons(awful.util.table.join(
+		awful.button({ }, 1, function () run_or_raise("firefox", { class = "Firefox" }) end),
+		awful.button({ }, 3, function () sexec("firefox") end )
+		))
+		sc_firefox_t = awful.tooltip({ objects = { sc_firefox },})
+		sc_firefox_t:set_text(" firefox ")
 
-			return mymenu
-		end
-
-		function getGtkBookmarks()
-			local gtkbookmarks = io.open("/home/intrntbrn/.gtk-bookmarks")
-			local bm = gtkbookmarks:read("*all")
-			gtkbookmarks:close()
-			local bmfield = { }
-			bmfield = bm:split("\n")
-			local mytable = { }
-			mygtkmenu = { }
-
-			for i,v in ipairs(bmfield) do
-				table.insert(mytable, bmfield[i]:split(" "))
-				mytable[i][2], mytable[i][1] = bmfield[i]:match("(.-)%s+(.*)")
-				string.gsub(mytable[i][2], "file://", "")
-				table.insert(mygtkmenu, { mytable[i][1], function () sexec(fm .. mytable[i][2]) end })
-			end
-
-			return mygtkmenu
-		end
-
-		function showGtkBookmarkMenu(menu, args)
-			if not menu then
-				menu = {}
-			end
-			menu.items = getGtkBookmarks()
-			local m = awful.menu.new(menu)
-			m:show(args)
-			return m
-		end
-
-		function showBrowserBookmarkMenu(menu, args)
-			if not menu then
-				menu = {}
-			end
-			menu.items = getBrowserBookmarks()
-			local m = awful.menu.new(menu)
-			m:show(args)
-			return m
-		end
 
 
 		sc_pacman = widget({ type = "imagebox" })
@@ -916,16 +964,7 @@ for s = 1, screen.count() do
 
 		sc_shutdown = widget({ type = "imagebox" })
 		sc_shutdown.image = image(panel .. "shutdown.png")
-		function showShutdownMenu(menu, args)
-			if not menu then
-				menu = {}
-			end
-			menu.items = mysystemmenu
 
-			local m = awful.menu.new(menu)
-			m:show(args)
-			return m
-		end
 		sc_shutdown:buttons(awful.util.table.join(awful.button({ }, 1, function () instance = showShutdownMenu({ width=110 }) end)))
 		sc_shutdown_t = awful.tooltip({ objects = { sc_shutdown },})
 		sc_shutdown_t:set_text(" quit ")
@@ -935,50 +974,49 @@ for s = 1, screen.count() do
 	------ MPD
 	if useMpd then
 
-		panelinmusic = widget({ type = "imagebox" })
-		panelinmusic.image = image(panel .. "panelinmusic.png")
-
-		paneloutmusic = widget({ type = "imagebox" })
-		paneloutmusic.image = image(panel .. "paneloutmusic.png")
-
 		music_play = awful.widget.launcher({
 			image = image(panel .. "play.png"),
 			command = "ncmpcpp toggle && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 		})
+		music_play_t = awful.tooltip( { objects = { music_play },})
+		music_play_t:set_text(" play ")
 
 		music_pause = awful.widget.launcher({
 			image = image(panel .. "pause.png"),
 			command = "ncmpcpp toggle && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 		})
-		music_pause.visible = false
+		music_pause_t = awful.tooltip( { objects = { music_pause },})
+		music_pause_t:set_text(" pause ")
 
 		music_stop = awful.widget.launcher({
 			image = image(panel .. "stop.png"),
 			command = "ncmpcpp stop && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 		})
+		music_stop_t = awful.tooltip( { objects = { music_stop },})
+		music_stop_t:set_text(" stop ")
 
 		music_prev = awful.widget.launcher({
 			image = image(panel .. "prev.png"),
 			command = "ncmpcpp prev && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 		})
+		music_prev_t = awful.tooltip( { objects = { music_prev },})
+		music_prev_t:set_text(" prev ")
 
 		music_next = awful.widget.launcher({
 			image = image(panel .. "next.png"),
 			command = "ncmpcpp next && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
 		})
-		maxlength = 15
+		music_next_t = awful.tooltip( { objects = { music_next },})
+		music_next_t:set_text(" next ")
 
-		mpdicon = awful.widget.launcher({
-			image = image(panel .. "note.png"),
-			command = "ncmpcpp toggle && echo -e 'vicious.force({ mpdwidget, })' | awesome-client"
-		})
 
 		mpdwidget = widget({ type = "textbox" })
 		mpdwidget.width = widthMpd
+
 		vicious.register(mpdwidget, vicious.widgets.mpd,
 		function(widget, args)
 
-			local string =  args["{Artist}"] .. " - " .. args["{Title}"] .. "     "
+			local string =  "<span color='" .. blue .. "'>" .. args["{Artist}"] .. " - " .. args["{Title}"] .. "</span>"
 
 			-- play
 			if (args["{state}"] == "Play") then
@@ -988,9 +1026,6 @@ for s = 1, screen.count() do
 				music_prev.visible = true
 				music_stop.visible = true
 				mpdwidget.visible = true
-				center.visible = false
-				panelinmusic.visible = true
-				paneloutmusic.visible = true
 				return string
 
 				-- pause
@@ -1002,9 +1037,6 @@ for s = 1, screen.count() do
 				music_prev.visible = true
 				music_stop.visible = true
 				mpdwidget.visible = true
-				center.visible = false
-				panelinmusic.visible = true
-				paneloutmusic.visible = true
 				return string
 
 				-- stop
@@ -1015,9 +1047,6 @@ for s = 1, screen.count() do
 				music_prev.visible = false
 				music_stop.visible = false
 				mpdwidget.visible = false
-				center.visible = true
-				panelinmusic.visible = false
-				paneloutmusic.visible = false
 				return string
 
 			end
@@ -1032,6 +1061,7 @@ for s = 1, screen.count() do
 	mywibox[s] = awful.wibox({ position = "top", screen = s, height = barheight})
 
 	mywibox[s].widgets = {
+		-- left
 		{
 			mylauncher,
 			spacer,
@@ -1040,13 +1070,19 @@ for s = 1, screen.count() do
 			mylayoutbox[s],
 			spacer,
 			debugger,
+			mypromptbox[s],
+			spacer,
+			mpdwidget,
+			layout = awful.widget.layout.horizontal.leftright,
+		},
 
-			center,
-
+		-- center
+		{
 			panelin,
 			sc_browser,
 			sc_pcmanfm,
 			sc_geany,
+			sc_firefox,
 			sc_pacman,
 			sc_music,
 			sc_jabber,
@@ -1056,56 +1092,45 @@ for s = 1, screen.count() do
 			sc_gimp,
 			sc_calc,
 			sc_shutdown,
-			panelout,
-
-			mypromptbox[s],
-
-			panelinmusic,
 			music_play,
 			music_pause,
 			music_stop,
 			music_prev,
 			music_next,
-			paneloutmusic,
-
-			mpdwidget,
+			panelout,
 
 			layout = awful.widget.layout.horizontal.leftright,
 		},
 
+		-- right
+		{
+			mytextclock,
+			my_cal.widget,
 
-		mytextclock,
-		my_cal.widget,
+			mybat,
+			mybaticon,
 
-		mybat,
-		mybaticon,
+			myvol,
+			myvolicon,
 
-		myvol,
-		myvolicon,
+			mymem,
+			mymemicon,
 
-		mymem,
-		mymemicon,
+			mycpuload,
+			mycpuloadicon,
 
-		mycpuload,
-		mycpuloadicon,
+			netwidget,
+			neticon,
 
-		netwidget,
-		neticon,
+			wlanwidget,
+			wlanicon,
 
-		wlanwidget,
-		wlanicon,
+			mygmail,
+			mygmailicon,
 
-		--	weatherwidget,
-		--	weathericon,
-
-
-		mygmail,
-		mygmailicon,
-
-		spacer,
-
-
-		layout = awful.widget.layout.horizontal.rightleft
+			layout = awful.widget.layout.horizontal.rightleft
+		},
+		layout = horizontal.center
 	}
 
 
@@ -1174,7 +1199,8 @@ end),
 awful.key({ "Control" }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
 awful.key({ modkey, "Control" }, "r", awesome.restart),
 awful.key({ }, "F1", function () exec("dwb") end),
-awful.key({ }, "F8", function () exec("chromium --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
+awful.key({ }, "F8", function () run_or_raise("firefox", { class = "Firefox"} ) end),
+--awful.key({ }, "F8", function () exec("chromium --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
 awful.key({ "Control" }, "F8", function () exec("chromium --incognito --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
 awful.key({}, "#160", function () exec("slimlock") end),
 awful.key({}, "#150", function () sexec("sudo pm-suspend") end),

@@ -1,0 +1,20 @@
+#for tasklist mod ([f], [m], etc)
+sudo rm /usr/share/awesome/lib/awful/widget/tasklist.lua
+sudo ln -s ~/.config/awesome/tasklist.lua /usr/share/awesome/lib/awful/widget/tasklist.lua
+
+
+#to dodge compton-git shadows on bottompanel on maximized state
+sudo rm /usr/share/awesome/lib/awful/layout/suit/max.lua
+sudo ln -s ~/.config/awesome/max.lua /usr/share/awesome/lib/awful/layout/suit/max.lua
+
+
+#for useless gaps
+
+sudo rm /usr/share/awesome/lib/awful/layout/suit/spiral.lua
+sudo ln -s ~/.config/awesome/spiral.lua /usr/share/awesome/lib/awful/layout/suit/spiral.lua
+
+sudo rm /usr/share/awesome/lib/awful/layout/suit/fair.lua
+sudo ln -s ~/.config/awesome/fair.lua /usr/share/awesome/lib/awful/layout/suit/fair.lua
+
+sudo rm /usr/share/awesome/lib/awful/layout/suit/tile.lua
+sudo ln -s ~/.config/awesome/tile.lua /usr/share/awesome/lib/awful/layout/suit/tile.lua
