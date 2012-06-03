@@ -307,7 +307,7 @@ end)
 
 for s = 1, screen.count() do
 	-- Create a promptbox for each screen
-	mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright, prompt = "<span color='" .. blue .. "'>></span><span color='" .. grey .. "'>></span><span color='" .. white .. "'>></span> " })
+	mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
 	-- Create an imagebox widget which will contains an icon indicating which layout we're using.
 	-- We need one layoutbox per screen.
 	mylayoutbox[s] = awful.widget.layoutbox(s)
@@ -818,78 +818,12 @@ for s = 1, screen.count() do
 		sc_pcmanfm_t = awful.tooltip({ objects = { sc_pcmanfm },})
 		sc_pcmanfm_t:set_text(" pcmanfm ")
 
-		sc_browser = widget({ type = "imagebox" })
-		sc_browser.image = image(panel .. "firefox.png")
-		sc_browser:buttons(awful.util.table.join(
-		awful.button({ }, 1, function () run_or_raise("dwb", { class = "Dwb" }) end),
-		awful.button({ }, 3, function () instance = showBrowserBookmarkMenu({ width=400 }) end )
-		))
-		sc_browser_t = awful.tooltip({ objects = { sc_browser },})
-		sc_browser_t:set_text(" dwb ")
-
 		function showPlacesMenu(menu, args)
 			if not menu then
 				menu = {}
 			end
 			menu.items = myfoldermenu
 
-			local m = awful.menu.new(menu)
-			m:show(args)
-			return m
-		end
-
-		function getBrowserBookmarks()
-			local dwbbookmarks = io.open("/home/intrntbrn/.config/dwb/default/bookmarks")
-			local bm = dwbbookmarks:read("*all")
-			dwbbookmarks:close()
-			local bmfield = { }
-			bmfield = bm:split("\n")
-			local mytable = { }
-			mymenu = { }
-
-			for i,v in ipairs(bmfield) do
-				table.insert(mytable, bmfield[i]:split(" "))
-				mytable[i][2], mytable[i][1] = bmfield[i]:match("(.-)%s+(.*)")
-				table.insert(mymenu, { mytable[i][1], function () run_or_raise(browser, { class = "Dwb" }) sexec(browser .. " -n " .. mytable[i][2]) end })
-			end
-
-			return mymenu
-		end
-
-		function getGtkBookmarks()
-			local gtkbookmarks = io.open("/home/intrntbrn/.gtk-bookmarks")
-			local bm = gtkbookmarks:read("*all")
-			gtkbookmarks:close()
-			local bmfield = { }
-			bmfield = bm:split("\n")
-			local mytable = { }
-			mygtkmenu = { }
-
-			for i,v in ipairs(bmfield) do
-				table.insert(mytable, bmfield[i]:split(" "))
-				mytable[i][2], mytable[i][1] = bmfield[i]:match("(.-)%s+(.*)")
-				string.gsub(mytable[i][2], "file://", "")
-				table.insert(mygtkmenu, { mytable[i][1], function () sexec(fm .. mytable[i][2]) end })
-			end
-
-			return mygtkmenu
-		end
-
-		function showGtkBookmarkMenu(menu, args)
-			if not menu then
-				menu = {}
-			end
-			menu.items = getGtkBookmarks()
-			local m = awful.menu.new(menu)
-			m:show(args)
-			return m
-		end
-
-		function showBrowserBookmarkMenu(menu, args)
-			if not menu then
-				menu = {}
-			end
-			menu.items = getBrowserBookmarks()
 			local m = awful.menu.new(menu)
 			m:show(args)
 			return m
@@ -1038,13 +972,13 @@ for s = 1, screen.count() do
 			mytaglist[s],
 			spacer,
 			mylayoutbox[s],
+			mypromptbox[s],
 			spacer,
 			debugger,
 
 			center,
 
 			panelin,
-			sc_browser,
 			sc_pcmanfm,
 			sc_geany,
 			sc_pacman,
@@ -1057,8 +991,6 @@ for s = 1, screen.count() do
 			sc_calc,
 			sc_shutdown,
 			panelout,
-
-			mypromptbox[s],
 
 			panelinmusic,
 			music_play,
@@ -1171,11 +1103,10 @@ function ()
 end),
 
 -- Standard program
-awful.key({ "Control" }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
+awful.key({ "Control"	 }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
 awful.key({ modkey, "Control" }, "r", awesome.restart),
 awful.key({ }, "F1", function () exec("dwb") end),
 awful.key({ }, "F8", function () exec("chromium --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
-awful.key({ "Control" }, "F8", function () exec("chromium --incognito --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
 awful.key({}, "#160", function () exec("slimlock") end),
 awful.key({}, "#150", function () sexec("sudo pm-suspend") end),
 

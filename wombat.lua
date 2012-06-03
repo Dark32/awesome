@@ -42,18 +42,18 @@ beautiful.init("/home/intrntbrn/.config/awesome/theme.lua")
 barheight = 16
 
 -- colors
-blue 		= "#426797"
-white 		= "#ffffff"
-black 		= "#0a0a0b"
-red 		= "#ea3da3"
-green 		= "#16a712"
-grey 		= "#6d7c80"
+blue 		= "#88b8f6"
+white 		= "#e3e0d7"
+black 		= "#242424"
+red 		= "#E5786D"
+green 		= "#95e454"
+grey 		= "#9C998E"
 
 -- path
-icons		= "/home/intrntbrn/icons/newblue/"
+icons		= "/home/intrntbrn/icons/wombat/"
 iconsmenu   	= "/home/intrntbrn/icons/menu/"
 iconsclient 	= "/home/intrntbrn/icons/client/"
-panel 		= "/home/intrntbrn/icons/panel/whiteblue/"
+panel 		= "/home/intrntbrn/icons/panel/transblue/"
 
 -- std programs
 terminal	= "urxvt"
@@ -71,11 +71,11 @@ winkey		= "Mod4"
 altkey		= "Mod1"
 
 -- mixed
-tagseparator 	= false
+tagseparator 	= true
 space 		= 40
 widthMpd 	= 340
 useMpd 		= true
-usePanel	= true
+usePanel	= false
 gmailiconchange = nil
 
 -- layouts
@@ -98,7 +98,7 @@ layouts =
 tags = {
 	names  = { "sys", "web", "doc", "dev", "msg", "foo"},
 	layout = { layouts[8], layouts[10], layouts[8], layouts[8], layouts[2], layouts[8]},
-	icons  = {nil, icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png"}
+	icons  = {nil, icons .. "arrow_green.png", icons .. "arrow_blue.png", icons .. "arrow_yellow.png", icons .. "arrow_red.png", icons .. "arrow_green.png"}
 }
 
 
@@ -307,7 +307,7 @@ end)
 
 for s = 1, screen.count() do
 	-- Create a promptbox for each screen
-	mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright, prompt = "<span color='" .. blue .. "'>></span><span color='" .. grey .. "'>></span><span color='" .. white .. "'>></span> " })
+	mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright })
 	-- Create an imagebox widget which will contains an icon indicating which layout we're using.
 	-- We need one layoutbox per screen.
 	mylayoutbox[s] = awful.widget.layoutbox(s)
@@ -343,7 +343,7 @@ for s = 1, screen.count() do
 
 	---------- textclock
 	mytextclock = awful.widget.textclock({ align = "right",}, "%H:%M", 60)
-	mytextclock.width = 32
+	mytextclock.width = 40
 
 
 	---------- google calendar
@@ -388,11 +388,11 @@ for s = 1, screen.count() do
 			gcalcinfo = gcalcinfo:match( "(.-)%s*$") -- removed trailing whitespace
 			today = os.date("%A, %d. %B") .. "\n"
 			gcal = naughty.notify({
-				title = today,
+				title = "<span color='" .. blue .. "'>" .. today .. "</span>",
 				text = gcalcinfo,
 				timeout = 0,
 				fg = white,
-				bg = blue,
+				bg = black,
 				screen = mouse.screen,
 				ontop = true,
 				border_color = black,
@@ -475,8 +475,8 @@ for s = 1, screen.count() do
 			neticon.visible = true
 
 			wlanwidget_t:set_text(
-			"<span color='" .. white .. "'> SSID: </span>" .. "<span color='" .. black .. "'>" .. args["{ssid}"] .. " </span>\n" ..
-			"<span color='" .. white .. "'> Chan: </span>" .. "<span color='" .. black .. "'>" .. args["{chan}"] .. " </span>"
+			"<span color='" .. white .. "'> SSID: </span>" .. "<span color='" .. blue .. "'>" .. args["{ssid}"] .. " </span>\n" ..
+			"<span color='" .. white .. "'> Chan: </span>" .. "<span color='" .. blue .. "'>" .. args["{chan}"] .. " </span>"
 			)
 			return round(((args["{link}"] *100) / 70), 0) .. "%"
 
@@ -534,12 +534,12 @@ for s = 1, screen.count() do
 	mycpu_t = awful.tooltip({ objects = { mycpuloadicon },})
 	mycpuloadicon:add_signal("mouse::enter", function()
 		mycpu_t:set_text(
-		"<span color='" .. white .. "'> CPU 0:</span> <span color='" .. black .. "'>" .. cpufreq("cpu0") .. " Mhz</span> \n" ..
-		"<span color='" .. white .. "'> CPU 1:</span> <span color='" .. black .. "'>" .. cpufreq("cpu1") .. " Mhz</span> \n" ..
-		"<span color='" .. white .. "'> CPU 2:</span> <span color='" .. black .. "'>" .. cpufreq("cpu2") .. " Mhz</span> \n" ..
-		"<span color='" .. white .. "'> CPU 3:</span> <span color='" .. black .. "'>" .. cpufreq("cpu3") .. " Mhz</span> \n" ..
-		"<span color='" .. white .. "'> Fan:</span> <span color='" .. black .. "'>\t" .. fan() .. " RPM</span> \n" ..
-		"<span color='" .. white .. "'> Temp:</span> <span color='" .. black .. "'>\t" .. cputemp() .. " °C</span> ")
+		"<span color='" .. white .. "'> CPU 0:</span> <span color='" .. blue .. "'>" .. cpufreq("cpu0") .. " Mhz</span> \n" ..
+		"<span color='" .. white .. "'> CPU 1:</span> <span color='" .. blue .. "'>" .. cpufreq("cpu1") .. " Mhz</span> \n" ..
+		"<span color='" .. white .. "'> CPU 2:</span> <span color='" .. blue .. "'>" .. cpufreq("cpu2") .. " Mhz</span> \n" ..
+		"<span color='" .. white .. "'> CPU 3:</span> <span color='" .. blue .. "'>" .. cpufreq("cpu3") .. " Mhz</span> \n" ..
+		"<span color='" .. white .. "'> Fan:</span> <span color='" .. blue .. "'>\t" .. fan() .. " RPM</span> \n" ..
+		"<span color='" .. white .. "'> Temp:</span> <span color='" .. blue .. "'>\t" .. cputemp() .. " °C</span> ")
 	end)
 
 
@@ -646,9 +646,9 @@ for s = 1, screen.count() do
 	mybat_t = awful.tooltip({ objects = { mybaticon },})
 	mybaticon:add_signal("mouse::enter", function()
 		mybat_t:set_text(
-		"<span color='" .. white .. "'> Status:  </span>" .. "<span color='" .. black .. "'>" .. batstate() .. "</span> \n" ..
-		"<span color='" .. white .. "'> Usage:   </span>" .. "<span color='" .. black .. "'>" .. watt() .. "</span> \n" ..
-		"<span color='" .. white .. "'> Remain:  </span>" .. "<span color='" .. black .. "'>" .. remaining() .. "</span> "
+		"<span color='" .. white .. "'> Status:  </span>" .. "<span color='" .. blue .. "'>" .. batstate() .. "</span> \n" ..
+		"<span color='" .. white .. "'> Usage:   </span>" .. "<span color='" .. blue .. "'>" .. watt() .. "</span> \n" ..
+		"<span color='" .. white .. "'> Remain:  </span>" .. "<span color='" .. blue .. "'>" .. remaining() .. "</span> "
 		) end)
 
 	mybat = widget({ type = "textbox" })
@@ -683,7 +683,7 @@ for s = 1, screen.count() do
 				position = "top_right",
 				timeout = 1,
 				fg=white,
-				bg=blue,
+				bg=black,
 				screen = mouse.screen,
 				ontop = true,
 			})
@@ -724,11 +724,11 @@ for s = 1, screen.count() do
 			if (gmailcount < args["{count}"]) then
 				naughty.notify({
 					text = "\n" .. args["{subject}"],
-					title = "<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails: </span><span color='" .. black .. "'>" .. "(".. guser .. ")" .. "</span>",
+					title = "<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails: </span><span color='" .. blue .. "'>" .. "(".. guser .. ")" .. "</span>",
 					timeout = 5,
 					icon = iconsclient .. "mailnoti.png",
 					fg=white,
-					bg=blue,
+					bg=black,
 					border_color = black,
 					position = "bottom_right",
 					screen = mouse.screen,
@@ -737,8 +737,8 @@ for s = 1, screen.count() do
 				})
 			end
 			mygmail_t:set_text(
-			"<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails: </span><span color='" .. black .. "'>" .. "(".. guser .. ")" .. "</span>\n" ..
-			"<span color='" .. black .. "'>" .. args["{subject}"] .. "</span>"
+			"<span color='" .. white .. "'>" .. args["{count}"] .. " unread Mails: </span><span color='" .. blue .. "'>" .. "(".. guser .. ")" .. "</span>\n" ..
+			"<span color='" .. blue .. "'>" .. args["{subject}"] .. "</span>"
 			)
 
 		else
@@ -755,7 +755,7 @@ for s = 1, screen.count() do
 	mygmailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec(browser .. "https://mail.google.com", false) end)))
 
 	---------- htop popup on mymemicon
-	blingbling.popups.htop(mymemicon, { title_color = white, user_color = black, root_color = black, terminal = "urxvt"})
+	blingbling.popups.htop(mymemicon, { title_color = white, user_color = blue, root_color = blue, terminal = "urxvt"})
 
 	---------- netstat popup on wlanicon
 	--blingbling.popups.netstat(wlanicon,{ title_color = blue, established_color= green, listen_color = white})
@@ -818,78 +818,12 @@ for s = 1, screen.count() do
 		sc_pcmanfm_t = awful.tooltip({ objects = { sc_pcmanfm },})
 		sc_pcmanfm_t:set_text(" pcmanfm ")
 
-		sc_browser = widget({ type = "imagebox" })
-		sc_browser.image = image(panel .. "firefox.png")
-		sc_browser:buttons(awful.util.table.join(
-		awful.button({ }, 1, function () run_or_raise("dwb", { class = "Dwb" }) end),
-		awful.button({ }, 3, function () instance = showBrowserBookmarkMenu({ width=400 }) end )
-		))
-		sc_browser_t = awful.tooltip({ objects = { sc_browser },})
-		sc_browser_t:set_text(" dwb ")
-
 		function showPlacesMenu(menu, args)
 			if not menu then
 				menu = {}
 			end
 			menu.items = myfoldermenu
 
-			local m = awful.menu.new(menu)
-			m:show(args)
-			return m
-		end
-
-		function getBrowserBookmarks()
-			local dwbbookmarks = io.open("/home/intrntbrn/.config/dwb/default/bookmarks")
-			local bm = dwbbookmarks:read("*all")
-			dwbbookmarks:close()
-			local bmfield = { }
-			bmfield = bm:split("\n")
-			local mytable = { }
-			mymenu = { }
-
-			for i,v in ipairs(bmfield) do
-				table.insert(mytable, bmfield[i]:split(" "))
-				mytable[i][2], mytable[i][1] = bmfield[i]:match("(.-)%s+(.*)")
-				table.insert(mymenu, { mytable[i][1], function () run_or_raise(browser, { class = "Dwb" }) sexec(browser .. " -n " .. mytable[i][2]) end })
-			end
-
-			return mymenu
-		end
-
-		function getGtkBookmarks()
-			local gtkbookmarks = io.open("/home/intrntbrn/.gtk-bookmarks")
-			local bm = gtkbookmarks:read("*all")
-			gtkbookmarks:close()
-			local bmfield = { }
-			bmfield = bm:split("\n")
-			local mytable = { }
-			mygtkmenu = { }
-
-			for i,v in ipairs(bmfield) do
-				table.insert(mytable, bmfield[i]:split(" "))
-				mytable[i][2], mytable[i][1] = bmfield[i]:match("(.-)%s+(.*)")
-				string.gsub(mytable[i][2], "file://", "")
-				table.insert(mygtkmenu, { mytable[i][1], function () sexec(fm .. mytable[i][2]) end })
-			end
-
-			return mygtkmenu
-		end
-
-		function showGtkBookmarkMenu(menu, args)
-			if not menu then
-				menu = {}
-			end
-			menu.items = getGtkBookmarks()
-			local m = awful.menu.new(menu)
-			m:show(args)
-			return m
-		end
-
-		function showBrowserBookmarkMenu(menu, args)
-			if not menu then
-				menu = {}
-			end
-			menu.items = getBrowserBookmarks()
 			local m = awful.menu.new(menu)
 			m:show(args)
 			return m
@@ -1038,13 +972,13 @@ for s = 1, screen.count() do
 			mytaglist[s],
 			spacer,
 			mylayoutbox[s],
+			mypromptbox[s],
 			spacer,
 			debugger,
 
 			center,
 
 			panelin,
-			sc_browser,
 			sc_pcmanfm,
 			sc_geany,
 			sc_pacman,
@@ -1057,8 +991,6 @@ for s = 1, screen.count() do
 			sc_calc,
 			sc_shutdown,
 			panelout,
-
-			mypromptbox[s],
 
 			panelinmusic,
 			music_play,
@@ -1171,11 +1103,10 @@ function ()
 end),
 
 -- Standard program
-awful.key({ "Control" }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
+awful.key({ "Control"	 }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
 awful.key({ modkey, "Control" }, "r", awesome.restart),
 awful.key({ }, "F1", function () exec("dwb") end),
 awful.key({ }, "F8", function () exec("chromium --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
-awful.key({ "Control" }, "F8", function () exec("chromium --incognito --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
 awful.key({}, "#160", function () exec("slimlock") end),
 awful.key({}, "#150", function () sexec("sudo pm-suspend") end),
 
@@ -1435,7 +1366,7 @@ function volnoti()
 		icon = volnotiicon,
 		position = "top_right",
 		fg=black,
-		bg=blue,
+		bg=black,
 		border_color = blue,
 		timeout=1,
 		width = 256,
@@ -1453,7 +1384,7 @@ function brightnoti()
 		icon = brightnotiicon,
 		position = "top_right",
 		fg=black,
-		bg=blue,
+		bg=black,
 		border_color = blue,
 		timeout=1,
 		width = 256,
@@ -1509,7 +1440,7 @@ function mcabber_event_hook(kind, direction, jid, msg)
 			if (awful.tag.selected(mouse.screen).name ~= "msg") then
 				naughty.notify{
 					fg=black,
-					bg=blue,
+					bg=black,
 					timeout=5,
 					width = 255,
 					position = "bottom_right",

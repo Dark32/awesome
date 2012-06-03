@@ -14,6 +14,7 @@ done things:
 - added notifications for brightness and volume using just naughty (github.com/intrntbrn/noti/)
 - added notification for jabber msgs when iam not viewing jabber (other tag) using mcabbers hook function.
 - added icons for common terminal apps (ncmpcpp, mcabber, weechat) at tasklist.lua
+- added bookmark read functions to create menues showing my dwb- (best browser) and gtk-bookmarks
 
 widgets:
 - mpd widget displaying current song (only visible wenn mpd is playing)
@@ -26,5 +27,5 @@ widgets:
 - battery widget displays current battery status, image changes on different load/status(disc/charging). also notifies on low battery (<10%) and auto suspends on <=3%
   tooltip shows current status (disc/charging), current usage in watt, remaining disc/charging time
 - textclock widgets display H:M, click on the icons opens a calendar (using blingbling lib)
-  textclock tooltip shows todays date and google calendar data by using gcalcli (reading gmail logins from ~/.netrc like gmail widget
+  textclock tooltip shows todays date and google calendar data by using gcalcli (reading gmail logins from ~/.netrc like gmail widget)
 
