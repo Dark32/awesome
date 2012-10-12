@@ -18,3 +18,5 @@ sudo ln -s ~/.config/awesome/fair.lua /usr/share/awesome/lib/awful/layout/suit/f
 
 sudo rm /usr/share/awesome/lib/awful/layout/suit/tile.lua
 sudo ln -s ~/.config/awesome/tile.lua /usr/share/awesome/lib/awful/layout/suit/tile.lua
+
+#horizontal.lua doesnt need a symlink (dont replace the original in /usr/...!) - just keep it there and require it in rc.lua

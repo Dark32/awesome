@@ -70,10 +70,10 @@ local function tile_group(cls, wa, orientation, fact, group)
         unused = unused - geom[height]
         total_fact = total_fact - fact[i]
         used_size = math.max(used_size, geom[width])
- 
+
 
         -- Useless gap.
-        useless_gap = 4
+        useless_gap = 3
         if useless_gap > 0
         then
             -- Top and left clients are shrinked by two steps and

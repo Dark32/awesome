@@ -16,10 +16,10 @@ local function fmax(p, fs)
     local area
     if fs then
         area = p.geometry
-        area.height = area.height - 3 -- to dodge shadows from compton
+        area.height = area.height - 4 -- to dodge shadows from compton
     else
         area = p.workarea
-        area.height = area.height - 3 -- to dodge shadows from compton
+        area.height = area.height - 4 -- to dodge shadows from compton
     end
 
     for k, c in pairs(p.clients) do

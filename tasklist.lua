@@ -25,7 +25,7 @@ module("awful.widget.tasklist")
 -- Public structures
 label = {}
 
-icons = "/usr/share/awesome/icons/client/"
+icons = "/home/intrntbrn/icons/client/mono/"
 
 local function tasklist_update(w, buttons, label, data, widgets)
     local clients = capi.client.get()
@@ -93,10 +93,14 @@ function new(label, buttons)
 end
 
 -- custom icons
-mcabber = capi.image(icons .. "chat.png")
-geany = capi.image(icons .. "editor.png")
-ncmpcpp = capi.image(icons .. "music.png")
+mcabber = capi.image(icons .. "mcabber.png")
+geany = capi.image(icons .. "geany.png")
+ncmpcpp = capi.image(icons .. "ncmpcpp.png")
 weechat = capi.image(icons .. "irc.png")
+dwb = capi.image(icons .. "dwb.png")
+eclipse = capi.image(icons .. "eclipse.png")
+netbeans = capi.image(icons .. "netbeans.png")
+pdf = capi.image(icons .. "pdf.png")
 
 -- color of client states
 state_focus = "#0a0a0b"
@@ -179,6 +183,10 @@ local function widget_tasklist_label_common(c, args)
 
     text = text .. "</span>" -- close fontspan
 
+    if (c.class == "Dwb") then
+    return text, bg, nil, dwb
+    end
+
     if (c.class == "Geany") then
     return text, bg, nil, geany
     end
@@ -191,9 +199,23 @@ local function widget_tasklist_label_common(c, args)
     return text, bg, nil, ncmpcpp
     end
 
+    if (c.class == "Epdfview") then
+    return text, bg, nil, pdf
+    end
+
+    if (c.class == "Eclipse") then
+    return text, bg, nil, eclipse
+    end
+
+    if (c.class == "NetBeans IDE 7.1.2") then
+    return text, bg, nil, netbeans
+    end
+
     if (name == "weechat 0.3.7") then
     return text, bg, nil, weechat
     end
+
+
 
     return text, bg, nil, c.icon
 end
