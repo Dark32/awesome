@@ -15,6 +15,7 @@ done things:
 - added notification for jabber msgs when iam not viewing jabber (other tag) using mcabbers hook function.
 - added icons for common terminal apps (ncmpcpp, mcabber, weechat) at tasklist.lua
 - added bookmark read functions to create menues showing my dwb- (best browser) and gtk-bookmarks
+- on a dualscreensetup the 2th screen shows only a tasklist and has one tag (only a tray)
 
 widgets:
 - mpd widget displaying current song (only visible wenn mpd is playing)
