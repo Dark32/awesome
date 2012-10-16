@@ -116,15 +116,26 @@ tags = {
 	icons  = {nil, icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png"}
 }
 
+tags2 = {
+	names  = { "nil" },
+	layout = { layouts[10] },
+}
+
+
+
 for s = 1, screen.count() do
 
-	tags[s] = awful.tag(tags.names, s, tags.layout)
+	if (s ~= 1 and dualscreenmod) then
+		tags[s] = awful.tag(tags2.names, s, tags2.layout)
+	else
 
-	if tagseparator then
-		for i, t in ipairs(tags[s]) do
-			awful.tag.seticon(tags.icons[i], t)
+		tags[s] = awful.tag(tags.names, s, tags.layout)
+
+		if tagseparator then
+			for i, t in ipairs(tags[s]) do
+				awful.tag.seticon(tags.icons[i], t)
+			end
 		end
-
 		-- master factor
 		awful.tag.setmwfact(0.70, tags[s][2]) -- doc
 		awful.tag.setmwfact(0.70, tags[s][3]) -- dev
@@ -535,7 +546,7 @@ function add_gcal()
 			timeout = 0,
 			fg = white,
 			bg = blue,
-			screen = s,
+			screen = mouse.screen,
 			ontop = true,
 			border_color = black,
 		})
@@ -791,7 +802,7 @@ mybaticon:add_signal("mouse::enter", function()
 				fg=black,
 				bg=red,
 				ontop = true,
-				screen = s,
+				screen = mouse.screen,
 				run = function () sexec("sudo pm-suspend") end
 			})
 			shdown()
@@ -807,7 +818,7 @@ mybaticon:add_signal("mouse::enter", function()
 				timeout = 1,
 				fg=white,
 				bg=blue,
-				screen = s,
+				screen = mouse.screen,
 				ontop = true,
 			})
 
@@ -855,7 +866,7 @@ mybaticon:add_signal("mouse::enter", function()
 					bg=blue,
 					border_color = black,
 					position = "bottom_right",
-					screen = s,
+					screen = mouse.screen,
 					ontop = true,
 					run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
 				})
