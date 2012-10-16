@@ -20,6 +20,7 @@ widgets:
 - mpd widget displaying current song (only visible wenn mpd is playing)
 - gmail widget displays unread inbox count, using naughty to notify new mails. tooltip popup shows mailcount and subjects from all unread mails (edited vicious/gmail.lua)
 - wifi widget displays link quality, tooltip popup shows SSID and channel.
+- fs widget displays my root usage in %. tooltip popup shows "df -h".
 - net downstream widgets shows the current downstream in kb/s. (only visible when online)
 - cpu widgets shows current cpu load, tooltip popup shows the freq of all cpu cores, temp and fan speed
 - ram widget shows memory load, tooltip shows a htop popup (using blingbling lib)

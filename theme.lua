@@ -10,6 +10,7 @@ bluewallpaper  						= menu .. "bluewallpaper.png"
 bluewallpaperarch 					= menu .. "bluewallpaper_arch.png"
 wallpapernintendo 					= menu .. "nintendo_arch.png"
 bluebreeze						= menu .. "bluebreeze.png"
+colorfull						= menu .. "colorfull.jpg"
 
 wallpaper						= bluewallpaper
 

@@ -1,10 +1,6 @@
 -- rc.lua by intrntbrn
 -- www.github.com/intrntbrn
 
-
---@TODO
--- df state widget
-
 require("awful")
 require("awful.autofocus")
 require("awful.rules")
@@ -16,8 +12,8 @@ require("revelation")
 require("horizontal") -- to get center layout for wiboxes
 
 
-	-- startup error
-	do
+-- startup error
+do
 	local in_error = false
 	awesome.add_signal("debug::error", function (err)
 		-- Make sure we don't go into an endless error loop
@@ -25,21 +21,21 @@ require("horizontal") -- to get center layout for wiboxes
 		in_error = true
 
 		naughty.notify({ preset = naughty.config.presets.critical,
-			title = "time to debug",
-			text = err,
-			screen = mouse.screen,
-			timeout = 0 })
+		title = "time to debug",
+		text = err,
+		screen = mouse.screen,
+		timeout = 0 })
 		in_error = false
 	end)
-	end
+end
 
 
-	-- error handling
+-- error handling
 if awesome.startup_errors then
 	naughty.notify({ preset = naughty.config.presets.critical,
-		title = "Oops, there were errors during startup!",
-		screen = mouse.screen,
-		text = awesome.startup_errors })
+	title = "Oops, there were errors during startup!",
+	screen = mouse.screen,
+	text = awesome.startup_errors })
 end
 
 
@@ -82,6 +78,7 @@ fontmpd		= "MonteCarlo 8"
 fontnoti	= "MonteCarlo 8"
 
 -- mixed
+dualscreenmod 	= true
 tagseparator 	= true
 space 		= 32
 widthMpd 	= 340
@@ -89,12 +86,12 @@ useMpd 		= true
 usePanel	= true
 gmailiconchange = nil
 laptop		= true
-muc_nick 	= "intrntbrn" -- own mcabber nick
+muc_nick 	= "intrntbrn"
 
 -- prompt
 myprompt	= "<span color='" .. blue .. "'>></span>" ..
-		"<span color='" .. grey .. "'>></span>" ..
-		"<span color='" .. white .. "'>> </span>"
+"<span color='" .. grey .. "'>></span>" ..
+"<span color='" .. white .. "'>> </span>"
 
 -- layouts
 layouts =
@@ -119,20 +116,20 @@ tags = {
 	icons  = {nil, icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png", icons .. "arrow.png"}
 }
 
-
 for s = 1, screen.count() do
+
 	tags[s] = awful.tag(tags.names, s, tags.layout)
 
 	if tagseparator then
 		for i, t in ipairs(tags[s]) do
 			awful.tag.seticon(tags.icons[i], t)
 		end
-	end
 
-	-- master factor
-	awful.tag.setmwfact(0.70, tags[s][2]) -- doc
-	awful.tag.setmwfact(0.70, tags[s][3]) -- dev
-	awful.tag.setmwfact(0.70, tags[s][4]) -- msg
+		-- master factor
+		awful.tag.setmwfact(0.70, tags[s][2]) -- doc
+		awful.tag.setmwfact(0.70, tags[s][3]) -- dev
+		awful.tag.setmwfact(0.70, tags[s][4]) -- msg
+	end
 end
 
 -- menues
@@ -168,9 +165,9 @@ function showNavMenu(menu, args)
 	c = capi.client.focus
 
 	local mynav = {
-		{ "to master", function () c:swap(awful.client.getmaster(1)) end, "/home/intrntbrn/icons/client/tomaster.png" },
-		{ "maximize", function () c.maximized_horizontal = not c.maximized_horizontal c.maximized_vertical = not c.maximized_vertical end, "/home/intrntbrn/icons/client/maximize.png" },
-		{ "close", function ()  c:kill() end, "/home/intrntbrn/icons/client/close.png" },
+		{ "to master", function () c:swap(awful.client.getmaster(1)) end, iconsclient .. "tomaster.png" },
+		{ "maximize", function () c.maximized_horizontal = not c.maximized_horizontal c.maximized_vertical = not c.maximized_vertical end, iconsclient .. "maximize.png" },
+		{ "close", function ()  c:kill() end, iconsclient .. "close.png" },
 	}
 	menu.items = mynav
 
@@ -222,7 +219,6 @@ function getGtkBookmarks()
 end
 
 -- dwb bookmarks menu
-
 function showBrowserBookmarkMenu(menu, args)
 	if not menu then
 		menu = {}
@@ -329,9 +325,9 @@ mygraphicsmenu = {
 	{ "Feh", function () sexec("feh") end},
 }
 
--- @TODO
 myappmenu = {
 	{ "Powertop", terminal .. " -e powertop2"},
+	{ "Pavucontrol", function () sexec("pavucontrol") end},
 }
 
 myofficemenu = {
@@ -349,27 +345,27 @@ myofficemenu = {
 
 
 mymainmenu = awful.menu({ items = {
-		{ "Internet", myinternetmenu, iconsmenu .. "internet.png" },
-		{ "Multimedia", mymultimediamenu, iconsmenu .. "multimedia.png" },
-		{ "Office", myofficemenu, iconsmenu .. "office.png" },
-		{ "Development", mydevelmenu, iconsmenu .. "development.png" },
-		{ "Graphics", mygraphicsmenu, iconsmenu .. "graphics.png" },
-		{ "Other Apps", myappmenu, iconsmenu .. "otherapp.png" },
-		{ "Awesome", myawesomemenu, iconsmenu .."awesome-greenmod.png" },
-		{ "Folder", myfoldermenu, iconsmenu .."folder.png" },
-		{ " ", function () awful.menu.hide(mymainmenu) end, nil},
-		{ "Terminal", terminal },
-		{ "Browser", function () exec(browser) end},
-		{ "Filemanager", function () exec(fm .. "/home/intrntbrn/") end},
-		{ "Editor", function () sexec(guieditor) end},
-		{ " ", function () awful.menu.hide(mymainmenu) end, nil},
-		{ "Exit", mysystemmenu, iconsmenu .. "arch-red.png" },
+	{ "Internet", myinternetmenu, iconsmenu .. "internet.png" },
+	{ "Multimedia", mymultimediamenu, iconsmenu .. "multimedia.png" },
+	{ "Office", myofficemenu, iconsmenu .. "office.png" },
+	{ "Development", mydevelmenu, iconsmenu .. "development.png" },
+	{ "Graphics", mygraphicsmenu, iconsmenu .. "graphics.png" },
+	{ "Other Apps", myappmenu, iconsmenu .. "otherapp.png" },
+	{ "Awesome", myawesomemenu, iconsmenu .."awesome-greenmod.png" },
+	{ "Folder", myfoldermenu, iconsmenu .."folder.png" },
+	{ " ", function () awful.menu.hide(mymainmenu) end, nil},
+	{ "Terminal", terminal },
+	{ "Browser", function () exec(browser) end},
+	{ "Filemanager", function () exec(fm .. "/home/intrntbrn/") end},
+	{ "Editor", function () sexec(guieditor) end},
+	{ " ", function () awful.menu.hide(mymainmenu) end, nil},
+	{ "Exit", mysystemmenu, iconsmenu .. "arch-red.png" },
 
-	}
+}
 })
 
 mylauncher = awful.widget.launcher({ image = beautiful.awesome_icon,
-	menu = mymainmenu })
+menu = mymainmenu })
 
 
 -- systray
@@ -423,364 +419,361 @@ awful.button({ }, 5, function ()
 	awful.client.focus.byidx(-1)
 	if client.focus then client.focus:raise() end
 end),
- -- middle mouse: swap client to master
+-- middle mouse: swap client to master
 awful.button({ }, 2, function (c)
-if c == client.focus then
---  c.minimized = true
-client.focus = c
-c:swap(awful.client.getmaster())
-else
-if not c:isvisible() then
-awful.tag.viewonly(c:tags()[1])
-client.focus = c
-c:swap(awful.client.getmaster())
-end
--- This will also un-minimize
--- the client, if needed
-client.focus = c
-c:raise()
-c:swap(awful.client.getmaster())
-end
+	if c == client.focus then
+		--  c.minimized = true
+		client.focus = c
+		c:swap(awful.client.getmaster())
+	else
+		if not c:isvisible() then
+			awful.tag.viewonly(c:tags()[1])
+			client.focus = c
+			c:swap(awful.client.getmaster())
+		end
+		-- This will also un-minimize
+		-- the client, if needed
+		client.focus = c
+		c:raise()
+		c:swap(awful.client.getmaster())
+	end
 end)
 )
 
 
-for s = 1, screen.count() do
-	-- Create a promptbox for each screen
-	mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright, prompt = myprompt })
-	-- Create an imagebox widget which will contains an icon indicating which layout we're using.
-	-- We need one layoutbox per screen.
-	mylayoutbox[s] = awful.widget.layoutbox(s)
-	mylayoutbox[s]:buttons(awful.util.table.join(
-	awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
-	awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
-	awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
-	awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
-	-- Create a taglist widget
-	mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
+-- widgets and needed functions
 
-	-- Create a tasklist widget
-	mytasklist[s] = awful.widget.tasklist(function(c)
-		return awful.widget.tasklist.label.currenttags(c, s)
-	end, mytasklist.buttons)
-
-
-
-	-- widgets
-
-	---------- spacer
-	spacer = widget({ type = "textbox" })
-	spacer.text = " "
-
-
-	---------- debugger (for experimantal stuff)
-	debugger = widget({ type = "textbox" })
-	dbg = widget({ type = "imagebox" })
-
-	---------- textclock
-	mytextclock = awful.widget.textclock({ align = "right",}, "<span font_desc='" .. fontwidget .."'>" .. "%H:%M" .. "</span>", 60)
-	mytextclock.width = space
-
-
-	---------- google calendar
-	function string:split(sep)
-		local sep, fields = sep or " ", {}
-		local pattern = string.format("([^%s]+)", sep)
-		self:gsub(pattern, function(c) fields[#fields+1] = c
-		end)
-		return fields
+----------- round()
+function round(num, idp)
+	if (num ~= nil) then
+		local mult = 10^(idp or 0)
+		return math.floor(num * mult + 0.5) / mult
+	else
+		return 0
 	end
-
-	function getgmail()
-		local netrc = io.open("/home/intrntbrn/.netrc", "r")
-		local gmailstr = netrc:read("*all")
-		netrc:close()
-		-- remove all unimportant strings
-		gmailstr = string.gsub(string.gsub(gmailstr, "machine mail.google.com login ", ""), "password ", "")
-		gmaildata = { }
-		-- token this string
-		gmaildata = gmailstr:split(" ")
-		guser = string.gsub(gmaildata[1], "\0", "")
-		gpw = string.gsub(gmaildata[2], "\n", "")
-		return nil
-	end
-
-	getgmail()
-
-	local gcal = nil
-
-	function remove_gcal()
-		if gcal~= nil then
-			naughty.destroy(gcal)
-			gcal = nil
-		end
-	end
-
-	function add_gcal()
-		if (guser and gpw) then
-			remove_gcal()
-			local gcalcinfo = awful.util.pread("gcalcli --user " .. guser .. " --pw " .. gpw .. " --24hr --nc agenda")
-			gcalcinfo = string.gsub(gcalcinfo, "%$(%w+)", "%1")
-			gcalcinfo = gcalcinfo:match( "(.-)%s*$") -- removed trailing whitespace
-			today = os.date("%A, %d. %B") .. "\n"
-			gcal = naughty.notify({
-				title = today,
-				text = gcalcinfo,
-				timeout = 0,
-				fg = white,
-				bg = blue,
-				screen = mouse.screen,
-				ontop = true,
-				border_color = black,
-			})
-		end
-	end
-	--mytextclock:add_signal("mouse::enter", add_gcal)
-
-	--mytextclock:add_signal("mouse::leave", remove_gcal)
+end
 
 
-	---------- calendar
-	my_cal =blingbling.calendar.new({type = "imagebox", image = icons .. "clock.png"})
-	my_cal:set_cell_padding(3)
-	my_cal:set_title_font_size(8)
-	my_cal:set_font_size(8)
-	my_cal:set_inter_margin(1)
-	my_cal:set_columns_lines_titles_font_size(8)
-	my_cal:set_columns_lines_titles_text_color(white)
-	my_cal:set_link_to_external_calendar(false)
-	my_cal:set_cell_background_color(blue)
-	my_cal:set_title_background_color(blue)
-	my_cal:set_title_text_color(white)
-	my_cal:set_text_color(black)
-	my_cal:set_cell_padding(4)
-
-	----------- round()
-	function round(num, idp)
-		if (num ~= nil) then
-			local mult = 10^(idp or 0)
-			return math.floor(num * mult + 0.5) / mult
-		else
-			return 0
-		end
-	end
-
-	---------- wlan downstream
-	netwidget = widget({ type = "textbox" })
-	vicious.register(netwidget, vicious.widgets.net,
-	function (widget, args)
-		return "<span font_desc='" .. fontwidget .."'>" .. round(args["{wlan0 down_kb}"], 0) .. "</span>"--.. "kb"
-	end, 5)
-	netwidget.width = space
-
-	neticon = widget({ type = "imagebox" })
-	neticon.image = image(icons .. "net_down_01.png")
-
-	---------- wlan widget
-	wlanicon = widget({ type = "imagebox" })
-	wlanicon.image = image(icons .. "wifi_01.png")
-
-	wlanwidget = widget({ type = "textbox" })
-
-	wlanwidget_t = awful.tooltip({ objects = { wlanicon },})
-
-	vicious.register(wlanwidget, vicious.widgets.wifi,
-	function (widget, args)
-		if (not assert(args["{link}"]) or (args["{link}"] == 0)) then
-			netwidget.width = 0
-			netwidget.visible = false
-			neticon.visible = false
-			return  "<span font_desc='" .. fontwidget .."'>" .. "off" .. "</span>"
-		else
-			netwidget.width = space
-			netwidget.visible = true
-			neticon.visible = true
-
-			wlanwidget_t:set_text(
-			"<span color='" .. white .. "'> SSID: </span>" .. "<span color='" .. black .. "'>" .. args["{ssid}"] .. " </span>\n" ..
-			"<span color='" .. white .. "'> Chan: </span>" .. "<span color='" .. black .. "'>" .. args["{chan}"] .. " </span>"
-			)
-			return "<span font_desc='" .. fontwidget .."'>" .. round(((args["{link}"] *100) / 70), 0) .. "%" .. "</span>"
-
-		end
-	end, 10, "wlan0")
-
-	wlanwidget.width = space
-
-	wlanicon:buttons(awful.util.table.join(
-	awful.button({ }, 1, function () exec("wicd-gtk", false) end)))
+---------- spacer
+spacer = widget({ type = "textbox" })
+spacer.text = " "
 
 
-	---------- mem load
-	mymem = widget({ type = "textbox" })
-	vicious.register(mymem, vicious.widgets.mem, function (widget, args)
-	return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
-	end
-	, 30)
-	mymem.width = space
-
-	mymemicon = widget({ type = "imagebox" })
-	mymemicon.image = image(icons .. "mem.png")
-
-	---------- cpu freq
-	function cpufreq(whichcpu)
-		local file = io.open("/sys/devices/system/cpu/" .. whichcpu .. "/cpufreq/scaling_cur_freq", "r")
-		local cpufreq = file:read("*n")
-		file:close()
-		return cpufreq / 1000
-	end
+---------- debugger (for experimantal stuff)
+debugger = widget({ type = "textbox" })
+dbg = widget({ type = "imagebox" })
 
 
+---------- fs
+myfs_ssd = widget({ type = "textbox" })
+vicious.register(myfs_ssd, vicious.widgets.fs,
+function (widget, args)
+	return round( 100 * (1 - (args["{/ avail_gb}"] / args["{/ size_gb}"])),0) .. '%'
+end, 120)
+myfs_ssd.width = space
 
-	---------- cpu load
-	mycpuload = widget({ type = "textbox" })
-	vicious.register(mycpuload, vicious.widgets.cpu, function (widget, args)
-	return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
-	end
-	, 5)
-	mycpuload.width = space
+myfsicon = widget({ type = "imagebox" })
+myfsicon.image = image(icons .. "diskette.png")
+--myfsicon.image = image("/home/intrntbrn/coolface.png")
 
-	mycpuloadicon = widget({ type = "imagebox" })
-	mycpuloadicon.image = image(icons .. "cpu.png")
+myfs_ssd_t = awful.tooltip({ objects = { myfsicon },})
+myfsicon:add_signal("mouse::enter", function()
+	dfinfo =  awful.util.pread("df -h")
+	dfinfo = dfinfo:match( "(.-)%s*$")
+	myfs_ssd_t:set_text(dfinfo)
+end)
 
-	---------- fan()
-	function fan()
-		local file = io.open("/sys/devices/platform/thinkpad_hwmon/fan1_input", "r")
-		local fan = file:read("*n")
-		file:close()
+---------- textclock
+mytextclock = awful.widget.textclock({ align = "right",}, "<span font_desc='" .. fontwidget .."'>" .. "%H:%M" .. "</span>", 60)
+mytextclock.width = space
 
-		return fan
-	end
 
-	---------- cputmp()
-	function cputemp()
-		local file = io.open("/sys/class/thermal/thermal_zone0/temp", "r")
-		local output = file:read("*n")
-		file:close()
-		return output / 1000
-	end
-
-	---------- cpu popup
-
-	mycpu_t = awful.tooltip({ objects = { mycpuloadicon },})
-	mycpuloadicon:add_signal("mouse::enter", function()
-		mycpu_t:set_text(
-		"<span color='" .. white .. "'> CPU 0:</span> <span color='" .. black .. "'>" .. cpufreq("cpu0") .. " Mhz</span> \n" ..
-		"<span color='" .. white .. "'> CPU 1:</span> <span color='" .. black .. "'>" .. cpufreq("cpu1") .. " Mhz</span> \n" ..
-		"<span color='" .. white .. "'> CPU 2:</span> <span color='" .. black .. "'>" .. cpufreq("cpu2") .. " Mhz</span> \n" ..
-		"<span color='" .. white .. "'> CPU 3:</span> <span color='" .. black .. "'>" .. cpufreq("cpu3") .. " Mhz</span> \n" ..
-		"<span color='" .. white .. "'> Fan:</span> <span color='" .. black .. "'>\t" .. fan() .. " RPM</span> \n" ..
-		"<span color='" .. white .. "'> Temp:</span> <span color='" .. black .. "'>\t" .. cputemp() .. " °C</span> ")
+---------- google calendar
+function string:split(sep)
+	local sep, fields = sep or " ", {}
+	local pattern = string.format("([^%s]+)", sep)
+	self:gsub(pattern, function(c) fields[#fields+1] = c
 	end)
+	return fields
+end
+
+function getgmail()
+	local netrc = io.open("/home/intrntbrn/.netrc", "r")
+	local gmailstr = netrc:read("*all")
+	netrc:close()
+	-- remove all unimportant strings
+	gmailstr = string.gsub(string.gsub(gmailstr, "machine mail.google.com login ", ""), "password ", "")
+	gmaildata = { }
+	-- token this string
+	gmaildata = gmailstr:split(" ")
+	guser = string.gsub(gmaildata[1], "\0", "")
+	gpw = string.gsub(gmaildata[2], "\n", "")
+	return nil
+end
+
+getgmail()
+
+local gcal = nil
+
+function remove_gcal()
+	if gcal~= nil then
+		naughty.destroy(gcal)
+		gcal = nil
+	end
+end
+
+function add_gcal()
+	if (guser and gpw) then
+		remove_gcal()
+		local gcalcinfo = awful.util.pread("gcalcli --user " .. guser .. " --pw " .. gpw .. " --24hr --nc agenda")
+		gcalcinfo = string.gsub(gcalcinfo, "%$(%w+)", "%1")
+		gcalcinfo = gcalcinfo:match( "(.-)%s*$") -- removed trailing whitespace
+		today = os.date("%A, %d. %B") .. "\n"
+		gcal = naughty.notify({
+			title = today,
+			text = gcalcinfo,
+			timeout = 0,
+			fg = white,
+			bg = blue,
+			screen = s,
+			ontop = true,
+			border_color = black,
+		})
+	end
+end
+--mytextclock:add_signal("mouse::enter", add_gcal)
+
+--mytextclock:add_signal("mouse::leave", remove_gcal)
 
 
-	---------- volume
-	myvolicon = widget({ type = "imagebox" })
-	myvolicon.image = image(icons .. "spkr_01.png")
+---------- calendar
+my_cal =blingbling.calendar.new({type = "imagebox", image = icons .. "clock.png"})
+my_cal:set_cell_padding(3)
+my_cal:set_title_font_size(8)
+my_cal:set_font_size(8)
+my_cal:set_inter_margin(1)
+my_cal:set_columns_lines_titles_font_size(8)
+my_cal:set_columns_lines_titles_text_color(white)
+my_cal:set_link_to_external_calendar(false)
+my_cal:set_cell_background_color(blue)
+my_cal:set_title_background_color(blue)
+my_cal:set_title_text_color(white)
+my_cal:set_text_color(black)
+my_cal:set_cell_padding(4)
 
-	myvol = widget({ type = "textbox" })
-	vicious.register(myvol, vicious.widgets.volume,
-	function (widget, args)
-		if ((args[1] < 1) or (args[2] == "off")) then
-			myvolicon.image = image(icons .. "spkr_02.png")
-			return "<span font_desc='" .. fontwidget .."'>" .. "mute" .. "</span>"
+---------- wlan downstream
+netwidget = widget({ type = "textbox" })
+vicious.register(netwidget, vicious.widgets.net,
+function (widget, args)
+	return "<span font_desc='" .. fontwidget .."'>" .. round(args["{wlan0 down_kb}"], 0) .. "</span>"--.. "kb"
+end, 5)
+netwidget.width = space
+
+neticon = widget({ type = "imagebox" })
+neticon.image = image(icons .. "net_down_01.png")
+
+---------- wlan widget
+wlanicon = widget({ type = "imagebox" })
+wlanicon.image = image(icons .. "wifi_01.png")
+
+wlanwidget = widget({ type = "textbox" })
+
+wlanwidget_t = awful.tooltip({ objects = { wlanicon },})
+
+vicious.register(wlanwidget, vicious.widgets.wifi,
+function (widget, args)
+	if (not assert(args["{link}"]) or (args["{link}"] == 0)) then
+		netwidget.width = 0
+		netwidget.visible = false
+		neticon.visible = false
+		return  "<span font_desc='" .. fontwidget .."'>" .. "off" .. "</span>"
+	else
+		netwidget.width = space
+		netwidget.visible = true
+		neticon.visible = true
+
+		wlanwidget_t:set_text(
+		"<span color='" .. white .. "'> SSID: </span>" .. "<span color='" .. black .. "'>" .. args["{ssid}"] .. " </span>\n" ..
+		"<span color='" .. white .. "'> Chan: </span>" .. "<span color='" .. black .. "'>" .. args["{chan}"] .. " </span>"
+		)
+		return "<span font_desc='" .. fontwidget .."'>" .. round(((args["{link}"] *100) / 70), 0) .. "%" .. "</span>"
+
+	end
+end, 10, "wlan0")
+
+wlanwidget.width = space
+
+wlanicon:buttons(awful.util.table.join(
+awful.button({ }, 1, function () exec("wicd-gtk", false) end)))
+
+
+---------- mem load
+mymem = widget({ type = "textbox" })
+vicious.register(mymem, vicious.widgets.mem, function (widget, args)
+	return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
+end
+, 30)
+mymem.width = space
+
+mymemicon = widget({ type = "imagebox" })
+mymemicon.image = image(icons .. "mem.png")
+
+---------- cpu freq
+function cpufreq(whichcpu)
+	local file = io.open("/sys/devices/system/cpu/" .. whichcpu .. "/cpufreq/scaling_cur_freq", "r")
+	local cpufreq = file:read("*n")
+	file:close()
+	return cpufreq / 1000
+end
+
+
+
+---------- cpu load
+mycpuload = widget({ type = "textbox" })
+vicious.register(mycpuload, vicious.widgets.cpu, function (widget, args)
+	return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
+end
+, 5)
+mycpuload.width = space
+
+mycpuloadicon = widget({ type = "imagebox" })
+mycpuloadicon.image = image(icons .. "cpu.png")
+
+---------- fan()
+function fan()
+	local file = io.open("/sys/devices/platform/thinkpad_hwmon/fan1_input", "r")
+	local fan = file:read("*n")
+	file:close()
+	return fan
+end
+
+---------- cputmp()
+function cputemp()
+	local file = io.open("/sys/class/thermal/thermal_zone0/temp", "r")
+	local output = file:read("*n")
+	file:close()
+	return output / 1000
+end
+
+---------- cpu popup
+mycpu_t = awful.tooltip({ objects = { mycpuloadicon },})
+mycpuloadicon:add_signal("mouse::enter", function()
+	mycpu_t:set_text(
+	"<span color='" .. white .. "'> CPU 0:</span> <span color='" .. black .. "'>" .. cpufreq("cpu0") .. " Mhz</span> \n" ..
+	"<span color='" .. white .. "'> CPU 1:</span> <span color='" .. black .. "'>" .. cpufreq("cpu1") .. " Mhz</span> \n" ..
+	"<span color='" .. white .. "'> CPU 2:</span> <span color='" .. black .. "'>" .. cpufreq("cpu2") .. " Mhz</span> \n" ..
+	"<span color='" .. white .. "'> CPU 3:</span> <span color='" .. black .. "'>" .. cpufreq("cpu3") .. " Mhz</span> \n" ..
+	"<span color='" .. white .. "'> Fan:</span> <span color='" .. black .. "'>\t" .. fan() .. " RPM</span> \n" ..
+	"<span color='" .. white .. "'> Temp:</span> <span color='" .. black .. "'>\t" .. cputemp() .. " °C</span> ")
+end)
+
+
+---------- volume
+myvolicon = widget({ type = "imagebox" })
+myvolicon.image = image(icons .. "spkr_01.png")
+
+myvol = widget({ type = "textbox" })
+vicious.register(myvol, vicious.widgets.volume,
+function (widget, args)
+	if ((args[1] < 1) or (args[2] == "off")) then
+		myvolicon.image = image(icons .. "spkr_02.png")
+		return "<span font_desc='" .. fontwidget .."'>" .. "mute" .. "</span>"
+	else
+		myvolicon.image = image(icons .. "spkr_01.png")
+		return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
+	end
+end, 2, "Master")
+
+myvol.width = space
+
+myvolicon:buttons(awful.util.table.join(
+awful.button({ }, 1, function () sexec("pavucontrol", false) end)))
+
+
+---------- battery
+mybaticon = widget({ type = "imagebox" })
+mybaticon.image = image(icons .. "bat_full_01.png")
+
+-- batstate()
+function batstate()
+	local fileee = io.open("/sys/class/power_supply/BAT0/status", "r")
+	local batstate = fileee:read("*line")
+	if ((batstate == 'Discharging') or (batstate == 'Charging')) then
+		return batstate
+	else
+		return "Fully Charged"
+	end
+end
+
+
+-- shutdown()
+function shdown()
+	sexec("sudo pm-suspend")
+end
+
+
+-- watt()
+function watt()
+
+	if (batstate() == 'Discharging') then
+
+		if(assert(io.open("/sys/devices/platform/smapi/BAT0/power_avg", "r"))) then
+
+			local file = io.open("/sys/devices/platform/smapi/BAT0/power_avg", "r")
+			local avg = file:read("*n")
+			file:close()
+
+			wattavg = ((avg * -1) / 1000)
+
+			return round(wattavg, 2) .. " W"
 		else
-			myvolicon.image = image(icons .. "spkr_01.png")
-			return "<span font_desc='" .. fontwidget .."'>" .. args[1] .. "%" .. "</span>"
+			return "Error"
 		end
-	end, 2, "Master")
-
-	myvol.width = space
-
-	myvolicon:buttons(awful.util.table.join(
-	awful.button({ }, 1, function () sexec("sh ~/bin/vol.sh mute", false) end)))
+	else
+		return "n/a"
+	end
+end
 
 
+-- remaining()
+function remaining()
 
-	---------- battery
-	mybaticon = widget({ type = "imagebox" })
-	mybaticon.image = image(icons .. "bat_full_01.png")
-
-	-- batstate()
-	function batstate()
-		local fileee = io.open("/sys/class/power_supply/BAT0/status", "r")
-		local batstate = fileee:read("*line")
-		if ((batstate == 'Discharging') or (batstate == 'Charging')) then
-			return batstate
-		else
-			return "Fully Charged"
-		end
+	if (batstate() == 'Fully Charged') then
+		return "n/a"
 	end
 
+	if (batstate() == 'Discharging') then
 
-	-- shutdown()
-	function shdown()
-		sexec("sudo pm-suspend")
-	end
+		if (assert(io.open("/sys/devices/platform/smapi/BAT0/remaining_running_time", "r"))) then
+			local file = (io.open("/sys/devices/platform/smapi/BAT0/remaining_running_time", "r"))
+			local remain = file:read("*n")
+			file:close()
 
+			return remain .. " min"
 
-	-- watt()
-	function watt()
+		else return "Error"
+		end
+	else
 
-		if (batstate() == 'Discharging') then
-
-			if(assert(io.open("/sys/devices/platform/smapi/BAT0/power_avg", "r"))) then
-
-				local file = io.open("/sys/devices/platform/smapi/BAT0/power_avg", "r")
-				local avg = file:read("*n")
-				file:close()
-
-				wattavg = ((avg * -1) / 1000)
-
-				return round(wattavg, 2) .. " W"
-			else
-				return "Error"
-			end
+		if (assert(io.open("/sys/devices/platform/smapi/BAT0/remaining_charging_time", "r"))) then
+			local filee = io.open("/sys/devices/platform/smapi/BAT0/remaining_charging_time", "r")
+			local charge = filee:read("*n")
+			filee:close()
+			return charge .. " min"
 		else
-			return "n/a"
+			return "Error"
 		end
 	end
+end
 
-
-	-- remaining()
-	function remaining()
-
-		if (batstate() == 'Fully Charged') then
-			return "n/a"
-		end
-
-		if (batstate() == 'Discharging') then
-
-			if (assert(io.open("/sys/devices/platform/smapi/BAT0/remaining_running_time", "r"))) then
-				local file = (io.open("/sys/devices/platform/smapi/BAT0/remaining_running_time", "r"))
-				local remain = file:read("*n")
-				file:close()
-
-				return remain .. " min"
-
-			else return "Error"
-			end
-		else
-
-			if (assert(io.open("/sys/devices/platform/smapi/BAT0/remaining_charging_time", "r"))) then
-				local filee = io.open("/sys/devices/platform/smapi/BAT0/remaining_charging_time", "r")
-				local charge = filee:read("*n")
-				filee:close()
-				return charge .. " min"
-			else
-				return "Error"
-			end
-		end
-	end
-
-	-- batterypopup
-	mybat_t = awful.tooltip({ objects = { mybaticon },})
-	mybaticon:add_signal("mouse::enter", function()
-		mybat_t:set_text(
-		"<span color='" .. white .. "'> Status:  </span>" .. "<span color='" .. black .. "'>" .. batstate() .. "</span> \n" ..
-		"<span color='" .. white .. "'> Usage:   </span>" .. "<span color='" .. black .. "'>" .. watt() .. "</span> \n" ..
-		"<span color='" .. white .. "'> Remain:  </span>" .. "<span color='" .. black .. "'>" .. remaining() .. "</span> "
-		) end)
+-- batterypopup
+mybat_t = awful.tooltip({ objects = { mybaticon },})
+mybaticon:add_signal("mouse::enter", function()
+	mybat_t:set_text(
+	"<span color='" .. white .. "'> Status:  </span>" .. "<span color='" .. black .. "'>" .. batstate() .. "</span> \n" ..
+	"<span color='" .. white .. "'> Usage:   </span>" .. "<span color='" .. black .. "'>" .. watt() .. "</span> \n" ..
+	"<span color='" .. white .. "'> Remain:  </span>" .. "<span color='" .. black .. "'>" .. remaining() .. "</span> "
+	) end)
 
 	mybat = widget({ type = "textbox" })
 	vicious.register(mybat, vicious.widgets.bat,
@@ -797,9 +790,8 @@ for s = 1, screen.count() do
 				timeout = 30,
 				fg=black,
 				bg=red,
-				screen = 1,
 				ontop = true,
-				screen = mouse.screen,
+				screen = s,
 				run = function () sexec("sudo pm-suspend") end
 			})
 			shdown()
@@ -815,7 +807,7 @@ for s = 1, screen.count() do
 				timeout = 1,
 				fg=white,
 				bg=blue,
-				screen = mouse.screen,
+				screen = s,
 				ontop = true,
 			})
 
@@ -863,7 +855,7 @@ for s = 1, screen.count() do
 					bg=blue,
 					border_color = black,
 					position = "bottom_right",
-					screen = mouse.screen,
+					screen = s,
 					ontop = true,
 					run = function () awful.util.spawn(browser .. "https://mail.google.com") end,
 				})
@@ -965,9 +957,6 @@ for s = 1, screen.count() do
 		sc_browser_t = awful.tooltip({ objects = { sc_browser },})
 		sc_browser_t:set_text(" dwb ")
 
-
-
-
 		sc_firefox = widget({ type = "imagebox" })
 		sc_firefox.image = image(panel .. "firefox.png")
 		sc_firefox:buttons(awful.util.table.join(
@@ -976,8 +965,6 @@ for s = 1, screen.count() do
 		))
 		sc_firefox_t = awful.tooltip({ objects = { sc_firefox },})
 		sc_firefox_t:set_text(" firefox ")
-
-
 
 		sc_pacman = widget({ type = "imagebox" })
 		sc_pacman.image = image(panel .. "pacman.png")
@@ -1059,7 +1046,7 @@ for s = 1, screen.count() do
 
 			local string = " " .. args["{Artist}"] .. " - " .. args["{Title}"]
 
-				-- play
+			-- play
 			if (args["{state}"] == "Play") then
 				music_text.visible = true
 				music_play.visible = false
@@ -1095,349 +1082,375 @@ for s = 1, screen.count() do
 	end
 
 
-	-- wibox
-
-	-- top
-	mywibox[s] = awful.wibox({ position = "top", screen = s, height = barheight})
-
-	mywibox[s].widgets = {
-		-- left
-		{
-			mylauncher,
-			spacer,
-			mytaglist[s],
-			spacer,
-			debugger,
-			mylayoutbox[s],
-			dbg,
-			mypromptbox[s],
-			music_play,
-			music_pause,
-			music_stop,
-			music_prev,
-			music_next,
-			music_text,
-			layout = awful.widget.layout.horizontal.leftright,
-		},
-
-		-- center
-		{
-			panelin,
-			sc_browser,
-			sc_pcmanfm,
-			sc_geany,
-			sc_firefox,
-			sc_pacman,
-			sc_music,
-			sc_jabber,
-			sc_jdownloader,
-			sc_irc,
-			sc_eclipse,
-			sc_netbeans,
-			sc_gimp,
-			sc_calc,
-			sc_shutdown,
-			panelout,
-			layout = awful.widget.layout.horizontal.leftright,
-		},
-
-		-- right
-		{
-			mytextclock,
-			my_cal.widget,
-
-			myvol,
-			myvolicon,
-
-			mybat,
-			mybaticon,
-
-			mymem,
-			mymemicon,
-
-			mycpuload,
-			mycpuloadicon,
-
-			wlanwidget,
-			wlanicon,
-
-			netwidget,
-			neticon,
-
-			mygmail,
-			mygmailicon,
-
-			layout = awful.widget.layout.horizontal.rightleft
-		},
-		layout = horizontal.center
-	}
 
 
-	-- bottom
-	mywib[s] = awful.wibox({ position = "bottom", screen = s, height = barheight})
+	for s = 1, screen.count() do
+		-- Create a promptbox for each screen
+		mypromptbox[s] = awful.widget.prompt({ layout = awful.widget.layout.horizontal.leftright, prompt = myprompt })
+		-- Create an imagebox widget which will contains an icon indicating which layout we're using.
+		-- We need one layoutbox per screen.
+		mylayoutbox[s] = awful.widget.layoutbox(s)
+		mylayoutbox[s]:buttons(awful.util.table.join(
+		awful.button({ }, 1, function () awful.layout.inc(layouts, 1) end),
+		awful.button({ }, 3, function () awful.layout.inc(layouts, -1) end),
+		awful.button({ }, 4, function () awful.layout.inc(layouts, 1) end),
+		awful.button({ }, 5, function () awful.layout.inc(layouts, -1) end)))
+		-- Create a taglist widget
+		mytaglist[s] = awful.widget.taglist(s, awful.widget.taglist.label.all, mytaglist.buttons)
+
+		-- Create a tasklist widget
+		mytasklist[s] = awful.widget.tasklist(function(c)
+			return awful.widget.tasklist.label.currenttags(c, s)
+		end, mytasklist.buttons)
 
 
-	mywib[s].widgets = {
+		-- wibox
 
-		mysystray,
-		mytasklist[s],
-		layout = awful.widget.layout.horizontal.rightleft
-	}
-end
+		-- second screen mod:
+		if (s ~= 1 and dualscreenmod ) then
 
+			mywib[s] = awful.wibox({ position = "bottom", screen = s, height = barheight})
 
--- mouse binds
-root.buttons(awful.util.table.join(
-awful.button({ }, 3, function () mymainmenu:toggle() end),
-awful.button({ }, 4, awful.tag.viewnext),
-awful.button({ }, 5, awful.tag.viewprev)
-))
+			mywib[s].widgets = {
+				mytasklist[s],
+				layout = awful.widget.layout.horizontal.rightleft
+			}
 
 
--- key binds
-globalkeys = awful.util.table.join(
-awful.key({ "Control"	   }, "Left",   awful.tag.viewprev       ),
-awful.key({ "Control"	   }, "Right",  awful.tag.viewnext       ),
-awful.key({ "Control"	   }, "Escape", awful.tag.history.restore),
-awful.key({}, "#122", function () sexec("sh ~/bin/vol.sh down" ) end),
-awful.key({}, "#123", function () sexec("sh ~/bin/vol.sh up") end),
-awful.key({}, "#121", function () sexec("sh ~/bin/vol.sh mute") end),
-awful.key({}, "#233", function () sexec("sh ~/bin/bright.sh") end),
-awful.key({}, "#232", function () sexec("sh ~/bin/bright.sh") end),
-awful.key({}, "#107", function () sexec("cd /home/intrntbrn/snapshot/ ; scrot; notify-send 'screenshot taken'") end),
+		else
 
-awful.key({"Control"}, "space", revelation),
+			-- top
 
-awful.key({ altkey,	   }, "Tab",
-function ()
-	awful.client.focus.byidx( 1)
-	if client.focus then client.focus:raise() end
-end),
-awful.key({ altkey,	   }, "k",
-function ()
-	awful.client.focus.byidx(-1)
-	if client.focus then client.focus:raise() end
-end),
-awful.key({ modkey,	   }, "w", function () mymainmenu:show({keygrabber=true}) end),
+			mywibox[s] = awful.wibox({ position = "top", screen = s, height = barheight})
 
--- Layout manipulation
-awful.key({ modkey			    }, "Tab", function () awful.client.swap.byidx(  1)    end),
-awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
-awful.key({ altkey	    }, "j", function () awful.screen.focus_relative( 1) end),
-awful.key({ altkey	    }, "k", function () awful.screen.focus_relative(-1) end),
-awful.key({ modkey,	   }, "u", awful.client.urgent.jumpto),
-awful.key({ modkey,	   }, "Tab",
-function ()
-	awful.client.focus.history.previous()
-	if client.focus then
-		client.focus:raise()
+			mywibox[s].widgets = {
+				-- left
+				{
+					mylauncher,
+					spacer,
+					mytaglist[s],
+					--	spacer,
+					debugger,
+					mylayoutbox[s],
+					dbg,
+					mypromptbox[s],
+					music_play,
+					music_pause,
+					music_stop,
+					music_prev,
+					music_next,
+					music_text,
+					layout = awful.widget.layout.horizontal.leftright,
+				},
+
+				-- center
+				{
+					panelin,
+					sc_browser,
+					sc_pcmanfm,
+					sc_geany,
+					sc_firefox,
+					sc_pacman,
+					sc_music,
+					sc_jabber,
+					sc_jdownloader,
+					sc_irc,
+					sc_eclipse,
+					sc_netbeans,
+					sc_gimp,
+					sc_calc,
+					sc_shutdown,
+					panelout,
+					layout = awful.widget.layout.horizontal.leftright,
+				},
+
+				-- right
+				{
+					mytextclock,
+					my_cal.widget,
+
+					myvol,
+					myvolicon,
+
+					mybat,
+					mybaticon,
+
+					mymem,
+					mymemicon,
+
+					mycpuload,
+					mycpuloadicon,
+
+					myfs_ssd,
+					myfsicon,
+
+					wlanwidget,
+					wlanicon,
+
+					netwidget,
+					neticon,
+
+					mygmail,
+					mygmailicon,
+
+					layout = awful.widget.layout.horizontal.rightleft
+				},
+				layout = horizontal.center
+			}
+
+
+			-- bottom
+			mywib[s] = awful.wibox({ position = "bottom", screen = s, height = barheight})
+
+
+			mywib[s].widgets = {
+				mysystray,
+				mytasklist[s],
+				layout = awful.widget.layout.horizontal.rightleft
+			}
+		end
 	end
-end),
 
--- Standard program
-awful.key({ "Control" }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
-awful.key({ modkey, "Control" }, "r", awesome.restart),
-awful.key({ }, "F1", function () exec("dwb") end),
-awful.key({ }, "F8", function () run_or_raise("firefox", { class = "Firefox"} ) end),
---awful.key({ }, "F8", function () exec("chromium --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
-awful.key({ "Control" }, "F8", function () exec("chromium --incognito --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
-awful.key({}, "#160", function () exec("slimlock") end),
-awful.key({}, "#150", function () sexec("sudo pm-suspend") end),
 
-awful.key({ modkey,	   }, "l",     function () awful.tag.incmwfact( 0.05)    end),
-awful.key({ modkey,	   }, "h",     function () awful.tag.incmwfact(-0.05)    end),
-awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
-awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
-awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)	 end),
-awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)	 end),
-awful.key({ altkey,	   }, "space", function () awful.layout.inc(layouts,  1) end),
-awful.key({ modkey   }, "space", function () awful.layout.inc(layouts, -1) end),
+	-- mouse binds
+	root.buttons(awful.util.table.join(
+	awful.button({ }, 3, function () mymainmenu:toggle() end),
+	awful.button({ }, 4, awful.tag.viewnext),
+	awful.button({ }, 5, awful.tag.viewprev)
+	))
 
-awful.key({ modkey, "Control" }, "n", awful.client.restore),
 
--- Prompt
-awful.key({ modkey },	    "r",     function () mypromptbox[mouse.screen]:run() end),
+	-- key binds
+	globalkeys = awful.util.table.join(
+	awful.key({ "Control"	   }, "Left",   awful.tag.viewprev       ),
+	awful.key({ "Control"	   }, "Right",  awful.tag.viewnext       ),
+	awful.key({ "Control"	   }, "Escape", awful.tag.history.restore),
+	awful.key({}, "#122", function () sexec("sh ~/bin/vol.sh down" ) end),
+	awful.key({}, "#123", function () sexec("sh ~/bin/vol.sh up") end),
+	awful.key({}, "#121", function () sexec("sh ~/bin/vol.sh mute") end),
+	awful.key({}, "#233", function () sexec("sh ~/bin/bright.sh") end),
+	awful.key({}, "#232", function () sexec("sh ~/bin/bright.sh") end),
+	awful.key({}, "#107", function () sexec("cd /home/intrntbrn/snapshot/ ; scrot; notify-send 'screenshot taken'") end),
 
-awful.key({ modkey }, "x",
-function ()
-	awful.prompt.run({ prompt = "Run Lua code: " },
-	mypromptbox[mouse.screen].widget,
-	awful.util.eval, nil,
-	awful.util.getdir("cache") .. "/history_eval")
-end)
-)
+	awful.key({"Control"}, "space", revelation),
 
-clientkeys = awful.util.table.join(
-awful.key({ altkey	   }, "m",      function (c) c.fullscreen = not c.fullscreen  end),
-awful.key({ "Control"   	  }, "q",      function (c) c:kill()			 end),
-awful.key({ altkey }, "d",  awful.client.floating.toggle		     ),
-awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
-awful.key({ modkey,	   }, "o",      awful.client.movetoscreen			),
-awful.key({ altkey,	   }, "t",      function (c) c.ontop = not c.ontop	    end),
-awful.key({ altkey	   }, "n",
-function (c)
-	-- The client currently has the input focus, so it cannot be
-	-- minimized, since minimized clients can't have the focus.
-	c.minimized = true
-end),
-awful.key({ altkey	   }, "f",
-function (c)
-	c.maximized_horizontal = not c.maximized_horizontal
-	c.maximized_vertical   = not c.maximized_vertical
-end)
-)
-
--- Compute the maximum number of digit we need, limited to 9
-keynumber = 0
-for s = 1, screen.count() do
-	keynumber = math.min(9, math.max(#tags[s], keynumber));
-end
-
--- Bind all key numbers to tags.
--- Be careful: we use keycodes to make it works on any keyboard layout.
--- This should map on the top row of your keyboard, usually 1 to 9.
-for i = 1, keynumber do
-	globalkeys = awful.util.table.join(globalkeys,
-	awful.key({ "Control" }, "#" .. i + 9,
+	awful.key({ altkey,	   }, "Tab",
 	function ()
-		local screen = mouse.screen
-		if tags[screen][i] then
-			awful.tag.viewonly(tags[screen][i])
+		awful.client.focus.byidx( 1)
+		if client.focus then client.focus:raise() end
+	end),
+	awful.key({ altkey,	   }, "k",
+	function ()
+		awful.client.focus.byidx(-1)
+		if client.focus then client.focus:raise() end
+	end),
+	awful.key({ modkey,	   }, "w", function () mymainmenu:show({keygrabber=true}) end),
+
+	-- Layout manipulation
+	awful.key({ modkey			    }, "Tab", function () awful.client.swap.byidx(  1)    end),
+	awful.key({ modkey, "Shift"   }, "k", function () awful.client.swap.byidx( -1)    end),
+	awful.key({ altkey	    }, "j", function () awful.screen.focus_relative( 1) end),
+	awful.key({ altkey	    }, "k", function () awful.screen.focus_relative(-1) end),
+	awful.key({ modkey,	   }, "u", awful.client.urgent.jumpto),
+	awful.key({ modkey,	   }, "Tab",
+	function ()
+		awful.client.focus.history.previous()
+		if client.focus then
+			client.focus:raise()
 		end
 	end),
-	awful.key({ modkey, "Control" }, "#" .. i + 9,
+
+	-- Standard program
+	awful.key({ "Control" }, "y", function () awful.tag.viewonly(tags[mouse.screen][1]) awful.util.spawn(terminal) end),
+	awful.key({ modkey, "Control" }, "r", awesome.restart),
+	awful.key({ }, "F1", function () exec("dwb") end),
+	awful.key({ }, "F8", function () run_or_raise("firefox", { class = "Firefox"} ) end),
+	--awful.key({ }, "F8", function () exec("chromium --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
+	awful.key({ "Control" }, "F8", function () exec("chromium --incognito --ppapi-flash-path=/usr/lib/PepperFlash/libpepflashplayer.so --ppapi-flash-version=11.3.31.103") end),
+	awful.key({}, "#160", function () exec("slimlock") end),
+	awful.key({}, "#150", function () sexec("sudo pm-suspend") end),
+
+	awful.key({ modkey,	   }, "l",     function () awful.tag.incmwfact( 0.05)    end),
+	awful.key({ modkey,	   }, "h",     function () awful.tag.incmwfact(-0.05)    end),
+	awful.key({ modkey, "Shift"   }, "h",     function () awful.tag.incnmaster( 1)      end),
+	awful.key({ modkey, "Shift"   }, "l",     function () awful.tag.incnmaster(-1)      end),
+	awful.key({ modkey, "Control" }, "h",     function () awful.tag.incncol( 1)	 end),
+	awful.key({ modkey, "Control" }, "l",     function () awful.tag.incncol(-1)	 end),
+	awful.key({ altkey,	   }, "space", function () awful.layout.inc(layouts,  1) end),
+	awful.key({ modkey   }, "space", function () awful.layout.inc(layouts, -1) end),
+
+	awful.key({ modkey, "Control" }, "n", awful.client.restore),
+
+	-- Prompt
+	awful.key({ modkey },	    "r",     function () mypromptbox[mouse.screen]:run() end),
+
+	awful.key({ modkey }, "x",
 	function ()
-		local screen = mouse.screen
-		if tags[screen][i] then
-			awful.tag.viewtoggle(tags[screen][i])
-		end
+		awful.prompt.run({ prompt = "Run Lua code: " },
+		mypromptbox[mouse.screen].widget,
+		awful.util.eval, nil,
+		awful.util.getdir("cache") .. "/history_eval")
+	end)
+	)
+
+	clientkeys = awful.util.table.join(
+	awful.key({ altkey	   }, "m",      function (c) c.fullscreen = not c.fullscreen  end),
+	awful.key({ "Control"   	  }, "q",      function (c) c:kill()			 end),
+	awful.key({ altkey }, "d",  awful.client.floating.toggle		     ),
+	awful.key({ modkey, "Control" }, "Return", function (c) c:swap(awful.client.getmaster()) end),
+	awful.key({ modkey,	   }, "o",      awful.client.movetoscreen			),
+	awful.key({ altkey,	   }, "t",      function (c) c.ontop = not c.ontop	    end),
+	awful.key({ altkey	   }, "n",
+	function (c)
+		-- The client currently has the input focus, so it cannot be
+		-- minimized, since minimized clients can't have the focus.
+		c.minimized = true
 	end),
-	awful.key({ altkey }, "#" .. i + 9,
-	function ()
-		if client.focus and tags[client.focus.screen][i] then
-			awful.client.movetotag(tags[client.focus.screen][i])
-		end
-	end),
-	awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
-	function ()
-		if client.focus and tags[client.focus.screen][i] then
-			awful.client.toggletag(tags[client.focus.screen][i])
-		end
-	end))
-end
+	awful.key({ altkey	   }, "f",
+	function (c)
+		c.maximized_horizontal = not c.maximized_horizontal
+		c.maximized_vertical   = not c.maximized_vertical
+	end)
+	)
 
-clientbuttons = awful.util.table.join(
-awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
-awful.button({ altkey }, 1, awful.mouse.client.move),
-awful.button({ altkey }, 3, awful.mouse.client.resize))
+	-- Compute the maximum number of digit we need, limited to 9
+	keynumber = 0
+	for s = 1, screen.count() do
+		keynumber = math.min(9, math.max(#tags[s], keynumber));
+	end
 
-root.keys(globalkeys)
+	-- Bind all key numbers to tags.
+	-- Be careful: we use keycodes to make it works on any keyboard layout.
+	-- This should map on the top row of your keyboard, usually 1 to 9.
+	for i = 1, keynumber do
+		globalkeys = awful.util.table.join(globalkeys,
+		awful.key({ "Control" }, "#" .. i + 9,
+		function ()
+			local screen = mouse.screen
+			if tags[screen][i] then
+				awful.tag.viewonly(tags[screen][i])
+			end
+		end),
+		awful.key({ modkey, "Control" }, "#" .. i + 9,
+		function ()
+			local screen = mouse.screen
+			if tags[screen][i] then
+				awful.tag.viewtoggle(tags[screen][i])
+			end
+		end),
+		awful.key({ altkey }, "#" .. i + 9,
+		function ()
+			if client.focus and tags[client.focus.screen][i] then
+				awful.client.movetotag(tags[client.focus.screen][i])
+			end
+		end),
+		awful.key({ modkey, "Control", "Shift" }, "#" .. i + 9,
+		function ()
+			if client.focus and tags[client.focus.screen][i] then
+				awful.client.toggletag(tags[client.focus.screen][i])
+			end
+		end))
+	end
+
+	clientbuttons = awful.util.table.join(
+	awful.button({ }, 1, function (c) client.focus = c; c:raise() end),
+	awful.button({ altkey }, 1, awful.mouse.client.move),
+	awful.button({ altkey }, 3, awful.mouse.client.resize))
+
+	root.keys(globalkeys)
 
 
 
--- rules
+	-- rules
 
-awful.rules.rules = {
-	-- All clients will match this rule.
-	{ rule = { },
+	awful.rules.rules = {
+		-- All clients will match this rule.
+		{ rule = { },
 		properties = { border_width = beautiful.border_width,
-			border_color = beautiful.border_normal,
-			focus = true,
-			keys = clientkeys,
-			buttons = clientbuttons,
-			size_hints_honor = false } },
+		border_color = beautiful.border_normal,
+		focus = true,
+		keys = clientkeys,
+		buttons = clientbuttons,
+		size_hints_honor = false } },
+
+		-- 1: sys
 
 
-	-- 1: sys
+		-- 2: web
+		{ rule = { class = "Firefox" },
+		properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
 
+		{ rule = { class = "Chromium" },
+		properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
 
-
-	-- 2: web
-	{ rule = { class = "Firefox" },
-		properties = { tag = tags[mouse.screen][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
-
-	{ rule = { class = "Chromium" },
-		properties = { tag = tags[mouse.screen][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
-
-	{ rule = { class = "Firefox" },
+		{ rule = { class = "Firefox" },
 		except = { instance = "Navigator" },
-		properties = { tag = tags[mouse.screen][2], floating = true, switchtotag = true },
-	},
+		properties = { tag = tags[1][2], floating = true, switchtotag = true },
+		},
 
-	{ rule = { class = "Dwb" },
-		properties = { tag = tags[mouse.screen][2], switchtotag = true , maximized_vertical = true, maximized_horizontal = true, floating = false }
-	},
-
-
-	-- 3: doc
-
-	{ rule = { class = "Epdfview" },
-		properties = { tag = tags[mouse.screen][3], switchtotag = true }
-	},
-	{ rule = { class = "Zathura" },
-		properties = { tag = tags[mouse.screen][3], switchtotag = true }
-	},
-	{ rule = { class = "Geany" },
-		properties = { tag = tags[mouse.screen][3], switchtotag = true }
-	},
-	{ rule = { class = "libreoffice-writer" },
-		properties = { tag = tags[mouse.screen][3], switchtotag = true }
-	},
+		{ rule = { class = "Dwb" },
+		properties = { tag = tags[1][2], switchtotag = true , maximized_vertical = true, maximized_horizontal = true, floating = false }
+		},
 
 
+		-- 3: doc
+		{ rule = { class = "Epdfview" },
+		properties = { tag = tags[1][3], switchtotag = true }
+		},
+		{ rule = { class = "Zathura" },
+		properties = { tag = tags[1][3], switchtotag = true }
+		},
+		{ rule = { class = "Geany" },
+		properties = { tag = tags[1][3], switchtotag = true }
+		},
+		{ rule = { class = "libreoffice-writer" },
+		properties = { tag = tags[1][3], switchtotag = true }
+		},
 
-	-- 4: dev
+		-- 4: dev
+		{ rule = { class = "java-lang-Thread" },
+		properties = { tag = tags[1][4], switchtotag = true, floating = false }
+		},
+		{ rule = { class = "Eclipse" },
+		properties = { tag = tags[1][4], switchtotag = true, floating = false }
+		},
+		{ rule = { class = "com-nomagic-launcher-Launcher" },
+		properties = { tag = tags[1][4], switchtotag = true, floating = false}
+		},
+		{ rule = { class = "oracle-ide-boot-Launcher" },
+		properties = { tag = tags[1][4], switchtotag = true, floating = false}
+		},
 
-	{ rule = { class = "java-lang-Thread" },
-		properties = { tag = tags[mouse.screen][4], switchtotag = true, floating = false }
-	},
-	{ rule = { class = "Eclipse" },
-		properties = { tag = tags[mouse.screen][4], switchtotag = true, floating = false }
-	},
-	{ rule = { class = "com-nomagic-launcher-Launcher" },
-		properties = { tag = tags[mouse.screen][4], switchtotag = true, floating = false}
-	},
-	{ rule = { class = "oracle-ide-boot-Launcher" },
-		properties = { tag = tags[mouse.screen][4], switchtotag = true, floating = false}
-	},
+		-- 5: msg
+		{ rule = { class = "URxvt", name = "mcabber"},
+		properties = { tag = tags[1][5], switchtotag = true }
+		},
 
+		{ rule = { class = "URxvt", name = "weechat-curses"},
+		properties = { tag = tags[1][5], switchtotag = true }
+		},
 
+		-- 6: foo
 
-	-- 5: msg
+		{ rule = { class = "Mplayer" },
+		properties = { tag = tags[1][6], switchtotag = true }
+		},
 
-	{ rule = { class = "URxvt", name = "mcabber"},
-		properties = { tag = tags[mouse.screen][5], switchtotag = true }
-	},
+		{ rule = { class = "Vlc" },
+		properties = { tag = tags[1][6], switchtotag = true }
+		},
 
-	{ rule = { class = "URxvt", name = "weechat-curses"},
-		properties = { tag = tags[mouse.screen][5], switchtotag = true }
-	},
+		{ rule = { class = "Gimp" },
+		properties = { tag = tags[1][6], switchtotag = true, floating = true }
+		},
 
+		{ rule = { class = "Gimp", role = "toolbox" },
+		properties = { tag = tags[1][6], switchtotag = true, floating = true, maximized_vertical = true, ontop = true }
+		},
 
-	-- 6: foo
-
-	{ rule = { class = "Mplayer" },
-		properties = { tag = tags[mouse.screen][6], switchtotag = true }
-	},
-
-	{ rule = { class = "Vlc" },
-		properties = { tag = tags[mouse.screen][6], switchtotag = true }
-	},
-
-	{ rule = { class = "Gimp" },
-		properties = { tag = tags[mouse.screen][6], switchtotag = true, floating = true }
-	},
-
-	{ rule = { class = "Gimp", role = "toolbox" },
-		properties = { tag = tags[mouse.screen][6], switchtotag = true, floating = true, maximized_vertical = true, ontop = true }
-	},
-
-	{ rule = { class = "URxvt", name = "ncmpcpp"},
-		properties = { tag = tags[mouse.screen][6], switchtotag = true }
-	},
-
-
-
+		{ rule = { class = "URxvt", name = "ncmpcpp"},
+		properties = { tag = tags[1][6], switchtotag = true }
+		},
 }
 -- }}}
 
@@ -1451,7 +1464,7 @@ client.add_signal("manage", function (c, startup)
 	-- Enable sloppy focus
 	c:add_signal("mouse::enter", function(c)
 		if awful.layout.get(c.screen) ~= awful.layout.suit.magnifier
-		and awful.client.focus.filter(c) then
+			and awful.client.focus.filter(c) then
 			client.focus = c
 		end
 	end)
@@ -1576,22 +1589,22 @@ function mcabber_event_hook(kind, direction, jid, msg)
 					screen = mouse.screen,
 					icon = iconsclient .. "mailnoti.png",
 					text = awful.util.escape(txt),
-					run = function () awful.tag.viewonly(tags[mouse.screen][5]) end,
+					run = function () awful.tag.viewonly(tags[1][5]) end,
 					title = jid
 				}
 			end
 		end
 	elseif kind == "STATUS" then
 		local mapping = {
-		[ "O" ] = "online",
-		[ "F" ] = "chat",
-		[ "A" ] = "away",
-		[ "N" ] = "xa",
-		[ "D" ] = "dnd",
-		[ "I" ] = "invisible",
-		[ "_" ] = "offline",
-		[ "?" ] = "error",
-		[ "X" ] = "requested"
+			[ "O" ] = "online",
+			[ "F" ] = "chat",
+			[ "A" ] = "away",
+			[ "N" ] = "xa",
+			[ "D" ] = "dnd",
+			[ "I" ] = "invisible",
+			[ "_" ] = "offline",
+			[ "?" ] = "error",
+			[ "X" ] = "requested"
 		}
 		local status = mapping[direction]
 		local iconstatus = status
@@ -1606,7 +1619,7 @@ function mcabber_event_hook(kind, direction, jid, msg)
 			text = jid,
 			screen = mouse.screen,
 			font = fontnoti,
-		--	   icon = iconstatus
+			--	   icon = iconstatus
 		}
 	end
 end
