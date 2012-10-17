@@ -469,11 +469,9 @@ end
 spacer = widget({ type = "textbox" })
 spacer.text = " "
 
-
 ---------- debugger (for experimantal stuff)
 debugger = widget({ type = "textbox" })
 dbg = widget({ type = "imagebox" })
-
 
 ---------- fs
 myfs_ssd = widget({ type = "textbox" })
@@ -485,7 +483,6 @@ myfs_ssd.width = space
 
 myfsicon = widget({ type = "imagebox" })
 myfsicon.image = image(icons .. "diskette.png")
---myfsicon.image = image("/home/intrntbrn/coolface.png")
 
 myfs_ssd_t = awful.tooltip({ objects = { myfsicon },})
 myfsicon:add_signal("mouse::enter", function()
@@ -524,25 +521,36 @@ end
 
 getgmail()
 
-local gcal = nil
+gcal = nil
+gcaldata = nil
+gcaltoday = nil
 
-function remove_gcal()
+function destroy_gcal()
 	if gcal~= nil then
 		naughty.destroy(gcal)
 		gcal = nil
 	end
 end
 
-function add_gcal()
+
+function update_gcal()
 	if (guser and gpw) then
-		remove_gcal()
-		local gcalcinfo = awful.util.pread("gcalcli --user " .. guser .. " --pw " .. gpw .. " --24hr --nc agenda")
-		gcalcinfo = string.gsub(gcalcinfo, "%$(%w+)", "%1")
-		gcalcinfo = gcalcinfo:match( "(.-)%s*$") -- removed trailing whitespace
-		today = os.date("%A, %d. %B") .. "\n"
+		gcaldata = awful.util.pread("gcalcli --user " .. guser .. " --pw " .. gpw .. " --24hr --nc agenda")
+		--gcaldata = string.gsub(gcaldata, "^%s*(.-)%s*$", "%1")
+		gcaldata = string.gsub(gcaldata, "%$(%w+)", "%1")
+		gcaldata = gcaldata:match( "(.-)%s*$")
+		gcaltoday = os.date("%A, %d. %B") .. "\n"
+		return nil
+	end
+	return nil
+end
+
+function show_gcal()
+	if (gcaldata) then
+		destroy_gcal()
 		gcal = naughty.notify({
-			title = today,
-			text = gcalcinfo,
+			title = gcaltoday,
+			text = gcaldata,
 			timeout = 0,
 			fg = white,
 			bg = blue,
@@ -552,9 +560,16 @@ function add_gcal()
 		})
 	end
 end
---mytextclock:add_signal("mouse::enter", add_gcal)
 
---mytextclock:add_signal("mouse::leave", remove_gcal)
+gcaltimer = timer({ timeout = 600 })
+gcaltimer:add_signal("timeout", function() update_gcal() end)
+gcaltimer:start()
+
+update_gcal() -- init update
+
+mytextclock:add_signal("mouse::enter", show_gcal)
+
+mytextclock:add_signal("mouse::leave", destroy_gcal)
 
 
 ---------- calendar
@@ -1231,6 +1246,7 @@ mybaticon:add_signal("mouse::enter", function()
 	))
 
 
+
 	-- key binds
 	globalkeys = awful.util.table.join(
 	awful.key({ "Control"	   }, "Left",   awful.tag.viewprev       ),
@@ -1244,6 +1260,7 @@ mybaticon:add_signal("mouse::enter", function()
 	awful.key({}, "#107", function () sexec("cd /home/intrntbrn/snapshot/ ; scrot; notify-send 'screenshot taken'") end),
 
 	awful.key({"Control"}, "space", revelation),
+
 
 	awful.key({ altkey,	   }, "Tab",
 	function ()
@@ -1305,6 +1322,8 @@ mybaticon:add_signal("mouse::enter", function()
 	)
 
 	clientkeys = awful.util.table.join(
+	awful.key({ modkey,           }, "o",      function(c) awful.client.movetoscreen(c,c.screen-1) end ),
+	awful.key({ modkey,           }, "p",      function(c) awful.client.movetoscreen(c,c.screen+1) end ),
 	awful.key({ altkey	   }, "m",      function (c) c.fullscreen = not c.fullscreen  end),
 	awful.key({ "Control"   	  }, "q",      function (c) c:kill()			 end),
 	awful.key({ altkey }, "d",  awful.client.floating.toggle		     ),
@@ -1384,23 +1403,23 @@ mybaticon:add_signal("mouse::enter", function()
 		buttons = clientbuttons,
 		size_hints_honor = false } },
 
+		-- global:
+		{ rule = { instance = "plugin-container" },
+		properties = {floating = false , maximized_vertical = false, maximized_horizontal = false} },
+
 		-- 1: sys
 
 
 		-- 2: web
 		{ rule = { class = "Firefox" },
+		--except = { instance = "Navigator" },
 		properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
 
 		{ rule = { class = "Chromium" },
-		properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
-
-		{ rule = { class = "Firefox" },
-		except = { instance = "Navigator" },
-		properties = { tag = tags[1][2], floating = true, switchtotag = true },
-		},
+		properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = true, }},
 
 		{ rule = { class = "Dwb" },
-		properties = { tag = tags[1][2], switchtotag = true , maximized_vertical = true, maximized_horizontal = true, floating = false }
+		properties = { tag = tags[1][2], switchtotag = true , maximized_vertical = false, maximized_horizontal = false, floating = true }
 		},
 
 
