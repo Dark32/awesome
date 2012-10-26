@@ -31,3 +31,5 @@ widgets:
 - textclock widgets display H:M, click on the icons opens a calendar (using blingbling lib)
   textclock tooltip shows todays date and google calendar data by using gcalcli (reading gmail logins from ~/.netrc like gmail widget)
 
+  to get gmail and gcalendar widget working correctly, create ~/.netrc with "machine mail.google.com login abc@gmail.com password xyz"
+
