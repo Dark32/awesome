@@ -11,7 +11,6 @@ require("blingbling")
 require("revelation")
 require("horizontal") -- to get center layout for wiboxes
 
-
 -- startup error
 do
 	local in_error = false
@@ -323,7 +322,7 @@ mymultimediamenu = {
 }
 
 mydevelmenu = {
-	{ "Eclipse", "eclipse" },
+	{ "Eclipse", function () sexec ("wmname LG3D; eclipse") end },
 	{ "Netbeans", function () sexec("wmname LG3D; netbeans") end},
 	{ "Insight ARM", function () sexec("/home/intrntbrn/toolchain/insight/bin/arm-none-eabi-insight") end},
 	{ "MagicDraw", function () sexec("wmname LG3D; sh /home/intrntbrn/bin/MagicDraw/bin/mduml") end},
@@ -497,6 +496,9 @@ mytextclock.width = space
 
 
 ---------- google calendar
+-- to get it working correctly you should delay the first update after systemstart until youre online
+-- with something like: "(sleep 60 && echo -e 'update_gcal()' | awesome-client)&" in your xinit.rc (autostart on arch)
+
 function string:split(sep)
 	local sep, fields = sep or " ", {}
 	local pattern = string.format("([^%s]+)", sep)
@@ -536,11 +538,9 @@ end
 function update_gcal()
 	if (guser and gpw) then
 		gcaldata = awful.util.pread("gcalcli --user " .. guser .. " --pw " .. gpw .. " --24hr --nc agenda")
-		--gcaldata = string.gsub(gcaldata, "^%s*(.-)%s*$", "%1")
 		gcaldata = string.gsub(gcaldata, "%$(%w+)", "%1")
 		gcaldata = gcaldata:match( "(.-)%s*$")
-		gcaltoday = os.date("%A, %d. %B") .. "\n"
-		return nil
+		gcaltoday = os.date("%A, %d. %B")
 	end
 	return nil
 end
@@ -549,8 +549,8 @@ function show_gcal()
 	if (gcaldata) then
 		destroy_gcal()
 		gcal = naughty.notify({
-			title = gcaltoday,
-			text = gcaldata,
+			title = "Google Calendar\n" .. gcaltoday,
+			text = "<span color='" .. black .. "'>" .. gcaldata .. "</span>",
 			timeout = 0,
 			fg = white,
 			bg = blue,
@@ -561,11 +561,11 @@ function show_gcal()
 	end
 end
 
-gcaltimer = timer({ timeout = 600 })
+gcaltimer = timer({ timeout = 1800 })
 gcaltimer:add_signal("timeout", function() update_gcal() end)
 gcaltimer:start()
 
-update_gcal() -- init update
+update_gcal() -- still necessary for awesome.restart()
 
 mytextclock:add_signal("mouse::enter", show_gcal)
 
@@ -902,7 +902,7 @@ mybaticon:add_signal("mouse::enter", function()
 		return "<span font_desc='" .. fontwidget .."'>" .. args["{count}"] .. "</span>"
 	end, 300)
 
-	mygmailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec(browser .. "https://mail.google.com", false) end)))
+	mygmailicon:buttons(awful.util.table.join(awful.button({ }, 1, function () vicious.force({ mygmail }) sexec(browser .. "https://mail.google.com", false) end)))
 
 	---------- htop popup on mymemicon
 	blingbling.popups.htop(mymemicon, { title_color = white, user_color = black, root_color = black, terminal = "urxvt"})
@@ -955,7 +955,7 @@ mybaticon:add_signal("mouse::enter", function()
 
 		sc_eclipse = widget({ type = "imagebox" })
 		sc_eclipse.image = image(panel .. "eclipse.png")
-		sc_eclipse:buttons(awful.util.table.join(awful.button({ }, 1, function () run_or_raise("eclipse", { class = "Eclipse" }) end)))
+		sc_eclipse:buttons(awful.util.table.join(awful.button({ }, 1, function () sexec("wmname LG3D; eclipse") end)))
 		sc_eclipse_t = awful.tooltip({ objects = { sc_eclipse },})
 		sc_eclipse_t:set_text(" eclipse ")
 
@@ -1412,7 +1412,6 @@ mybaticon:add_signal("mouse::enter", function()
 
 		-- 2: web
 		{ rule = { class = "Firefox" },
-		--except = { instance = "Navigator" },
 		properties = { tag = tags[1][2], maximized_vertical = true, maximized_horizontal = true, switchtotag = true, floating = false, }},
 
 		{ rule = { class = "Chromium" },
@@ -1598,6 +1597,7 @@ naughty.config.presets.error = {
 	fg = white,
 }
 
+
 function mcabber_event_hook(kind, direction, jid, msg)
 	if kind == "MSG" then
 		if direction == "IN" or direction == "MUC" then
@@ -1609,6 +1609,7 @@ function mcabber_event_hook(kind, direction, jid, msg)
 				return
 			end
 			if (awful.tag.selected(mouse.screen).name ~= "msg") then
+				awful.tag.seticon(image(icons .. "arrow_urgent.png"), tags[1][5])
 				naughty.notify{
 					font = fontnoti,
 					fg=black,
@@ -1624,7 +1625,7 @@ function mcabber_event_hook(kind, direction, jid, msg)
 				}
 			end
 		end
-	elseif kind == "STATUS" then
+		elseif kind == "STATUS" then
 		local mapping = {
 			[ "O" ] = "online",
 			[ "F" ] = "chat",
